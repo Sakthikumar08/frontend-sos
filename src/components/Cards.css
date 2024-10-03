@@ -13,7 +13,7 @@
     margin-top: 20px;
     margin-left: 10px;
     margin-right: 10px;
-    background: url("kabaddi.jpg") no-repeat;
+    background-repeat:  no-repeat;
     background-position: center;
     background-size: cover;
     display: flex;
@@ -29,10 +29,10 @@
     right:0;
     bottom: 0;
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#a29ca9+0,95909b+99 */
-  background: #a29ca9; /* Old browsers */
-  background: -moz-linear-gradient(-45deg, #a29ca9 0%, #95909b 99%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(-45deg, #a29ca9 0%,#95909b 99%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(135deg, #a29ca9 0%,#95909b 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  background: #57545b; /* Old browsers */
+  background: -moz-linear-gradient(-45deg, #5e5a63 0%, #66626a 99%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(-45deg, #7c7881 0%,#7d7587 99%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg, #6e6b71 0%,#5e5a63 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a29ca9', endColorstr='#95909b',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
     content: '';
     opacity: 0;
@@ -40,9 +40,16 @@
   }
   
   .categoryWrapper:hover:after{
-    opacity: 0.4;
+    opacity: 0.6;
   }
-  
+  .categoryWrapper p{
+    opacity: 0;
+  }
+  .categoryWrapper:hover p{
+    opacity: 1;
+    color: white;
+    font-size: 20px;
+  }
   .categoryWrapper h1{
     color:white;
     font-size: 50px;
