@@ -1,0 +1,203 @@
+   /* General body styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif; /* Modern font */
+    background-color: #121212; /* Dark background */
+    color: #ffffff; /* White text */
+  }
+  
+  /* Header styles */
+  .sports-head {
+    text-align: center;
+    padding: 5px 0; /* Simple header with minimal height */
+    background-color: #1a1a1a; /* Dark grey background */
+    color: #ffffff; /* White header text */
+    font-size: 1.4rem; /* Medium font size for header */
+    text-transform: uppercase; /* Uppercase for emphasis */
+    letter-spacing: 1px; /* Slight spacing between letters */
+    border-bottom: 1px solid #333; /* Subtle border to separate header and navbar */
+  }
+  
+  /* Navbar styles */
+  .sports-navbar {
+    background-color: #1a1a1a; /* Same background as header for consistency */
+    padding: 10px 0; /* Minimal padding */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Soft shadow for depth */
+    position: sticky; /* Navbar stays on top while scrolling */
+    top: 0; /* Stick to top after header */
+    z-index: 100; /* Make sure it stays above content */
+  }
+  
+  .sports-navbar ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sports-navbar li {
+    margin: 0 15px;
+    padding: 8px 16px;
+    cursor: pointer;
+    color: #ffffff; /* White text for navbar */
+    border: 2px solid transparent; /* Invisible border for hover effect */
+    border-radius: 20px; /* Slightly rounded button style */
+    transition: all 0.3s ease; /* Smooth hover effect */
+    font-size: 1rem; /* Regular font size */
+    text-transform: uppercase; /* Uppercase for navbar items */
+  }
+  
+  /* Hover effect on navbar */
+  .sports-navbar li:hover {
+    background-color: #ffffff; /* White background on hover */
+    color: #121212; /* Dark text on hover */
+    border-color: #ffffff; /* White border on hover */
+  }
+  
+  /* Active Tab Styles */
+  .sports-navbar li.active {
+    background-color: #ffffff; /* White background for active tab */
+    color: #121212; /* Dark text for active tab */
+    border-color: #ffffff; /* White border for active tab */
+  }
+  
+  /* Main content styles */
+  .sports-content {
+    padding: 40px 20px;
+    text-align: center;
+    font-size: 1.2rem;
+    background-color: #181818; /* Darker content background */
+    color: #e5e5e5; /* Slightly lighter text for better contrast */
+  }
+  /* css for kabbadi player box*/
+  /* Player container styles */
+.player-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+  }
+  
+  /* Individual player box styles */
+  .player-box {
+    background-color: #1f1f1f;
+    color: #ffffff;
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+  }
+  
+  .player-box:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Player info styles */
+  .player-info {
+    flex: 1;
+    text-align: left;
+  }
+  
+  /* Player image styles (on the right side) */
+  .player-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: 20px;
+  }
+  
+  /* Star rating styles */
+  .player-rating {
+    margin-top: 10px;
+    font-size: 24px; /* Size of the stars */
+    color: #fdd835; /* Gold color for the stars */
+  }
+/* Add button styles */
+.add-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #fdd835;
+    color: #000;
+    border: none;
+    border-radius: 50%;
+    font-size: 40px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-button:hover {
+    background-color: #ffc107;
+  }
+  
+  /* Popup overlay styles */
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  /* Popup box styles */
+  .popup-box {
+    background-color: #2c2c2c;
+    padding: 30px;
+    border-radius: 10px;
+    color: white;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .popup-box h2 {
+    margin-top: 0;
+  }
+  
+  /* Form input styles */
+  .popup-box form label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  
+  .popup-box form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3c3c3c;
+    color: white;
+  }
+  
+  .popup-box form button {
+    padding: 10px 20px;
+    background-color: #fdd835;
+    border: none;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+  }
+  
+  .popup-box form button:hover {
+    background-color: #ffc107;
+  }
