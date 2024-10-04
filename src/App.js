@@ -23,7 +23,7 @@ function App() {
   return (
     <Router>
       {/* Pass the search term and handler to Homepage */}
-      <Homepage searchValue={searchTerm} onSearchChange={handleSearchChange} />
+      
 
       <Routes>
         <Route path="/" element={<Homepage searchValue={searchTerm} onSearchChange={handleSearchChange} />} />
