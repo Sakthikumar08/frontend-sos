@@ -201,3 +201,206 @@ body {
   .popup-box form button:hover {
     background-color: #ffc107;
   }
+
+  /*--------acheiveemnt section-----*/
+  .acheivement-container {
+    position: relative;
+    width: 600px; /* Adjust the size as needed */
+    height: auto;
+    overflow: hidden;
+    margin: auto;
+}
+
+.image-acheive {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.overlay-acheive {
+    position: absolute;
+  
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 0;
+    background: rgba(0, 0, 0, 0.6); /* Dark overlay */
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.7s ease;
+}
+
+.caption-acheive {
+    color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.acheivement-container:hover .image-acheive {
+    filter: blur(3px); /* Blurs the image */
+    transform: scale(1.1); /* Optional zoom effect */
+}
+
+.acheivement-container:hover .overlay-acheive {
+opacity: 1;
+   height: 100%;
+}
+.acheive-img-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap:50px;
+}
+.stats-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.label-column,
+.value-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.label-column p {
+  margin-bottom: 10px;
+  text-align: left;
+  white-space: nowrap; /* Prevent line breaks for long text */
+}
+
+.value-column p {
+  margin-bottom: 10px;
+  text-align: right; /* Align values to the right */
+  width: 100px; /* Set a fixed width for uniformity */
+}
+
+/* Ensure the columns align properly and have uniform spacing */
+.label-column p,
+.value-column p {
+  line-height: 1.5;
+}
+
+/* Additional media query to make the popup responsive */
+@media (max-width: 600px) {
+  .popup-box {
+    width: 90%; /* Adjust width on smaller screens */
+  }
+}
+.edit-stats-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.label-column,
+.input-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.label-column label {
+  margin-bottom: 10px;
+  text-align: left;
+  white-space: nowrap; /* Prevent long text from wrapping */
+}
+
+.input-column input {
+  margin-bottom: 10px;
+  width: 100px; /* Set a fixed width for the input fields */
+}
+
+/* Additional styling to align buttons */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .popup-box {
+    width: 90%; /* Make the popup responsive */
+  }
+}
+.sports-head {
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+}
+
+.sports-navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+
+.sports-navbar ul li {
+  margin: 0 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+}
+
+.sports-navbar ul li.active {
+  background-color: #000306;
+  color: white;
+}
+
+.scorecard-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.match-box {
+  width: 48%; /* Set to 50%, but account for margins */
+  margin: 1% 0;
+  padding: 15px;
+  background-color: #2d2d2d;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.match-box h3 {
+  margin-bottom: 10px;
+}
+
+.match-box p {
+  margin: 5px 0;
+}
+
+button {
+  background-color: #01070f;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #010810;
+}
