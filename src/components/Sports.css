@@ -41,7 +41,7 @@ body {
     margin: 0 15px;
     padding: 8px 16px;
     cursor: pointer;
-    color: #ffffff; /* White text for navbar */
+    color: #3c3b3b; /* White text for navbar */
     border: 2px solid transparent; /* Invisible border for hover effect */
     border-radius: 20px; /* Slightly rounded button style */
     transition: all 0.3s ease; /* Smooth hover effect */
@@ -69,7 +69,7 @@ body {
     text-align: center;
     font-size: 1.2rem;
     background-color: #181818; /* Darker content background */
-    color: #e5e5e5; /* Slightly lighter text for better contrast */
+    color: #4b4b4b; /* Slightly lighter text for better contrast */
   }
   /* css for kabbadi player box*/
   /* Player container styles */

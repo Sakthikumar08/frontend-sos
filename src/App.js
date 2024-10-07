@@ -29,7 +29,7 @@ function App() {
         <Route path="/" element={<Homepage searchValue={searchTerm} onSearchChange={handleSearchChange} />} />
 
         <Route path="/football" element={<Football />} />
-        <Route path="/kabaddi" element={<Kabaddi />} />
+        <Route path="/kabaddi/*" element={<Kabaddi />} />
         <Route path="/volleyball" element={<Volleyball />} />
         <Route path="/basketball" element={<Basketball />} />
         <Route path="/shuttle" element={<Shuttle />} />
