@@ -222,8 +222,8 @@ const Kbplayers = () => {
                 Rating:
                 <input type="number" name="rating" value={newPlayer.rating} onChange={handleChange} min="1" max="5" required />
               </label>
-              <button type="submit">Add Player</button>
-              <button type="button" onClick={() => setShowPopup(false)}>Cancel</button>
+              <button type="submit"  style={{ marginRight: '30px' }}> Add Player  </button>  
+              <button type="button" onClick={() => setShowPopup(false)}> Cancel </button>
             </form>
           </div>
         </div>
@@ -252,126 +252,140 @@ const Kbplayers = () => {
         </div>
       )}
 
-      {/* Edit Stats Popup */}
-      {showEditStatsPopup && (
-        <div className="popup-overlay">
-          <div className="popup-box">
-            <h2>Edit Stats for {selectedPlayer.name}</h2>
-            <label>
-              Matches Played:
-              <input
-                type="number"
-                name="matchesPlayed"
-                value={playerStats.matchesPlayed}
-                onChange={handleStatsChange}
-                onKeyPress={handleKeyPress}
-              />
-            </label><br />
-            <label>
-              Total Points:
-              <input
-                type="number"
-                name="totalPoints"
-                value={playerStats.totalPoints}
-                onChange={handleStatsChange}
-                onKeyPress={handleKeyPress}
-              />
-            </label><br />
-            <label>
-              Raid Points Per Match:
-              <input
-                type="number"
-                name="raidPointsPerMatch"
-                value={playerStats.raidPointsPerMatch}
-                onChange={handleStatsChange}
-                onKeyPress={handleKeyPress}
-              />
-            </label><br />
-            <label>
-              Successful Raid Percentage:
-              <input
-                type="number"
-                name="successfulRaidPercentage"
-                value={playerStats.successfulRaidPercentage}
-                onChange={handleStatsChange}
-                onKeyPress={handleKeyPress}
-              />
-            </label><br />
-            <label>
-              Super Raids:
-              <input
-                type="number"
-                name="superRaids"
-                value={playerStats.superRaids}
-                onChange={handleStatsChange}
-                onKeyPress={handleKeyPress}
-              />
-            </label><br />
-            <label>
-              Super 10s:
-              <input
-                type="number"
-                name="superTens"
-                value={playerStats.superTens}
-                onChange={handleStatsChange}
-                onKeyPress={handleKeyPress}
-              />
-            </label><br />
-            <label>
-              Total Raid Points:
-              <input
-                type="number"
-                name="totalRaidPoints"
-                value={playerStats.totalRaidPoints}
-                onChange={handleStatsChange}
-                onKeyPress={handleKeyPress}
-              />
-            </label><br />
-            <label>
-              No. of Super Tackle:
-              <input
-                type="number"
-                name="noOfSuperTackle"
-                value={playerStats.noOfSuperTackle}
-                onChange={handleStatsChange}
-                onKeyPress={handleKeyPress}
-              />
-            </label><br />
-            <label>
-              High 5s:
-              <input
-                type="number"
-                name="highFives"
-                value={playerStats.highFives}
-                onChange={handleStatsChange}
-                onKeyPress={handleKeyPress}
-              />
-            </label><br />
-            <label>
-              Total Tackle Points:
-              <input
-                type="number"
-                name="totalTacklePoints"
-                value={playerStats.totalTacklePoints}
-                onChange={handleStatsChange}
-                onKeyPress={handleKeyPress}
-              />
-            </label><br />
-            <label>
-              Successful Tackle Percentage:
-              <input
-                type="number"
-                name="successfulTacklePercentage"
-                value={playerStats.successfulTacklePercentage}
-                onChange={handleStatsChange}
-                onKeyPress={handleKeyPress}
-              />
-            </label><br /> <br />
-            <button onClick={handleSaveStats}>Save</button>
-            <button onClick={() => setShowEditStatsPopup(false)}>Close</button>
-          </div>
-        </div>
-      )}
+{showEditStatsPopup && (
+  <div className="edit-stats-popup-overlay">
+    <div className="edit-stats-popup-box">
+      <h2>Edit Stats for {selectedPlayer.name}</h2>
+      <div className="edit-stats-form">
+        <label className="edit-stats-label">
+          Matches Played:
+          <input
+            type="number"
+            name="matchesPlayed"
+            value={playerStats.matchesPlayed}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Total Points:
+          <input
+            type="number"
+            name="totalPoints"
+            value={playerStats.totalPoints}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Raid Points Per Match:
+          <input
+            type="number"
+            name="raidPointsPerMatch"
+            value={playerStats.raidPointsPerMatch}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Successful Raid Percentage:
+          <input
+            type="number"
+            name="successfulRaidPercentage"
+            value={playerStats.successfulRaidPercentage}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Super Raids:
+          <input
+            type="number"
+            name="superRaids"
+            value={playerStats.superRaids}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Super 10s:
+          <input
+            type="number"
+            name="superTens"
+            value={playerStats.superTens}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Total Raid Points:
+          <input
+            type="number"
+            name="totalRaidPoints"
+            value={playerStats.totalRaidPoints}
+            onChange={handleStatsChange} 
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          No. of Super Tackle:
+          <input
+            type="number"
+            name="noOfSuperTackle"
+            value={playerStats.noOfSuperTackle}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          High 5s:
+          <input
+            type="number"
+            name="highFives"
+            value={playerStats.highFives}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Total Tackle Points:
+          <input
+            type="number"
+            name="totalTacklePoints"
+            value={playerStats.totalTacklePoints}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Successful Tackle Percentage:
+          <input
+            type="number"
+            name="successfulTacklePercentage"
+            value={playerStats.successfulTacklePercentage}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+      </div>
+      <div className="edit-stats-buttons">
+        <button onClick={handleSaveStats}>Save</button>
+        <button onClick={() => setShowEditStatsPopup(false)}>Close</button>
+      </div>
+    </div>
+  </div>
+)}
+
     </>
   );
 };

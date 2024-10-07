@@ -1,5 +1,5 @@
    /* General body styles */
-body {
+   body {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif; /* Modern font */
@@ -404,3 +404,268 @@ button {
 button:hover {
   background-color: #010810;
 }
+/* Unique styles for the edit stats popup */
+.edit-stats-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Ensure it is layered above other content */
+}
+
+.edit-stats-popup-box {
+  background: rgb(42, 41, 41);
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+/* Flexbox layout for the labels and inputs */
+.edit-stats-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.edit-stats-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-stats-label input {
+  width: 100px;
+  margin-left: 10px;
+}
+
+/* Button container */
+.edit-stats-buttons {
+  margin-top: 20px;
+}
+
+.edit-stats-buttons button {
+  margin-right: 10px;
+  padding: 8px 12px;
+  border: none;
+  background-color: #121213;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.edit-stats-buttons button:hover {
+  opacity: 0.8;
+}
+/* style for scorecard*/
+/* Scorecard Styles */
+.scorecard-container {
+  padding: 20px;
+}
+
+.scorecard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px; /* Space between scorecard boxes */
+}
+
+.scorecard-box {
+  background-color: #171717;
+  color: white;
+  border: 2px solid #ebf5f5;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.team-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.college-logo {
+  width: 110px;
+  height: 90px;
+  margin: 0 10px;
+}
+
+.team-info {
+  margin: 10px 0;
+}
+
+.winner-announcement {
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+/* Add Match Button */
+.add-match-button {
+  position: fixed; /* Positioned at bottom right */
+  bottom: 20px;
+ 
+  right: 20px;
+  font-size: 34px;
+  font-weight: bolder;
+  background-color: #e98009;
+  color: rgb(22, 20, 20);
+  border: none;
+  border-radius: 50%;
+  width: 65px;
+  height: 65px;
+  cursor: pointer;
+}
+.add-match-button:hover {
+  background-color: #e98009;;
+}
+
+/* Popup Styles */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto; /* Allow scrolling */
+}
+
+.popup-box {
+  background-color: rgb(15, 13, 13);
+  color: white;
+  border-radius: 20px;
+  padding: 20px;
+  max-width: 500px;
+  width: 90%;
+  border: 2px solid #ebf5f5;
+}
+
+/* Unique Match Details Popup Styles */
+.match-details-popup {
+  max-height: 80vh; /* Limit height for scrolling */
+  overflow-y: auto; /* Scroll if content exceeds height */
+}
+
+.half-section {
+  margin-bottom: 20px; /* Space between half sections */
+}
+
+.team-details {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* Space between left and right team sections */
+}
+
+.team-left, .team-right {
+  width: 48%; /* Adjusts width for left and right sections */
+}
+
+.additional-details {
+  margin-top: 20px; /* Add margin to separate additional details */
+}
+
+/* Button group styling */
+.button-group {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Input Fields */
+input[type="number"],
+input[type="text"] {
+  width: 70%;
+  padding: 5px;
+  margin: 5px 0; /* Space between inputs */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+/* matches*/
+.matches-container {
+  padding: 20px;
+}
+
+.matches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.match-card {
+  background-color: #101010;
+  border: 2px solid #f2f3f3;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.match-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.team-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.left-team, .right-team {
+  flex: 1;
+}
+
+.team-logo {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.match-details {
+  flex: 2;
+  text-align: center;
+}
+
+.add-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background-color: #218838;
+}
+
+
+
+
+
+.scorecard-popup {
+  z-index: 1001;
+}
+
+.scorecard-popup-box {
+  width: 500px;
+}
+
+
