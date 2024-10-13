@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './Sports.css';
+import collegeLogo1 from './assets/kabaddiacheive/sjce.logo.jpeg'; // Example logo 1
+import collegeLogo2 from './assets/kabaddiacheive/sathyabama.logp.jpeg'; // Example logo 2
 
 const Kbmatches = () => {
   const [matches, setMatches] = useState([
@@ -7,8 +9,8 @@ const Kbmatches = () => {
       id: 1,
       team1: 'St. Joseph\'s',
       team2: 'Sathyabama',
-      logo1: 'path_to_sjce_logo', // Placeholder for logo URL
-      logo2: 'path_to_sathyabama_logo',
+      logo1:`${collegeLogo1}`, // Placeholder for logo URL
+      logo2: `${collegeLogo2}`,
       venue: 'Stadium A',
       date: '2024-10-10',
     },
@@ -16,8 +18,8 @@ const Kbmatches = () => {
       id: 2,
       team1: 'Panimalar',
       team2: 'Jeppiaar',
-      logo1: 'path_to_panimalar_logo',
-      logo2: 'path_to_jeppiaar_logo',
+      logo1:`${collegeLogo1}`, // Placeholder for logo URL
+      logo2: `${collegeLogo2}`,
       venue: 'Stadium B',
       date: '2024-10-12',
     },
