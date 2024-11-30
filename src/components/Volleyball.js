@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
 import './Sports.css';
-import Vbplayers from './Shtplayers';
-import Vbacheivement from './Shtacheivement';
-import Vbmatches from './Shtmatches';
-import Vbscorecard from './Shtscorecard';
+import Vbplayers from './Vbplayers';
+import Vbacheivement from './Vbacheivement';
+import Vbmatches from './Vbmatches';
+import Vbscorecard from './Vbscorecard';
 
 const Volleyball = () => {
   return (

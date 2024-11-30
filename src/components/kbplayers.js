@@ -174,9 +174,7 @@ const Kbplayers = () => {
 
   return (
     <>
-     
-
-      
+   
       <div className="player-container">
             {players.map((player) => (
               <div className="player-box" key={player.id}>

@@ -1,79 +1,77 @@
 import React, { useState } from 'react';
 import './Sports.css';
 
-
 const Fbplayers = () => {
-
   const [showPopup, setShowPopup] = useState(false);
   const [showStatsPopup, setShowStatsPopup] = useState(false);
-  const [showEditStatsPopup, setShowEditStatsPopup] = useState(false); // New state for editing stats popup
+  const [showEditStatsPopup, setShowEditStatsPopup] = useState(false);
   const [players, setPlayers] = useState([
     {
       id: 1,
-      name: 'POOVI',
-      role: 'Wicket Keeper',
+
+      name: 'Lionel Messi',
+      role: 'Forward',
       rollNumber: '22IT264',
       imageUrl: 'https://th.bing.com/th/id/OIP.3J8OgAVUAjVJk1jzGnzmpgHaFj?w=226&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-      rating: 3,
+      rating: 5,
       stats: {
-        matchesPlayed: 10,
-        totalPoints: 50,
-        raidPointsPerMatch: 5,
-        successfulRaidPercentage: 80,
-        superRaids: 2,
-        superTens: 3,
-        totalRaidPoints: 30,
-        noOfSuperTackle: 1,
-        highFives: 2,
-        totalTacklePoints: 20,
-        successfulTacklePercentage: 75,
+        matchesPlayed: 20,
+        goals: 15,
+        assists: 10,
+        passesCompleted: 200,
+        successfulPassPercentage: 85,
+        tackles: 5,
+        interceptions: 3,
+        shotsOnTarget: 30,
+        cleanSheets: 0,
+        yellowCards: 2,
+        redCards: 0,
       },
     },
     {
       id: 2,
-      name: 'Virat Kohli',
-      role: 'Batsmen',
-      rollNumber: '22Ec210',
+      name: 'Cristiano Ronaldo',
+      role: 'Forward',
+      rollNumber: '22EC210',
       imageUrl: 'https://th.bing.com/th/id/OIP.ZHVq9HgYtGcoxU0eeDwJ8AHaHa?w=183&h=183&c=7&r=0&o=5&dpr=1.3&pid=1.7',
       rating: 5,
       stats: {
-        matchesPlayed: 8,
-        totalPoints: 40,
-        raidPointsPerMatch: 4,
-        successfulRaidPercentage: 70,
-        superRaids: 1,
-        superTens: 2,
-        totalRaidPoints: 20,
-        noOfSuperTackle: 3,
-        highFives: 1,
-        totalTacklePoints: 25,
-        successfulTacklePercentage: 80,
+        matchesPlayed: 18,
+        goals: 14,
+        assists: 8,
+        passesCompleted: 180,
+        successfulPassPercentage: 80,
+        tackles: 4,
+        interceptions: 2,
+        shotsOnTarget: 25,
+        cleanSheets: 0,
+        yellowCards: 1,
+        redCards: 0,
       },
     },
     {
-        id: 2,
-        name: 'Hardrik',
-        role: 'All rounder',
-        rollNumber: '22Ec333',
-        imageUrl: 'https://th.bing.com/th/id/OIP.owQWHbp5gFuILmFzoZXvHAHaE8?rs=1&pid=ImgDetMain',
-        rating: 3,
-        stats: {
-          matchesPlayed: 8,
-          totalPoints: 40,
-          raidPointsPerMatch: 4,
-          successfulRaidPercentage: 70,
-          superRaids: 1,
-          superTens: 2,
-          totalRaidPoints: 20,
-          noOfSuperTackle: 3,
-          highFives: 1,
-          totalTacklePoints: 25,
-          successfulTacklePercentage: 80,
-        },
+      id: 3,
+      name: 'Kevin De Bruyne',
+      role: 'Midfielder',
+      rollNumber: '22EC333',
+      imageUrl: 'https://th.bing.com/th/id/OIP.owQWHbp5gFuILmFzoZXvHAHaE8?rs=1&pid=ImgDetMain',
+      rating: 5,
+      stats: {
+        matchesPlayed: 15,
+        goals: 8,
+        assists: 12,
+        passesCompleted: 250,
+        successfulPassPercentage: 90,
+        tackles: 6,
+        interceptions: 4,
+        shotsOnTarget: 10,
+        cleanSheets: 0,
+        yellowCards: 0,
+        redCards: 0,
       },
+    },
   ]);
 
-  // Form state for the new player
   const [newPlayer, setNewPlayer] = useState({
     name: '',
     role: '',
@@ -82,37 +80,33 @@ const Fbplayers = () => {
     rating: 1,
   });
 
-  // State for stats
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [playerStats, setPlayerStats] = useState({
     matchesPlayed: 0,
-    totalPoints: 0,
-    raidPointsPerMatch: 0,
-    successfulRaidPercentage: 0,
-    superRaids: 0,
-    superTens: 0,
-    totalRaidPoints: 0,
-    noOfSuperTackle: 0,
-    highFives: 0,
-    totalTacklePoints: 0,
-    successfulTacklePercentage: 0,
+    goals: 0,
+    assists: 0,
+    passesCompleted: 0,
+    successfulPassPercentage: 0,
+    tackles: 0,
+    interceptions: 0,
+    shotsOnTarget: 0,
+    cleanSheets: 0,
+    yellowCards: 0,
+    redCards: 0,
   });
 
-  // Function to handle input changes in the form
   const handleChange = (e) => {
     setNewPlayer({ ...newPlayer, [e.target.name]: e.target.value });
   };
 
-  // Function to handle stats input changes
   const handleStatsChange = (e) => {
     setPlayerStats({ ...playerStats, [e.target.name]: e.target.value });
   };
 
-  // Function to submit the new player form
   const handleSubmit = (e) => {
     e.preventDefault();
     setPlayers([...players, { ...newPlayer, id: players.length + 1, stats: playerStats }]);
-    setShowPopup(false); // Close the popup after adding
+    setShowPopup(false);
     setNewPlayer({
       name: '',
       role: '',
@@ -122,7 +116,6 @@ const Fbplayers = () => {
     });
   };
 
-  // Function to render star rating based on player's rating
   const renderStars = (rating) => {
     const totalStars = 5;
     const filledStars = '★'.repeat(rating);
@@ -130,19 +123,16 @@ const Fbplayers = () => {
     return <div className="player-rating">{filledStars + emptyStars}</div>;
   };
 
-  // Function to handle stats button click
   const handleStatsClick = (player) => {
     setSelectedPlayer(player);
     setPlayerStats(player.stats);
     setShowStatsPopup(true);
   };
 
-  // Function to open the edit stats popup
   const handleEditStatsClick = () => {
     setShowEditStatsPopup(true);
   };
 
-  // Function to save the edited stats
   const handleSaveStats = () => {
     const updatedPlayers = players.map((player) =>
       player.id === selectedPlayer.id ? { ...player, stats: playerStats } : player
@@ -152,7 +142,6 @@ const Fbplayers = () => {
     setShowStatsPopup(false);
   };
 
-  // Function to delete player
   const handleDeletePlayer = () => {
     const updatedPlayers = players.filter((player) => player.id !== selectedPlayer.id);
     setPlayers(updatedPlayers);
@@ -161,37 +150,28 @@ const Fbplayers = () => {
     setSelectedPlayer(null);
   };
 
-  // Function to handle the key press for saving stats on Enter key
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleSaveStats();
     }
   };
 
-  
-       
-      
-
   return (
     <>
-     
-
-      
       <div className="player-container">
-            {players.map((player) => (
-              <div className="player-box" key={player.id}>
-                <div className="player-info">
-                  <h3>{player.name}</h3>
-                  <p>Role: {player.role}</p>
-                  <p>Roll Number: {player.rollNumber}</p>
-                  {renderStars(player.rating)}
-                  <button onClick={() => handleStatsClick(player)}>Stats</button>
-                </div>
-                <img src={player.imageUrl} alt={player.name} className="player-img" />
-              </div>
-            ))}
+        {players.map((player) => (
+          <div className="player-box" key={player.id}>
+            <div className="player-info">
+              <h3>{player.name}</h3>
+              <p>Role: {player.role}</p>
+              <p>Roll Number: {player.rollNumber}</p>
+              {renderStars(player.rating)}
+              <button onClick={() => handleStatsClick(player)}>Stats</button>
+            </div>
+            <img src={player.imageUrl} alt={player.name} className="player-img" />
           </div>
-
+        ))}
+      </div>
 
       {/* Add Symbol */}
       <button className="add-button" onClick={() => setShowPopup(true)}>+</button>
@@ -222,7 +202,7 @@ const Fbplayers = () => {
                 Rating:
                 <input type="number" name="rating" value={newPlayer.rating} onChange={handleChange} min="1" max="5" required />
               </label>
-              <button type="submit"  style={{ marginRight: '30px' }}> Add Player  </button>  
+              <button type="submit" style={{ marginRight: '30px' }}> Add Player </button>
               <button type="button" onClick={() => setShowPopup(false)}> Cancel </button>
             </form>
           </div>
@@ -235,16 +215,16 @@ const Fbplayers = () => {
           <div className="popup-box">
             <h2>{selectedPlayer.name}'s Stats</h2>
             <p>Matches Played: {playerStats.matchesPlayed}</p>
-            <p>Total Points: {playerStats.totalPoints}</p>
-            <p>Raid Points Per Match: {playerStats.raidPointsPerMatch}</p>
-            <p>Successful Raid Percentage: {playerStats.successfulRaidPercentage}%</p>
-            <p>Super Raids: {playerStats.superRaids}</p>
-            <p>Super 10s: {playerStats.superTens}</p>
-            <p>Total Raid Points: {playerStats.totalRaidPoints}</p>
-            <p>No. of Super Tackle: {playerStats.noOfSuperTackle}</p>
-            <p>High 5s: {playerStats.highFives}</p>
-            <p>Total Tackle Points: {playerStats.totalTacklePoints}</p>
-            <p>Successful Tackle Percentage: {playerStats.successfulTacklePercentage}%</p>
+            <p>Goals: {playerStats.goals}</p>
+            <p>Assists: {playerStats.assists}</p>
+            <p>Passes Completed: {playerStats.passesCompleted}</p>
+            <p>Successful Pass Percentage: {playerStats.successfulPassPercentage}%</p>
+            <p>Tackles: {playerStats.tackles}</p>
+            <p>Interceptions: {playerStats.interceptions}</p>
+            <p>Shots on Target: {playerStats.shotsOnTarget}</p>
+            <p>Clean Sheets: {playerStats.cleanSheets}</p>
+            <p>Yellow Cards: {playerStats.yellowCards}</p>
+            <p>Red Cards: {playerStats.redCards}</p>
             <button onClick={handleEditStatsClick}>Edit</button>
             <button onClick={() => setShowStatsPopup(false)}>Close</button>
             <button onClick={handleDeletePlayer} className="delete-button">Delete</button>
@@ -252,10 +232,11 @@ const Fbplayers = () => {
         </div>
       )}
 
-{showEditStatsPopup && (
+      {/* Edit Stats Popup */}
+      {showEditStatsPopup && (
   <div className="edit-stats-popup-overlay">
     <div className="edit-stats-popup-box">
-      <h2>Edit Stats for {selectedPlayer.name}</h2>
+      <h2>Edit Football Stats for {selectedPlayer.name}</h2>
       <div className="edit-stats-form">
         <label className="edit-stats-label">
           Matches Played:
@@ -269,115 +250,94 @@ const Fbplayers = () => {
         </label>
 
         <label className="edit-stats-label">
-          Total Points:
+          Goals:
           <input
             type="number"
-            name="totalPoints"
-            value={playerStats.totalPoints}
+            name="goals"
+            value={playerStats.goals}
             onChange={handleStatsChange}
             onKeyPress={handleKeyPress}
           />
         </label>
 
         <label className="edit-stats-label">
-          Raid Points Per Match:
+          Assists:
           <input
             type="number"
-            name="raidPointsPerMatch"
-            value={playerStats.raidPointsPerMatch}
+            name="assists"
+            value={playerStats.assists}
             onChange={handleStatsChange}
             onKeyPress={handleKeyPress}
           />
         </label>
 
         <label className="edit-stats-label">
-          Successful Raid Percentage:
+          Tackles:
           <input
             type="number"
-            name="successfulRaidPercentage"
-            value={playerStats.successfulRaidPercentage}
+            name="tackles"
+            value={playerStats.tackles}
             onChange={handleStatsChange}
             onKeyPress={handleKeyPress}
           />
         </label>
 
         <label className="edit-stats-label">
-          Super Raids:
+          Interceptions:
           <input
             type="number"
-            name="superRaids"
-            value={playerStats.superRaids}
+            name="interceptions"
+            value={playerStats.interceptions}
             onChange={handleStatsChange}
             onKeyPress={handleKeyPress}
           />
         </label>
 
         <label className="edit-stats-label">
-          Super 10s:
+          Clean Sheets:
           <input
             type="number"
-            name="superTens"
-            value={playerStats.superTens}
+            name="cleanSheets"
+            value={playerStats.cleanSheets}
             onChange={handleStatsChange}
             onKeyPress={handleKeyPress}
           />
         </label>
 
         <label className="edit-stats-label">
-          Total Raid Points:
+          Shots on Target:
           <input
             type="number"
-            name="totalRaidPoints"
-            value={playerStats.totalRaidPoints}
-            onChange={handleStatsChange} 
-            onKeyPress={handleKeyPress}
-          />
-        </label>
-
-        <label className="edit-stats-label">
-          No. of Super Tackle:
-          <input
-            type="number"
-            name="noOfSuperTackle"
-            value={playerStats.noOfSuperTackle}
+            name="shotsOnTarget"
+            value={playerStats.shotsOnTarget}
             onChange={handleStatsChange}
             onKeyPress={handleKeyPress}
           />
         </label>
 
         <label className="edit-stats-label">
-          High 5s:
+          Yellow Cards:
           <input
             type="number"
-            name="highFives"
-            value={playerStats.highFives}
+            name="yellowCards"
+            value={playerStats.yellowCards}
             onChange={handleStatsChange}
             onKeyPress={handleKeyPress}
           />
         </label>
 
         <label className="edit-stats-label">
-          Total Tackle Points:
+          Red Cards:
           <input
             type="number"
-            name="totalTacklePoints"
-            value={playerStats.totalTacklePoints}
-            onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
-          />
-        </label>
-
-        <label className="edit-stats-label">
-          Successful Tackle Percentage:
-          <input
-            type="number"
-            name="successfulTacklePercentage"
-            value={playerStats.successfulTacklePercentage}
+            name="redCards"
+            value={playerStats.redCards}
             onChange={handleStatsChange}
             onKeyPress={handleKeyPress}
           />
         </label>
       </div>
+
       <div className="edit-stats-buttons">
         <button onClick={handleSaveStats}>Save</button>
         <button onClick={() => setShowEditStatsPopup(false)}>Close</button>
