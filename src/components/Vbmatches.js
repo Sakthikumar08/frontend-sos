@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Sports.css';
-import collegeLogo1 from './assets/kabaddiacheive/sjce.logo.jpeg'; // Example logo 1
-import collegeLogo2 from './assets/kabaddiacheive/sathyabama.logp.jpeg'; // Example logo 2
+import collegeLogo1 from './assets/kabaddiacheive/sjce.logo.jpeg'; 
+import collegeLogo2 from './assets/kabaddiacheive/sathyabama.logp.jpeg'; 
 
 const Vbmatches = () => {
   const [matches, setMatches] = useState([
@@ -24,7 +24,7 @@ const Vbmatches = () => {
       date: '2024-10-12',
     },
   ]);
-/*  */
+
   const [showAddPopup, setShowAddPopup] = useState(false);
   const [newMatch, setNewMatch] = useState({
     team1: '',
