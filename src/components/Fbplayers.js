@@ -10,7 +10,7 @@ const Fbplayers = () => {
   const [players, setPlayers] = useState([
     {
       id: 1,
-      name: 'Ms dhoni',
+      name: 'POOVI',
       role: 'Wicket Keeper',
       rollNumber: '22IT264',
       imageUrl: 'https://th.bing.com/th/id/OIP.3J8OgAVUAjVJk1jzGnzmpgHaFj?w=226&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
