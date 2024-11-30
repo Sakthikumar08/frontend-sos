@@ -5,98 +5,102 @@ import './Sports.css';
 const Athplayers = () => {
 
   const [showPopup, setShowPopup] = useState(false);
-  const [showStatsPopup, setShowStatsPopup] = useState(false);
-  const [showEditStatsPopup, setShowEditStatsPopup] = useState(false); // New state for editing stats popup
-  const [players, setPlayers] = useState([
-    {
-      id: 1,
-      name: 'Ms dhoni',
-      role: 'Wicket Keeper',
-      rollNumber: '22IT264',
-      imageUrl: 'https://th.bing.com/th/id/OIP.3J8OgAVUAjVJk1jzGnzmpgHaFj?w=226&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-      rating: 3,
-      stats: {
-        matchesPlayed: 10,
-        totalPoints: 50,
-        raidPointsPerMatch: 5,
-        successfulRaidPercentage: 80,
-        superRaids: 2,
-        superTens: 3,
-        totalRaidPoints: 30,
-        noOfSuperTackle: 1,
-        highFives: 2,
-        totalTacklePoints: 20,
-        successfulTacklePercentage: 75,
-      },
+const [showStatsPopup, setShowStatsPopup] = useState(false);
+const [showEditStatsPopup, setShowEditStatsPopup] = useState(false); // New state for editing stats popup
+const [players, setPlayers] = useState([
+  {
+    id: 1,
+    name: 'Ms Dhoni',
+    role: 'Goalkeeper',
+    rollNumber: '22IT264',
+    imageUrl: 'https://th.bing.com/th/id/OIP.3J8OgAVUAjVJk1jzGnzmpgHaFj?w=226&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
+    rating: 3,
+    stats: {
+      matchesPlayed: 10,
+      goals: 2,
+      assists: 3,
+      saves: 25,
+      cleanSheets: 4,
+      passesCompleted: 150,
+      passAccuracyPercentage: 85,
+      tacklesMade: 10,
+      interceptions: 8,
+      foulsCommitted: 2,
+      yellowCards: 1,
+      redCards: 0,
     },
-    {
-      id: 2,
-      name: 'Virat Kohli',
-      role: 'Batsmen',
-      rollNumber: '22Ec210',
-      imageUrl: 'https://th.bing.com/th/id/OIP.ZHVq9HgYtGcoxU0eeDwJ8AHaHa?w=183&h=183&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-      rating: 5,
-      stats: {
-        matchesPlayed: 8,
-        totalPoints: 40,
-        raidPointsPerMatch: 4,
-        successfulRaidPercentage: 70,
-        superRaids: 1,
-        superTens: 2,
-        totalRaidPoints: 20,
-        noOfSuperTackle: 3,
-        highFives: 1,
-        totalTacklePoints: 25,
-        successfulTacklePercentage: 80,
-      },
+  },
+  {
+    id: 2,
+    name: 'Virat Kohli',
+    role: 'Striker',
+    rollNumber: '22EC210',
+    imageUrl: 'https://th.bing.com/th/id/OIP.ZHVq9HgYtGcoxU0eeDwJ8AHaHa?w=183&h=183&c=7&r=0&o=5&dpr=1.3&pid=1.7',
+    rating: 5,
+    stats: {
+      matchesPlayed: 8,
+      goals: 6,
+      assists: 2,
+      saves: 0,
+      cleanSheets: 0,
+      passesCompleted: 120,
+      passAccuracyPercentage: 78,
+      tacklesMade: 5,
+      interceptions: 4,
+      foulsCommitted: 1,
+      yellowCards: 0,
+      redCards: 0,
     },
-    {
-        id: 2,
-        name: 'Hardrik',
-        role: 'All rounder',
-        rollNumber: '22Ec333',
-        imageUrl: 'https://th.bing.com/th/id/OIP.owQWHbp5gFuILmFzoZXvHAHaE8?rs=1&pid=ImgDetMain',
-        rating: 3,
-        stats: {
-          matchesPlayed: 8,
-          totalPoints: 40,
-          raidPointsPerMatch: 4,
-          successfulRaidPercentage: 70,
-          superRaids: 1,
-          superTens: 2,
-          totalRaidPoints: 20,
-          noOfSuperTackle: 3,
-          highFives: 1,
-          totalTacklePoints: 25,
-          successfulTacklePercentage: 80,
-        },
-      },
-  ]);
+  },
+  {
+    id: 3,
+    name: 'Hardik',
+    role: 'Midfielder',
+    rollNumber: '22EC333',
+    imageUrl: 'https://th.bing.com/th/id/OIP.owQWHbp5gFuILmFzoZXvHAHaE8?rs=1&pid=ImgDetMain',
+    rating: 4,
+    stats: {
+      matchesPlayed: 8,
+      goals: 3,
+      assists: 4,
+      saves: 0,
+      cleanSheets: 1,
+      passesCompleted: 200,
+      passAccuracyPercentage: 90,
+      tacklesMade: 8,
+      interceptions: 7,
+      foulsCommitted: 3,
+      yellowCards: 1,
+      redCards: 0,
+    },
+  },
+]);
 
-  // Form state for the new player
-  const [newPlayer, setNewPlayer] = useState({
-    name: '',
-    role: '',
-    rollNumber: '',
-    imageUrl: '',
-    rating: 1,
-  });
+// Form state for the new player
+const [newPlayer, setNewPlayer] = useState({
+  name: '',
+  role: '',
+  rollNumber: '',
+  imageUrl: '',
+  rating: 1,
+});
 
-  // State for stats
-  const [selectedPlayer, setSelectedPlayer] = useState(null);
-  const [playerStats, setPlayerStats] = useState({
-    matchesPlayed: 0,
-    totalPoints: 0,
-    raidPointsPerMatch: 0,
-    successfulRaidPercentage: 0,
-    superRaids: 0,
-    superTens: 0,
-    totalRaidPoints: 0,
-    noOfSuperTackle: 0,
-    highFives: 0,
-    totalTacklePoints: 0,
-    successfulTacklePercentage: 0,
-  });
+// State for stats
+const [selectedPlayer, setSelectedPlayer] = useState(null);
+const [playerStats, setPlayerStats] = useState({
+  matchesPlayed: 0,
+  goals: 0,
+  assists: 0,
+  saves: 0,
+  cleanSheets: 0,
+  passesCompleted: 0,
+  passAccuracyPercentage: 0,
+  tacklesMade: 0,
+  interceptions: 0,
+  foulsCommitted: 0,
+  yellowCards: 0,
+  redCards: 0,
+});
 
   // Function to handle input changes in the form
   const handleChange = (e) => {

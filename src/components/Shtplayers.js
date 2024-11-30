@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './Sports.css';
 
-
 const Shtplayers = () => {
 
   const [showPopup, setShowPopup] = useState(false);
@@ -10,67 +9,67 @@ const Shtplayers = () => {
   const [players, setPlayers] = useState([
     {
       id: 1,
-      name: 'Ms dhoni',
-      role: 'Wicket Keeper',
+      name: 'P.V. Sindhu',
+      role: 'Player',
       rollNumber: '22IT264',
-      imageUrl: 'https://th.bing.com/th/id/OIP.3J8OgAVUAjVJk1jzGnzmpgHaFj?w=226&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-      rating: 3,
+      imageUrl: 'https://example.com/pv_sindhu.jpg',
+      rating: 5,
       stats: {
-        matchesPlayed: 10,
-        totalPoints: 50,
-        raidPointsPerMatch: 5,
-        successfulRaidPercentage: 80,
-        superRaids: 2,
-        superTens: 3,
-        totalRaidPoints: 30,
-        noOfSuperTackle: 1,
-        highFives: 2,
-        totalTacklePoints: 20,
-        successfulTacklePercentage: 75,
+        matchesPlayed: 30,
+        totalPoints: 150,
+        smashPointsPerMatch: 10,
+        rallyPoints: 60,
+        successfulServes: 25,
+        faults: 5,
+        totalSmashPoints: 300,
+        successfulRallies: 40,
+        netPlays: 10,
+        totalRallyPoints: 180,
+        successfulServePercentage: 90,
       },
     },
     {
       id: 2,
-      name: 'Virat Kohli',
-      role: 'Batsmen',
+      name: 'Saina Nehwal',
+      role: 'Player',
       rollNumber: '22Ec210',
-      imageUrl: 'https://th.bing.com/th/id/OIP.ZHVq9HgYtGcoxU0eeDwJ8AHaHa?w=183&h=183&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-      rating: 5,
+      imageUrl: 'https://example.com/saina_nehwal.jpg',
+      rating: 4,
       stats: {
-        matchesPlayed: 8,
-        totalPoints: 40,
-        raidPointsPerMatch: 4,
-        successfulRaidPercentage: 70,
-        superRaids: 1,
-        superTens: 2,
-        totalRaidPoints: 20,
-        noOfSuperTackle: 3,
-        highFives: 1,
-        totalTacklePoints: 25,
-        successfulTacklePercentage: 80,
+        matchesPlayed: 25,
+        totalPoints: 130,
+        smashPointsPerMatch: 8,
+        rallyPoints: 50,
+        successfulServes: 22,
+        faults: 3,
+        totalSmashPoints: 200,
+        successfulRallies: 35,
+        netPlays: 12,
+        totalRallyPoints: 160,
+        successfulServePercentage: 85,
       },
     },
     {
-        id: 2,
-        name: 'Hardrik',
-        role: 'All rounder',
-        rollNumber: '22Ec333',
-        imageUrl: 'https://th.bing.com/th/id/OIP.owQWHbp5gFuILmFzoZXvHAHaE8?rs=1&pid=ImgDetMain',
-        rating: 3,
-        stats: {
-          matchesPlayed: 8,
-          totalPoints: 40,
-          raidPointsPerMatch: 4,
-          successfulRaidPercentage: 70,
-          superRaids: 1,
-          superTens: 2,
-          totalRaidPoints: 20,
-          noOfSuperTackle: 3,
-          highFives: 1,
-          totalTacklePoints: 25,
-          successfulTacklePercentage: 80,
-        },
+      id: 3,
+      name: 'Kidambi Srikanth',
+      role: 'Player',
+      rollNumber: '22Ec333',
+      imageUrl: 'https://example.com/kidambi_srikanth.jpg',
+      rating: 4,
+      stats: {
+        matchesPlayed: 28,
+        totalPoints: 140,
+        smashPointsPerMatch: 9,
+        rallyPoints: 55,
+        successfulServes: 20,
+        faults: 4,
+        totalSmashPoints: 250,
+        successfulRallies: 38,
+        netPlays: 9,
+        totalRallyPoints: 170,
+        successfulServePercentage: 88,
       },
+    },
   ]);
 
   // Form state for the new player
@@ -87,15 +86,15 @@ const Shtplayers = () => {
   const [playerStats, setPlayerStats] = useState({
     matchesPlayed: 0,
     totalPoints: 0,
-    raidPointsPerMatch: 0,
-    successfulRaidPercentage: 0,
-    superRaids: 0,
-    superTens: 0,
-    totalRaidPoints: 0,
-    noOfSuperTackle: 0,
-    highFives: 0,
-    totalTacklePoints: 0,
-    successfulTacklePercentage: 0,
+    smashPointsPerMatch: 0,
+    rallyPoints: 0,
+    successfulServes: 0,
+    faults: 0,
+    totalSmashPoints: 0,
+    successfulRallies: 0,
+    netPlays: 0,
+    totalRallyPoints: 0,
+    successfulServePercentage: 0,
   });
 
   // Function to handle input changes in the form
@@ -168,30 +167,22 @@ const Shtplayers = () => {
     }
   };
 
-  
-       
-      
-
   return (
     <>
-     
-
-      
       <div className="player-container">
-            {players.map((player) => (
-              <div className="player-box" key={player.id}>
-                <div className="player-info">
-                  <h3>{player.name}</h3>
-                  <p>Role: {player.role}</p>
-                  <p>Roll Number: {player.rollNumber}</p>
-                  {renderStars(player.rating)}
-                  <button onClick={() => handleStatsClick(player)}>Stats</button>
-                </div>
-                <img src={player.imageUrl} alt={player.name} className="player-img" />
-              </div>
-            ))}
+        {players.map((player) => (
+          <div className="player-box" key={player.id}>
+            <div className="player-info">
+              <h3>{player.name}</h3>
+              <p>Role: {player.role}</p>
+              <p>Roll Number: {player.rollNumber}</p>
+              {renderStars(player.rating)}
+              <button onClick={() => handleStatsClick(player)}>Stats</button>
+            </div>
+            <img src={player.imageUrl} alt={player.name} className="player-img" />
           </div>
-
+        ))}
+      </div>
 
       {/* Add Symbol */}
       <button className="add-button" onClick={() => setShowPopup(true)}>+</button>
@@ -222,8 +213,8 @@ const Shtplayers = () => {
                 Rating:
                 <input type="number" name="rating" value={newPlayer.rating} onChange={handleChange} min="1" max="5" required />
               </label>
-              <button type="submit"  style={{ marginRight: '30px' }}> Add Player  </button>  
-              <button type="button" onClick={() => setShowPopup(false)}> Cancel </button>
+              <button type="submit" style={{ marginRight: '30px' }}>Add Player</button>
+              <button type="button" onClick={() => setShowPopup(false)}>Cancel</button>
             </form>
           </div>
         </div>
@@ -236,23 +227,24 @@ const Shtplayers = () => {
             <h2>{selectedPlayer.name}'s Stats</h2>
             <p>Matches Played: {playerStats.matchesPlayed}</p>
             <p>Total Points: {playerStats.totalPoints}</p>
-            <p>Raid Points Per Match: {playerStats.raidPointsPerMatch}</p>
-            <p>Successful Raid Percentage: {playerStats.successfulRaidPercentage}%</p>
-            <p>Super Raids: {playerStats.superRaids}</p>
-            <p>Super 10s: {playerStats.superTens}</p>
-            <p>Total Raid Points: {playerStats.totalRaidPoints}</p>
-            <p>No. of Super Tackle: {playerStats.noOfSuperTackle}</p>
-            <p>High 5s: {playerStats.highFives}</p>
-            <p>Total Tackle Points: {playerStats.totalTacklePoints}</p>
-            <p>Successful Tackle Percentage: {playerStats.successfulTacklePercentage}%</p>
+            <p>Smash Points Per Match: {playerStats.smashPointsPerMatch}</p>
+            <p>Rally Points: {playerStats.rallyPoints}</p>
+            <p>Successful Serves: {playerStats.successfulServes}</p>
+            <p>Faults: {playerStats.faults}</p>
+            <p>Total Smash Points: {playerStats.totalSmashPoints}</p>
+            <p>Successful Rallies: {playerStats.successfulRallies}</p>
+            <p>Net Plays: {playerStats.netPlays}</p>
+            <p>Total Rally Points: {playerStats.totalRallyPoints}</p>
+            <p>Successful Serve Percentage: {playerStats.successfulServePercentage}%</p>
             <button onClick={handleEditStatsClick}>Edit</button>
             <button onClick={() => setShowStatsPopup(false)}>Close</button>
-            <button onClick={handleDeletePlayer} className="delete-button">Delete</button>
+            <button onClick={handleDeletePlayer} style={{ backgroundColor: 'red' }}>Delete Player</button>
           </div>
         </div>
       )}
 
-{showEditStatsPopup && (
+      {/* Edit Stats Popup */}
+      {showEditStatsPopup && (
   <div className="edit-stats-popup-overlay">
     <div className="edit-stats-popup-box">
       <h2>Edit Stats for {selectedPlayer.name}</h2>
@@ -280,99 +272,99 @@ const Shtplayers = () => {
         </label>
 
         <label className="edit-stats-label">
-          Raid Points Per Match:
+          Smash Points Per Match:
           <input
             type="number"
-            name="raidPointsPerMatch"
-            value={playerStats.raidPointsPerMatch}
+            name="smashPointsPerMatch"
+            value={playerStats.smashPointsPerMatch}
             onChange={handleStatsChange}
             onKeyPress={handleKeyPress}
           />
         </label>
 
         <label className="edit-stats-label">
-          Successful Raid Percentage:
+          Rally Points:
           <input
             type="number"
-            name="successfulRaidPercentage"
-            value={playerStats.successfulRaidPercentage}
+            name="rallyPoints"
+            value={playerStats.rallyPoints}
             onChange={handleStatsChange}
             onKeyPress={handleKeyPress}
           />
         </label>
 
         <label className="edit-stats-label">
-          Super Raids:
+          Successful Serves:
           <input
             type="number"
-            name="superRaids"
-            value={playerStats.superRaids}
+            name="successfulServes"
+            value={playerStats.successfulServes}
             onChange={handleStatsChange}
             onKeyPress={handleKeyPress}
           />
         </label>
 
         <label className="edit-stats-label">
-          Super 10s:
+          Faults:
           <input
             type="number"
-            name="superTens"
-            value={playerStats.superTens}
+            name="faults"
+            value={playerStats.faults}
             onChange={handleStatsChange}
             onKeyPress={handleKeyPress}
           />
         </label>
 
         <label className="edit-stats-label">
-          Total Raid Points:
+          Total Smash Points:
           <input
             type="number"
-            name="totalRaidPoints"
-            value={playerStats.totalRaidPoints}
-            onChange={handleStatsChange} 
-            onKeyPress={handleKeyPress}
-          />
-        </label>
-
-        <label className="edit-stats-label">
-          No. of Super Tackle:
-          <input
-            type="number"
-            name="noOfSuperTackle"
-            value={playerStats.noOfSuperTackle}
+            name="totalSmashPoints"
+            value={playerStats.totalSmashPoints}
             onChange={handleStatsChange}
             onKeyPress={handleKeyPress}
           />
         </label>
 
         <label className="edit-stats-label">
-          High 5s:
+          Successful Rallies:
           <input
             type="number"
-            name="highFives"
-            value={playerStats.highFives}
+            name="successfulRallies"
+            value={playerStats.successfulRallies}
             onChange={handleStatsChange}
             onKeyPress={handleKeyPress}
           />
         </label>
 
         <label className="edit-stats-label">
-          Total Tackle Points:
+          Net Plays:
           <input
             type="number"
-            name="totalTacklePoints"
-            value={playerStats.totalTacklePoints}
+            name="netPlays"
+            value={playerStats.netPlays}
             onChange={handleStatsChange}
             onKeyPress={handleKeyPress}
           />
         </label>
 
         <label className="edit-stats-label">
-          Successful Tackle Percentage:
+          Total Rally Points:
           <input
             type="number"
-            name="successfulTacklePercentage"
-            value={playerStats.successfulTacklePercentage}
+            name="totalRallyPoints"
+            value={playerStats.totalRallyPoints}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Successful Serve Percentage:
+          <input
+            type="number"
+            name="successfulServePercentage"
+            value={playerStats.successfulServePercentage}
             onChange={handleStatsChange}
             onKeyPress={handleKeyPress}
           />
