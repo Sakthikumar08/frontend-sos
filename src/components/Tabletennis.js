@@ -1,60 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Route, Routes, Link } from 'react-router-dom';
 import './Sports.css';
+import Tabplayers from './Tabplayers';
+import Tabacheivement from './Tabacheivement';
+import Tabmatches from './Tabmatches';
+import Tabscorecard from './Tabscorecard';
 
 const Tabletennis = () => {
-  const [activeTab, setActiveTab] = useState('players');
-
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'players':
-        return <div>Player Information...</div>;
-      case 'scorecard':
-        return <div>Scorecard details...</div>;
-      case 'achievements':
-        return <div>Achievements overview...</div>;
-      case 'matches':
-        return <div>Upcoming and Past Matches...</div>;
-      default:
-        return <div>Select a tab to view details.</div>;
-    }
-  };
-
   return (
     <>
       <header className="sports-head">
-        <h1>TABLETENNIS</h1>
+        <h1>Tabletennis</h1>
       </header>
 
       <nav className="sports-navbar">
         <ul>
-          <li 
-            className={activeTab === 'players' ? 'active' : ''} 
-            onClick={() => setActiveTab('players')}>
-            Players
-          </li>
-          <li 
-            className={activeTab === 'scorecard' ? 'active' : ''} 
-            onClick={() => setActiveTab('scorecard')}>
-            Scorecard
-          </li>
-          <li 
-            className={activeTab === 'achievements' ? 'active' : ''} 
-            onClick={() => setActiveTab('achievements')}>
-            Achievements
-          </li>
-          <li 
-            className={activeTab === 'matches' ? 'active' : ''} 
-            onClick={() => setActiveTab('matches')}>
-            Matches
-          </li>
+          <li><Link to="/tabletennis">Players</Link></li>
+          <li><Link to="/tabletennis/tabscorecard">Scorecard</Link></li>
+          <li><Link to="/tabletennis/tabacheivement">Achievements</Link></li>
+          <li><Link to="/tabletennis/tabmatches">Matches</Link></li>
         </ul>
       </nav>
 
-      <main className="sports-content">
-        {renderContent()}
-      </main>
+      <Routes>
+        <Route path="/" element={<Tabplayers />} />
+        <Route path="/tabscorecard" element={<Tabscorecard />} />
+        <Route path="/tabacheivement" element={<Tabacheivement />} />
+        <Route path="/tabmatches" element={<Tabmatches />} />
+      </Routes>
     </>
   );
-}
+};
 
-export default Tabletennis
+export default Tabletennis;

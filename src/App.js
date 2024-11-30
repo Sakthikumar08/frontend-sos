@@ -28,15 +28,15 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage searchValue={searchTerm} onSearchChange={handleSearchChange} />} />
 
-        <Route path="/football" element={<Football />} />
+        <Route path="/football/*" element={<Football />} />
         <Route path="/kabaddi/*" element={<Kabaddi />} />
-        <Route path="/volleyball" element={<Volleyball />} />
-        <Route path="/basketball" element={<Basketball />} />
-        <Route path="/shuttle" element={<Shuttle />} />
-        <Route path="/tabletennis" element={<Tabletennis />} />
-        <Route path="/hockey" element={<Hockey />} />
-        <Route path="/ballbadminton" element={<BallBadminton />} />
-        <Route path="/athletics" element={<Atheletics />} />
+        <Route path="/volleyball/*" element={<Volleyball />} />
+        <Route path="/basketball/*" element={<Basketball />} />
+        <Route path="/shuttle/*" element={<Shuttle />} />
+        <Route path="/tabletennis/*" element={<Tabletennis />} />
+        <Route path="/hockey/*" element={<Hockey />} />
+        <Route path="/ballbadminton/*" element={<BallBadminton />} />
+        <Route path="/athletics/*" element={<Atheletics />} />
       </Routes>
     </Router>
   );

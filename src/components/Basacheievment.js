@@ -4,7 +4,7 @@ import win1kb from './assets/kabaddiacheive/win1kb.jpg';
 import win2kb from './assets/kabaddiacheive/win2kb.jpg';
 import win3kb from './assets/kabaddiacheive/win3kb.jpg';
 
-const basacheievment = () => {
+const Basacheievment = () => {
     return (
         <div className='acheive-img-container'>
           <div className="acheivement-container">
@@ -30,4 +30,4 @@ const basacheievment = () => {
 
 }
 
-export default basacheievment
+export default Basacheievment

@@ -15,7 +15,7 @@ const Kabaddi = () => {
 
       <nav className="sports-navbar">
         <ul>
-          <li ><Link to="/kabaddi">Players</Link></li>
+          <li><Link to="/kabaddi">Players</Link></li>
           <li><Link to="/kabaddi/kbscorecard">Scorecard</Link></li>
           <li><Link to="/kabaddi/kbacheivement">Achievements</Link></li>
           <li><Link to="/kabaddi/kbmatches">Matches</Link></li>
