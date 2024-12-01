@@ -245,58 +245,138 @@ const TabPlayers = () => {
 
       {/* Edit Stats Popup */}
       {showEditStatsPopup && (
-        <div className="popup-overlay">
-          <div className="popup-box">
-            <h2>Edit Stats for {selectedPlayer.name}</h2>
-            <label>
-              Matches Played:
-              <input type="number" name="matchesPlayed" value={playerStats.matchesPlayed} onChange={handleStatsChange} onKeyDown={handleKeyPress} />
-            </label>
-            <label>
-              Total Points:
-              <input type="number" name="totalPoints" value={playerStats.totalPoints} onChange={handleStatsChange} onKeyDown={handleKeyPress} />
-            </label>
-            <label>
-              Average Points Per Match:
-              <input type="number" name="averagePointsPerMatch" value={playerStats.averagePointsPerMatch} onChange={handleStatsChange} onKeyDown={handleKeyPress} />
-            </label>
-            <label>
-              Successful Returns Percentage:
-              <input type="number" name="successfulReturnsPercentage" value={playerStats.successfulReturnsPercentage} onChange={handleStatsChange} onKeyDown={handleKeyPress} />
-            </label>
-            <label>
-              Aces:
-              <input type="number" name="aces" value={playerStats.aces} onChange={handleStatsChange} onKeyDown={handleKeyPress} />
-            </label>
-            <label>
-              Double Faults:
-              <input type="number" name="doubleFaults" value={playerStats.doubleFaults} onChange={handleStatsChange} onKeyDown={handleKeyPress} />
-            </label>
-            <label>
-              Total Service Points:
-              <input type="number" name="totalServicePoints" value={playerStats.totalServicePoints} onChange={handleStatsChange} onKeyDown={handleKeyPress} />
-            </label>
-            <label>
-              Rallies Won:
-              <input type="number" name="ralliesWon" value={playerStats.ralliesWon} onChange={handleStatsChange} onKeyDown={handleKeyPress} />
-            </label>
-            <label>
-              Break Points Saved:
-              <input type="number" name="breakPointsSaved" value={playerStats.breakPointsSaved} onChange={handleStatsChange} onKeyDown={handleKeyPress} />
-            </label>
-            <label>
-              Total Rally Points:
-              <input type="number" name="totalRallyPoints" value={playerStats.totalRallyPoints} onChange={handleStatsChange} onKeyDown={handleKeyPress} />
-            </label>
-            <label>
-              Successful Smash Percentage:
-              <input type="number" name="successfulSmashPercentage" value={playerStats.successfulSmashPercentage} onChange={handleStatsChange} onKeyDown={handleKeyPress} />
-            </label>
-            <button onClick={handleSaveStats}>Save Stats</button>
-            <button onClick={() => setShowEditStatsPopup(false)}>Cancel</button>
-          </div>
-        </div>
-      )}
+  <div className="edit-stats-popup-overlay">
+    <div className="edit-stats-popup-box">
+      <h2>Edit Stats for {selectedPlayer.name}</h2>
+      <div className="edit-stats-form">
+        <label className="edit-stats-label">
+          Matches Played:
+          <input
+            type="number"
+            name="matchesPlayed"
+            value={playerStats.matchesPlayed}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Total Points:
+          <input
+            type="number"
+            name="totalPoints"
+            value={playerStats.totalPoints}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Smash Points Per Match:
+          <input
+            type="number"
+            name="smashPointsPerMatch"
+            value={playerStats.smashPointsPerMatch}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Rally Points:
+          <input
+            type="number"
+            name="rallyPoints"
+            value={playerStats.rallyPoints}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Successful Serves:
+          <input
+            type="number"
+            name="successfulServes"
+            value={playerStats.successfulServes}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Faults:
+          <input
+            type="number"
+            name="faults"
+            value={playerStats.faults}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Total Smash Points:
+          <input
+            type="number"
+            name="totalSmashPoints"
+            value={playerStats.totalSmashPoints}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Successful Rallies:
+          <input
+            type="number"
+            name="successfulRallies"
+            value={playerStats.successfulRallies}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Net Plays:
+          <input
+            type="number"
+            name="netPlays"
+            value={playerStats.netPlays}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Total Rally Points:
+          <input
+            type="number"
+            name="totalRallyPoints"
+            value={playerStats.totalRallyPoints}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Successful Serve Percentage:
+          <input
+            type="number"
+            name="successfulServePercentage"
+            value={playerStats.successfulServePercentage}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+      </div>
+      <div className="edit-stats-buttons">
+        <button onClick={handleSaveStats}>Save</button>
+        <button onClick={() => setShowEditStatsPopup(false)}>Close</button>
+      </div>
+    </div>
+  </div>
+)}
     </>
   );
 };
