@@ -668,4 +668,130 @@ input[type="text"] {
   width: 500px;
 }
 
+ /*  acheivement */
 
+
+/* Sports.css */
+
+/* General Styles */
+.app {
+  text-align: center;
+  padding: 20px;
+  background-color: #101010; /* Dark background */
+  color: white; /* White text */
+  min-height: 100vh; /* Ensure full viewport height */
+  margin: 0;
+}
+
+.heading {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+/* Vertical Layout */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px; /* Increased gap between items */
+}
+
+/* Card Styling */
+.card {
+  border: 1px solid #333; /* Subtle border */
+  border-radius: 8px;
+  width: 80%; /* Adjust width as needed */
+  max-width: 800px; /* Limit maximum width */
+  background-color: #181818; /* Slightly lighter dark color */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  text-align: left;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Add subtle shadow */
+}
+
+.card img {
+  max-width: 100%; /* Ensure image fills width */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); /* Add shadow to images */
+}
+
+.card p {
+  font-size: 18px; /* Slightly larger text */
+  line-height: 1.8; /* Increased line spacing */
+  margin: 0;
+  color: white; /* Ensure text is visible */
+}
+
+/* Add Button */
+.add-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  transition: background-color 0.3s ease;
+}
+
+.add-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Modal Styling */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* Darker modal background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #202020; /* Dark modal content background */
+  color: white; /* White text in modal */
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  width: 300px;
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  margin: 10px 0;
+  padding: 8px;
+  border: 1px solid #555; /* Subtle dark border */
+  border-radius: 4px;
+  background-color: #303030; /* Dark input background */
+  color: white; /* White text */
+}
+
+.modal-content button {
+  margin: 5px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-content button:first-of-type {
+  background-color: #28a745;
+  color: white;
+}
+
+.modal-content button:last-of-type {
+  background-color: #dc3545;
+  color: white;
+}
