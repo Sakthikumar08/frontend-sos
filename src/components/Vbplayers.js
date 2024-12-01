@@ -20,9 +20,9 @@ const VbPlayers = () => {
         aces: 10,
         assists: 25,
         blocks: 8,
-        kills: 50,
+       
         attackPercentage: 45,
-        digs: 30,
+       
         servePercentage: 80,
       },
     },
@@ -39,9 +39,9 @@ const VbPlayers = () => {
         aces: 15,
         assists: 20,
         blocks: 5,
-        kills: 40,
+      
         attackPercentage: 50,
-        digs: 40,
+        
         servePercentage: 85,
       },
     },
@@ -58,9 +58,9 @@ const VbPlayers = () => {
         aces: 5,
         assists: 40,
         blocks: 3,
-        kills: 20,
+       
         attackPercentage: 38,
-        digs: 20,
+       
         servePercentage: 75,
       },
     },
@@ -83,9 +83,9 @@ const VbPlayers = () => {
     aces: 0,
     assists: 0,
     blocks: 0,
-    kills: 0,
+   
     attackPercentage: 0,
-    digs: 0,
+    
     servePercentage: 0,
   });
 
@@ -222,9 +222,9 @@ const VbPlayers = () => {
             <p>Aces: {playerStats.aces}</p>
             <p>Assists: {playerStats.assists}</p>
             <p>Blocks: {playerStats.blocks}</p>
-            <p>Kills: {playerStats.kills}</p>
+           
             <p>Attack Percentage: {playerStats.attackPercentage}%</p>
-            <p>Digs: {playerStats.digs}</p>
+         
             <p>Serve Percentage: {playerStats.servePercentage}%</p>
             <button onClick={handleEditStatsClick}>Edit</button>
             <button onClick={() => setShowStatsPopup(false)}>Close</button>
@@ -235,50 +235,93 @@ const VbPlayers = () => {
 
       {/* Edit Stats Popup */}
       {showEditStatsPopup && (
-        <div className="popup-overlay">
-          <div className="popup-box">
-            <h2>Edit {selectedPlayer.name}'s Stats</h2>
-            <label>
-              Matches Played:
-              <input type="number" name="matchesPlayed" value={playerStats.matchesPlayed} onChange={handleStatsChange} />
-            </label>
-            <label>
-              Total Points:
-              <input type="number" name="totalPoints" value={playerStats.totalPoints} onChange={handleStatsChange} />
-            </label>
-            <label>
-              Aces:
-              <input type="number" name="aces" value={playerStats.aces} onChange={handleStatsChange} />
-            </label>
-            <label>
-              Assists:
-              <input type="number" name="assists" value={playerStats.assists} onChange={handleStatsChange} />
-            </label>
-            <label>
-              Blocks:
-              <input type="number" name="blocks" value={playerStats.blocks} onChange={handleStatsChange} />
-            </label>
-            <label>
-              Kills:
-              <input type="number" name="kills" value={playerStats.kills} onChange={handleStatsChange} />
-            </label>
-            <label>
-              Attack Percentage:
-              <input type="number" name="attackPercentage" value={playerStats.attackPercentage} onChange={handleStatsChange} />
-            </label>
-            <label>
-              Digs:
-              <input type="number" name="digs" value={playerStats.digs} onChange={handleStatsChange} />
-            </label>
-            <label>
-              Serve Percentage:
-              <input type="number" name="servePercentage" value={playerStats.servePercentage} onChange={handleStatsChange} />
-            </label>
-            <button type="button" onClick={handleSaveStats}>Save Stats</button>
-            <button type="button" onClick={() => setShowEditStatsPopup(false)}>Cancel</button>
-          </div>
-        </div>
-      )}
+  <div className="edit-stats-popup-overlay">
+    <div className="edit-stats-popup-box">
+      <h2>Edit Stats for {selectedPlayer.name}</h2>
+      <div className="edit-stats-form">
+        <label className="edit-stats-label">
+          Matches Played:
+          <input
+            type="number"
+            name="matchesPlayed"
+            value={playerStats.matchesPlayed}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Total Points:
+          <input
+            type="number"
+            name="totalPoints"
+            value={playerStats.totalPoints}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Aces:
+          <input
+            type="number"
+            name="aces"
+            value={playerStats.aces}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+        <label className="edit-stats-label">
+          Assists:
+          <input
+            type="number"
+            name="assists"
+            value={playerStats.assists}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+        <label className="edit-stats-label">
+          Blocks:
+          <input
+            type="number"
+            name="blocks"
+            value={playerStats.blocks}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+        <label className="edit-stats-label">
+          Attack Percentage:
+          <input
+            type="number"
+            name="attackPercentage"
+            value={playerStats.attackPercentage}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+        <label className="edit-stats-label">
+          Serve Percentage:
+          <input
+            type="number"
+            name="servePercentage"
+            value={playerStats.servePercentage}
+            onChange={handleStatsChange}
+            onKeyPress={handleKeyPress}
+          />
+        </label>
+
+       
+      </div>
+      <div className="edit-stats-buttons">
+        <button onClick={handleSaveStats}>Save</button>
+        <button onClick={() => setShowEditStatsPopup(false)}>Close</button>
+      </div>
+    </div>
+  </div>
+)}
 
     </>
   );

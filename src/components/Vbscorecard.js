@@ -17,19 +17,19 @@ const Vbscorecard = () => {
     date: '',
     firstHalf: {
       scored1: '',
-      tacklePoints1: '',
-      raidPoints1: '',
-      allOutCount1: '',
+      defencePoints1: '',
+      attackPoints1: '',
+      
     },
     secondHalf: {
       scored2: '',
-      tacklePoints2: '',
-      raidPoints2: '',
-      allOutCount2: '',
+      defencePoints2: '',
+      attackPoints2: '',
+      
     },
     manOfTheMatch: '',
-    highestRaidPlayer: '',
-    highestTacklePlayer: '',
+    highestAttackPlayer: '',
+    highestDefencePlayer: '',
   });
 
   const [editMode, setEditMode] = useState(false);
@@ -47,19 +47,19 @@ const Vbscorecard = () => {
       date: 'October 10, 2024',
       firstHalf: {
         scored1: 20,
-        tacklePoints1: 5,
-        raidPoints1: 10,
-        allOutCount1: 1,
+        defencePoints1: 5,
+        attackPoints1: 10,
+       
       },
       secondHalf: {
         scored2: 15,
-        tacklePoints2: 3,
-        raidPoints2: 12,
-        allOutCount2: 0,
+        defencePoints2: 3,
+        attackPoints2: 12,
+       
       },
       manOfTheMatch: 'Player A',
-      highestRaidPlayer: 'Player B',
-      highestTacklePlayer: 'Player C',
+      highestAttackPoints: 'Player B',
+      highestDefencePoints: 'Player C',
     },
     // Add more matches as needed
   ]);
@@ -154,16 +154,16 @@ const Vbscorecard = () => {
                   <div className="team-left">
                     <h4>{selectedMatch.team1}</h4>
                     <p><strong>Points Scored:</strong> <input type="number" value={selectedMatch.firstHalf.scored1} onChange={(e) => handleInputChange(e, 'firstHalf', 'scored1')} /></p>
-                    <p><strong>Tackle Points:</strong> <input type="number" value={selectedMatch.firstHalf.tacklePoints1} onChange={(e) => handleInputChange(e, 'firstHalf', 'tacklePoints1')} /></p>
-                    <p><strong>Raid Points:</strong> <input type="number" value={selectedMatch.firstHalf.raidPoints1} onChange={(e) => handleInputChange(e, 'firstHalf', 'raidPoints1')} /></p>
-                    <p><strong>All Out Count:</strong> <input type="number" value={selectedMatch.firstHalf.allOutCount1} onChange={(e) => handleInputChange(e, 'firstHalf', 'allOutCount1')} /></p>
+                    <p><strong>Defence Points:</strong> <input type="number" value={selectedMatch.firstHalf.defencePoints1} onChange={(e) => handleInputChange(e, 'firstHalf', 'defencePoints1')} /></p>
+                    <p><strong>Attack Points:</strong> <input type="number" value={selectedMatch.firstHalf.attackPoints1} onChange={(e) => handleInputChange(e, 'firstHalf', 'attackPoints1')} /></p>
+                   
                   </div>
                   <div className="team-right">
                     <h4>{selectedMatch.team2}</h4>
                     <p><strong>Points Scored:</strong> <input type="number" value={selectedMatch.firstHalf.scored2} onChange={(e) => handleInputChange(e, 'firstHalf', 'scored2')} /></p>
-                    <p><strong>Tackle Points:</strong> <input type="number" value={selectedMatch.firstHalf.tacklePoints2} onChange={(e) => handleInputChange(e, 'firstHalf', 'tacklePoints2')} /></p>
-                    <p><strong>Raid Points:</strong> <input type="number" value={selectedMatch.firstHalf.raidPoints2} onChange={(e) => handleInputChange(e, 'firstHalf', 'raidPoints2')} /></p>
-                    <p><strong>All Out Count:</strong> <input type="number" value={selectedMatch.firstHalf.allOutCount2} onChange={(e) => handleInputChange(e, 'firstHalf', 'allOutCount2')} /></p>
+                    <p><strong>Defence Points:</strong> <input type="number" value={selectedMatch.firstHalf.defencePoints2} onChange={(e) => handleInputChange(e, 'firstHalf', 'defencePoints2')} /></p>
+                    <p><strong>Attack Points:</strong> <input type="number" value={selectedMatch.firstHalf.attackPoints2} onChange={(e) => handleInputChange(e, 'firstHalf', 'attackPoints2')} /></p>
+                  
                   </div>
                 </div>
               </div>
@@ -175,16 +175,16 @@ const Vbscorecard = () => {
                   <div className="team-left">
                     <h4>{selectedMatch.team1}</h4>
                     <p><strong>Points Scored:</strong> <input type="number" value={selectedMatch.secondHalf.scored1} onChange={(e) => handleInputChange(e, 'secondHalf', 'scored1')} /></p>
-                    <p><strong>Tackle Points:</strong> <input type="number" value={selectedMatch.secondHalf.tacklePoints1} onChange={(e) => handleInputChange(e, 'secondHalf', 'tacklePoints1')} /></p>
-                    <p><strong>Raid Points:</strong> <input type="number" value={selectedMatch.secondHalf.raidPoints1} onChange={(e) => handleInputChange(e, 'secondHalf', 'raidPoints1')} /></p>
-                    <p><strong>All Out Count:</strong> <input type="number" value={selectedMatch.secondHalf.allOutCount1} onChange={(e) => handleInputChange(e, 'secondHalf', 'allOutCount1')} /></p>
+                    <p><strong>Defence Points:</strong> <input type="number" value={selectedMatch.secondHalf.defencePoints1} onChange={(e) => handleInputChange(e, 'secondHalf', 'defencePoints1')} /></p>
+                    <p><strong>Attack Points:</strong> <input type="number" value={selectedMatch.secondHalf.attackPoints1} onChange={(e) => handleInputChange(e, 'secondHalf', 'attackPoints1')} /></p>
+                    
                   </div>
                   <div className="team-right">
                     <h4>{selectedMatch.team2}</h4>
                     <p><strong>Points Scored:</strong> <input type="number" value={selectedMatch.secondHalf.scored2} onChange={(e) => handleInputChange(e, 'secondHalf', 'scored2')} /></p>
-                    <p><strong>Tackle Points:</strong> <input type="number" value={selectedMatch.secondHalf.tacklePoints2} onChange={(e) => handleInputChange(e, 'secondHalf', 'tacklePoints2')} /></p>
-                    <p><strong>Raid Points:</strong> <input type="number" value={selectedMatch.secondHalf.raidPoints2} onChange={(e) => handleInputChange(e, 'secondHalf', 'raidPoints2')} /></p>
-                    <p><strong>All Out Count:</strong> <input type="number" value={selectedMatch.secondHalf.allOutCount2} onChange={(e) => handleInputChange(e, 'secondHalf', 'allOutCount2')} /></p>
+                    <p><strong>Defence Points:</strong> <input type="number" value={selectedMatch.secondHalf.defencePoints2} onChange={(e) => handleInputChange(e, 'secondHalf', 'defencePoints2')} /></p>
+                    <p><strong>Attack Points:</strong> <input type="number" value={selectedMatch.secondHalf.attackPoints2} onChange={(e) => handleInputChange(e, 'secondHalf', 'attackPoints2')} /></p>
+                  
                   </div>
                 </div>
               </div>
@@ -192,8 +192,8 @@ const Vbscorecard = () => {
               {/* Additional Details */}
               <div className="additional-details">
                 <p><strong>Man of the Match:</strong> <input type="text" value={selectedMatch.manOfTheMatch} onChange={(e) => handleInputChange(e, null, 'manOfTheMatch')} /></p>
-                <p><strong>Highest Raid Points Player:</strong> <input type="text" value={selectedMatch.highestRaidPlayer} onChange={(e) => handleInputChange(e, null, 'highestRaidPlayer')} /></p>
-                <p><strong>Highest Tackle Points Player:</strong> <input type="text" value={selectedMatch.highestTacklePlayer} onChange={(e) => handleInputChange(e, null, 'highestTacklePlayer')} /></p>
+                <p><strong>Best Attacker:</strong> <input type="text" value={selectedMatch. highestAttackPoints} onChange={(e) => handleInputChange(e, null, 'highestAttackPoints')} /></p>
+                <p><strong>Best Defender:</strong> <input type="text" value={selectedMatch. highestDefencePoints} onChange={(e) => handleInputChange(e, null, ' highestDefencePoints')} /></p>
               </div>
             </div>
 
