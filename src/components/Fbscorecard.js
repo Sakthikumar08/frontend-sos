@@ -16,23 +16,19 @@ const Fbscorecard = () => {
     venue: '',
     date: '',
     firstHalf: {
-      scored1: '',
-      tacklePoints1: '',
-      raidPoints1: '',
-      allOutCount1: '',
+      goals1: '',
+      player1: '',
+      goals2: '',
+      player2: '',
     },
     secondHalf: {
-      scored2: '',
-      tacklePoints2: '',
-      raidPoints2: '',
-      allOutCount2: '',
+      goals1: '',
+      player1: '',
+      goals2: '',
+      player2: '',
     },
     manOfTheMatch: '',
-    highestRaidPlayer: '',
-    highestTacklePlayer: '',
   });
-
-  const [editMode, setEditMode] = useState(false);
 
   // Dummy match data
   const [matches, setMatches] = useState([
@@ -40,26 +36,24 @@ const Fbscorecard = () => {
       id: 1,
       team1: "St. Joseph's",
       team2: 'Sathyabama',
-      points1: 35,
-      points2: 30,
+      points1: 5,
+      points2: 3,
       winner: "St. Joseph's",
       venue: 'Sports Ground A',
       date: 'October 10, 2024',
       firstHalf: {
-        scored1: 20,
-        tacklePoints1: 5,
-        raidPoints1: 10,
-        allOutCount1: 1,
+        goals1: 3,
+        player1: 'Player A',
+        goals2: 2,
+        player2: 'Player B',
       },
       secondHalf: {
-        scored2: 15,
-        tacklePoints2: 3,
-        raidPoints2: 12,
-        allOutCount2: 0,
+        goals1: 2,
+        player1: 'Player C',
+        goals2: 1,
+        player2: 'Player D',
       },
       manOfTheMatch: 'Player A',
-      highestRaidPlayer: 'Player B',
-      highestTacklePlayer: 'Player C',
     },
     // Add more matches as needed
   ]);
@@ -68,25 +62,15 @@ const Fbscorecard = () => {
   const handleMatchDetails = (match) => {
     setSelectedMatch(match);
     setShowMatchPopup(true);
-    setEditMode(false); // Reset edit mode
   };
 
   // Function to handle form input changes
   const handleInputChange = (e, half, field) => {
     const { value } = e.target;
-    if (half === 'firstHalf') {
-      setSelectedMatch((prev) => ({
-        ...prev,
-        firstHalf: { ...prev.firstHalf, [field]: value },
-      }));
-    } else if (half === 'secondHalf') {
-      setSelectedMatch((prev) => ({
-        ...prev,
-        secondHalf: { ...prev.secondHalf, [field]: value },
-      }));
-    } else {
-      setSelectedMatch((prev) => ({ ...prev, [field]: value }));
-    }
+    setSelectedMatch((prev) => ({
+      ...prev,
+      [half]: { ...prev[half], [field]: value },
+    }));
   };
 
   // Function to save changes
@@ -98,7 +82,7 @@ const Fbscorecard = () => {
     setShowMatchPopup(false);
   };
 
-  // Function to delete a match
+  // Function to delete match
   const handleDeleteMatch = () => {
     const updatedMatches = matches.filter((match) => match.id !== selectedMatch.id);
     setMatches(updatedMatches);
@@ -113,7 +97,18 @@ const Fbscorecard = () => {
     };
     setMatches([...matches, newMatchEntry]);
     setShowAddPopup(false); // Close the add popup
-    setNewMatch({ team1: '', team2: '', points1: '', points2: '', winner: '', venue: '', date: '' }); // Reset form
+    setNewMatch({
+      team1: '',
+      team2: '',
+      points1: '',
+      points2: '',
+      winner: '',
+      venue: '',
+      date: '',
+      firstHalf: { goals1: '', player1: '', goals2: '', player2: '' },
+      secondHalf: { goals1: '', player1: '', goals2: '', player2: '' },
+      manOfTheMatch: '',
+    }); // Reset form
   };
 
   return (
@@ -151,19 +146,43 @@ const Fbscorecard = () => {
               <div className="half-section">
                 <h3>First Half</h3>
                 <div className="team-details">
-                  <div className="team-left">
+                  <div>
                     <h4>{selectedMatch.team1}</h4>
-                    <p><strong>Points Scored:</strong> <input type="number" value={selectedMatch.firstHalf.scored1} onChange={(e) => handleInputChange(e, 'firstHalf', 'scored1')} /></p>
-                    <p><strong>Tackle Points:</strong> <input type="number" value={selectedMatch.firstHalf.tacklePoints1} onChange={(e) => handleInputChange(e, 'firstHalf', 'tacklePoints1')} /></p>
-                    <p><strong>Raid Points:</strong> <input type="number" value={selectedMatch.firstHalf.raidPoints1} onChange={(e) => handleInputChange(e, 'firstHalf', 'raidPoints1')} /></p>
-                    <p><strong>All Out Count:</strong> <input type="number" value={selectedMatch.firstHalf.allOutCount1} onChange={(e) => handleInputChange(e, 'firstHalf', 'allOutCount1')} /></p>
+                    <p>
+                      <strong>Goals:</strong>{' '}
+                      <input
+                        type="number"
+                        value={selectedMatch.firstHalf.goals1}
+                        onChange={(e) => handleInputChange(e, 'firstHalf', 'goals1')}
+                      />
+                    </p>
+                    <p>
+                      <strong>Player:</strong>{' '}
+                      <input
+                        type="text"
+                        value={selectedMatch.firstHalf.player1}
+                        onChange={(e) => handleInputChange(e, 'firstHalf', 'player1')}
+                      />
+                    </p>
                   </div>
-                  <div className="team-right">
+                  <div>
                     <h4>{selectedMatch.team2}</h4>
-                    <p><strong>Points Scored:</strong> <input type="number" value={selectedMatch.firstHalf.scored2} onChange={(e) => handleInputChange(e, 'firstHalf', 'scored2')} /></p>
-                    <p><strong>Tackle Points:</strong> <input type="number" value={selectedMatch.firstHalf.tacklePoints2} onChange={(e) => handleInputChange(e, 'firstHalf', 'tacklePoints2')} /></p>
-                    <p><strong>Raid Points:</strong> <input type="number" value={selectedMatch.firstHalf.raidPoints2} onChange={(e) => handleInputChange(e, 'firstHalf', 'raidPoints2')} /></p>
-                    <p><strong>All Out Count:</strong> <input type="number" value={selectedMatch.firstHalf.allOutCount2} onChange={(e) => handleInputChange(e, 'firstHalf', 'allOutCount2')} /></p>
+                    <p>
+                      <strong>Goals:</strong>{' '}
+                      <input
+                        type="number"
+                        value={selectedMatch.firstHalf.goals2}
+                        onChange={(e) => handleInputChange(e, 'firstHalf', 'goals2')}
+                      />
+                    </p>
+                    <p>
+                      <strong>Player:</strong>{' '}
+                      <input
+                        type="text"
+                        value={selectedMatch.firstHalf.player2}
+                        onChange={(e) => handleInputChange(e, 'firstHalf', 'player2')}
+                      />
+                    </p>
                   </div>
                 </div>
               </div>
@@ -172,35 +191,64 @@ const Fbscorecard = () => {
               <div className="half-section">
                 <h3>Second Half</h3>
                 <div className="team-details">
-                  <div className="team-left">
+                  <div>
                     <h4>{selectedMatch.team1}</h4>
-                    <p><strong>Points Scored:</strong> <input type="number" value={selectedMatch.secondHalf.scored1} onChange={(e) => handleInputChange(e, 'secondHalf', 'scored1')} /></p>
-                    <p><strong>Tackle Points:</strong> <input type="number" value={selectedMatch.secondHalf.tacklePoints1} onChange={(e) => handleInputChange(e, 'secondHalf', 'tacklePoints1')} /></p>
-                    <p><strong>Raid Points:</strong> <input type="number" value={selectedMatch.secondHalf.raidPoints1} onChange={(e) => handleInputChange(e, 'secondHalf', 'raidPoints1')} /></p>
-                    <p><strong>All Out Count:</strong> <input type="number" value={selectedMatch.secondHalf.allOutCount1} onChange={(e) => handleInputChange(e, 'secondHalf', 'allOutCount1')} /></p>
+                    <p>
+                      <strong>Goals:</strong>{' '}
+                      <input
+                        type="number"
+                        value={selectedMatch.secondHalf.goals1}
+                        onChange={(e) => handleInputChange(e, 'secondHalf', 'goals1')}
+                      />
+                    </p>
+                    <p>
+                      <strong>Player:</strong>{' '}
+                      <input
+                        type="text"
+                        value={selectedMatch.secondHalf.player1}
+                        onChange={(e) => handleInputChange(e, 'secondHalf', 'player1')}
+                      />
+                    </p>
                   </div>
-                  <div className="team-right">
+                  <div>
                     <h4>{selectedMatch.team2}</h4>
-                    <p><strong>Points Scored:</strong> <input type="number" value={selectedMatch.secondHalf.scored2} onChange={(e) => handleInputChange(e, 'secondHalf', 'scored2')} /></p>
-                    <p><strong>Tackle Points:</strong> <input type="number" value={selectedMatch.secondHalf.tacklePoints2} onChange={(e) => handleInputChange(e, 'secondHalf', 'tacklePoints2')} /></p>
-                    <p><strong>Raid Points:</strong> <input type="number" value={selectedMatch.secondHalf.raidPoints2} onChange={(e) => handleInputChange(e, 'secondHalf', 'raidPoints2')} /></p>
-                    <p><strong>All Out Count:</strong> <input type="number" value={selectedMatch.secondHalf.allOutCount2} onChange={(e) => handleInputChange(e, 'secondHalf', 'allOutCount2')} /></p>
+                    <p>
+                      <strong>Goals:</strong>{' '}
+                      <input
+                        type="number"
+                        value={selectedMatch.secondHalf.goals2}
+                        onChange={(e) => handleInputChange(e, 'secondHalf', 'goals2')}
+                      />
+                    </p>
+                    <p>
+                      <strong>Player:</strong>{' '}
+                      <input
+                        type="text"
+                        value={selectedMatch.secondHalf.player2}
+                        onChange={(e) => handleInputChange(e, 'secondHalf', 'player2')}
+                      />
+                    </p>
                   </div>
                 </div>
               </div>
 
               {/* Additional Details */}
               <div className="additional-details">
-                <p><strong>Man of the Match:</strong> <input type="text" value={selectedMatch.manOfTheMatch} onChange={(e) => handleInputChange(e, null, 'manOfTheMatch')} /></p>
-                <p><strong>Highest Raid Points Player:</strong> <input type="text" value={selectedMatch.highestRaidPlayer} onChange={(e) => handleInputChange(e, null, 'highestRaidPlayer')} /></p>
-                <p><strong>Highest Tackle Points Player:</strong> <input type="text" value={selectedMatch.highestTacklePlayer} onChange={(e) => handleInputChange(e, null, 'highestTacklePlayer')} /></p>
+                <p>
+                  <strong>Man of the Match:</strong>{' '}
+                  <input
+                    type="text"
+                    value={selectedMatch.manOfTheMatch}
+                    onChange={(e) => handleInputChange(e, null, 'manOfTheMatch')}
+                  />
+                </p>
               </div>
             </div>
 
             <div className="button-group">
               <button onClick={handleSaveChanges}>Save</button>
-              <button onClick={() => setShowMatchPopup(false)}>Close</button>
               <button onClick={handleDeleteMatch}>Delete</button>
+              <button onClick={() => setShowMatchPopup(false)}>Close</button>
             </div>
           </div>
         </div>
@@ -211,17 +259,32 @@ const Fbscorecard = () => {
         <div className="popup-overlay">
           <div className="popup-box">
             <h2>Add Match</h2>
-            <input type="text" placeholder="Team 1" value={newMatch.team1} onChange={(e) => setNewMatch({ ...newMatch, team1: e.target.value })} />
-            <input type="text" placeholder="Team 2" value={newMatch.team2} onChange={(e) => setNewMatch({ ...newMatch, team2: e.target.value })} />
-            <input type="number" placeholder="Points Team 1" value={newMatch.points1} onChange={(e) => setNewMatch({ ...newMatch, points1: e.target.value })} />
-            <input type="number" placeholder="Points Team 2" value={newMatch.points2} onChange={(e) => setNewMatch({ ...newMatch, points2: e.target.value })} />
-            <input type="text" placeholder="Winner" value={newMatch.winner} onChange={(e) => setNewMatch({ ...newMatch, winner: e.target.value })} />
-            <input type="text" placeholder="Venue" value={newMatch.venue} onChange={(e) => setNewMatch({ ...newMatch, venue: e.target.value })} /> <br />
-            <input type="date" placeholder="Date" value={newMatch.date} onChange={(e) => setNewMatch({ ...newMatch, date: e.target.value })} />
-            <div className="button-group">
-              <button onClick={handleAddMatch}>Add Match</button>
-              <button onClick={() => setShowAddPopup(false)}>Close</button>
-            </div>
+            <input
+              type="text"
+              placeholder="Team 1"
+              value={newMatch.team1}
+              onChange={(e) => setNewMatch({ ...newMatch, team1: e.target.value })}
+            />
+            <input
+              type="text"
+              placeholder="Team 2"
+              value={newMatch.team2}
+              onChange={(e) => setNewMatch({ ...newMatch, team2: e.target.value })}
+            />
+            <input
+              type="number"
+              placeholder="Points for Team 1"
+              value={newMatch.points1}
+              onChange={(e) => setNewMatch({ ...newMatch, points1: e.target.value })}
+            />
+            <input
+              type="number"
+              placeholder="Points for Team 2"
+              value={newMatch.points2}
+              onChange={(e) => setNewMatch({ ...newMatch, points2: e.target.value })}
+            />
+            <button onClick={handleAddMatch}>Add Match</button>
+            <button onClick={() => setShowAddPopup(false)}>Close</button>
           </div>
         </div>
       )}
