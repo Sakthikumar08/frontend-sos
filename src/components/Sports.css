@@ -795,3 +795,6 @@ input[type="text"] {
   background-color: #dc3545;
   color: white;
 }
+.nav-link li a{
+  text-decoration: none;
+}

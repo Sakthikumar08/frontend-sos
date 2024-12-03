@@ -51,17 +51,20 @@ const Kbscorecard = () => {
         raidPoints1: 10,
         allOutCount1: 1,
       },
+      
       secondHalf: {
         scored2: 15,
         tacklePoints2: 3,
         raidPoints2: 12,
         allOutCount2: 0,
       },
-      manOfTheMatch: 'Player A',
-      highestRaidPlayer: 'Player B',
-      highestTacklePlayer: 'Player C',
+      manOfTheMatch: 'Sakthi',
+      highestRaidPlayer: 'Kumar',
+      highestTacklePlayer: 'Poovarasan',
     },
-    // Add more matches as needed
+    
+    
+    
   ]);
 
   // Function to open match details popup

@@ -104,9 +104,10 @@ const Kbacheivement = () => {
           </div>
         ))}
       </div>
-      <button className="add-btn" onClick={() => setIsModalOpen(true)}>
+    {/*   <button className="add-btn" onClick={() => setIsModalOpen(true)}>
         Add
-      </button>
+      </button> */}
+      <button className="add-match-button" onClick={() => setIsModalOpen(true)}>+</button>
 
       {isModalOpen && (
         <div className="modal">
