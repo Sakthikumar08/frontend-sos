@@ -14,7 +14,7 @@ const Volleyball = () => {
       </header>
 
       <nav className="sports-navbar">
-        <ul>
+        <ul className='nav-link'>
           <li><Link to="/volleyball">Players</Link></li>
           <li><Link to="/volleyball/vbscorecard">Scorecard</Link></li>
           <li><Link to="/volleyball/vbacheivement">Achievements</Link></li>

@@ -14,7 +14,7 @@ const BallBadminton = () => {
       </header>
 
       <nav className="sports-navbar">
-        <ul>
+        <ul className='nav-link'>
           <li><Link to="/ballbadminton">Players</Link></li>
           <li><Link to="/ballbadminton/ballscorecard">Scorecard</Link></li>
           <li><Link to="/ballbadminton/ballacheivement">Achievements</Link></li>

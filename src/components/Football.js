@@ -14,7 +14,7 @@ const Football = () => {
       </header>
 
       <nav className="sports-navbar">
-        <ul>
+        <ul className='nav-link'>
           <li><Link to="/football">Players</Link></li>
           <li><Link to="/football/fbscorecard">Scorecard</Link></li>
           <li><Link to="/football/fbacheivement">Achievements</Link></li>
