@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import './Sports.css';
-import collegeLogo1 from './assets/kabaddiacheive/sjce.logo.jpeg'; // Example logo 1
-import collegeLogo2 from './assets/kabaddiacheive/sathyabama.logp.jpeg'; // Example logo 2
+import collegeLogo1 from './assets/kabaddiacheive/sjce.logo.jpeg'; 
+import collegeLogo2 from './assets/kabaddiacheive/sathyabama.logp.jpeg'; 
 
 const Kbscorecard = () => {
-  const [showMatchPopup, setShowMatchPopup] = useState(false); // Popup for match details
+  const [showMatchPopup, setShowMatchPopup] = useState(false); 
   const [selectedMatch, setSelectedMatch] = useState(null);
-  const [showAddPopup, setShowAddPopup] = useState(false); // Popup for adding a match
+  const [showAddPopup, setShowAddPopup] = useState(false); 
   const [newMatch, setNewMatch] = useState({
     team1: '',
     team2: '',
@@ -71,7 +71,7 @@ const Kbscorecard = () => {
   const handleMatchDetails = (match) => {
     setSelectedMatch(match);
     setShowMatchPopup(true);
-    setEditMode(false); // Reset edit mode
+    setEditMode(false); 
   };
 
   // Function to handle form input changes
@@ -112,10 +112,10 @@ const Kbscorecard = () => {
   const handleAddMatch = () => {
     const newMatchEntry = {
       ...newMatch,
-      id: matches.length + 1, // Assign a new ID
+      id: matches.length + 1,
     };
     setMatches([...matches, newMatchEntry]);
-    setShowAddPopup(false); // Close the add popup
+    setShowAddPopup(false);
     setNewMatch({ team1: '', team2: '', points1: '', points2: '', winner: '', venue: '', date: '' }); // Reset form
   };
 
@@ -150,7 +150,7 @@ const Kbscorecard = () => {
           <div className="popup-box match-details-popup">
             <h2>Match Details</h2>
             <div className="match-details">
-              {/* First Half Section */}
+              
               <div className="half-section">
                 <h3>First Half</h3>
                 <div className="team-details">
@@ -171,7 +171,7 @@ const Kbscorecard = () => {
                 </div>
               </div>
 
-              {/* Second Half Section */}
+            
               <div className="half-section">
                 <h3>Second Half</h3>
                 <div className="team-details">
@@ -192,7 +192,7 @@ const Kbscorecard = () => {
                 </div>
               </div>
 
-              {/* Additional Details */}
+          
               <div className="additional-details">
                 <p><strong>Man of the Match:</strong> <input type="text" value={selectedMatch.manOfTheMatch} onChange={(e) => handleInputChange(e, null, 'manOfTheMatch')} /></p>
                 <p><strong>Highest Raid Points Player:</strong> <input type="text" value={selectedMatch.highestRaidPlayer} onChange={(e) => handleInputChange(e, null, 'highestRaidPlayer')} /></p>

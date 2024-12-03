@@ -1,100 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'; 
 import './Sports.css';
 
 const Fbplayers = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [showStatsPopup, setShowStatsPopup] = useState(false);
   const [showEditStatsPopup, setShowEditStatsPopup] = useState(false);
-  const [players, setPlayers] = useState([
-    {
-      id: 1,
-
-      name: 'Lionel Messi',
-      role: 'Forward',
-      rollNumber: '22IT264',
-      imageUrl: 'https://th.bing.com/th/id/OIP.3J8OgAVUAjVJk1jzGnzmpgHaFj?w=226&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-      rating: 5,
-      stats: {
-        matchesPlayed: 20,
-        goals: 15,
-        assists: 10,
-        passesCompleted: 200,
-        successfulPassPercentage: 85,
-        tackles: 5,
-        interceptions: 3,
-        shotsOnTarget: 30,
-        cleanSheets: 0,
-        yellowCards: 2,
-        redCards: 0,
-      },
-    },
-    {
-      id: 2,
-      name: 'Cristiano Ronaldo',
-      role: 'Forward',
-      rollNumber: '22EC210',
-      imageUrl: 'https://th.bing.com/th/id/OIP.ZHVq9HgYtGcoxU0eeDwJ8AHaHa?w=183&h=183&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-      rating: 5,
-      stats: {
-        matchesPlayed: 18,
-        goals: 14,
-        assists: 8,
-        passesCompleted: 180,
-        successfulPassPercentage: 80,
-        tackles: 4,
-        interceptions: 2,
-        shotsOnTarget: 25,
-        cleanSheets: 0,
-        yellowCards: 1,
-        redCards: 0,
-      },
-    },
-    {
-      id: 3,
-      name: 'Kevin De Bruyne',
-      role: 'Midfielder',
-      rollNumber: '22EC333',
-      imageUrl: 'https://th.bing.com/th/id/OIP.owQWHbp5gFuILmFzoZXvHAHaE8?rs=1&pid=ImgDetMain',
-      rating: 5,
-      stats: {
-        matchesPlayed: 15,
-        goals: 8,
-        assists: 12,
-        passesCompleted: 250,
-        successfulPassPercentage: 90,
-        tackles: 6,
-        interceptions: 4,
-        shotsOnTarget: 10,
+  const [players, setPlayers] = useState([]);
+  const [newPlayer, setNewPlayer] = useState({
+    
+      name: '',
+      role: '',
+      rollNumber: '',
+      imageUrl: '',
+      rating: 1,
+  });
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const [playerStats, setPlayerStats] = useState({
+    
+        matchesPlayed: 0,
+        goals: 0,
+        assists: 0,
+        passesCompleted: 0,
+        successfulPassPercentage: 0,
+        tackles: 0,
+        interceptions: 0,
+        shotsOnTarget: 0,
         cleanSheets: 0,
         yellowCards: 0,
         redCards: 0,
-      },
-    },
-  ]);
-
-  const [newPlayer, setNewPlayer] = useState({
-    name: '',
-    role: '',
-    rollNumber: '',
-    imageUrl: '',
-    rating: 1,
-  });
-
-  const [selectedPlayer, setSelectedPlayer] = useState(null);
-  const [playerStats, setPlayerStats] = useState({
-    matchesPlayed: 0,
-    goals: 0,
-    assists: 0,
-    passesCompleted: 0,
-    successfulPassPercentage: 0,
-    tackles: 0,
-    interceptions: 0,
-    shotsOnTarget: 0,
-    cleanSheets: 0,
-    yellowCards: 0,
-    redCards: 0,
-  });
-
+});
+useEffect(() => {
+  axios.get('http://localhost:5000/api/fbplayers')
+    .then(response => setPlayers(response.data))
+    .catch(error => console.error("Error fetching players:", error));
+}, []);
+    
   const handleChange = (e) => {
     setNewPlayer({ ...newPlayer, [e.target.name]: e.target.value });
   };
@@ -103,17 +44,16 @@ const Fbplayers = () => {
     setPlayerStats({ ...playerStats, [e.target.name]: e.target.value });
   };
 
+ // Handle form submission for new player
   const handleSubmit = (e) => {
     e.preventDefault();
-    setPlayers([...players, { ...newPlayer, id: players.length + 1, stats: playerStats }]);
-    setShowPopup(false);
-    setNewPlayer({
-      name: '',
-      role: '',
-      rollNumber: '',
-      imageUrl: '',
-      rating: 1,
-    });
+    axios.post('http://localhost:5000/api/fbplayers', { ...newPlayer, stats: playerStats })
+      .then(response => {
+        setPlayers([...players, response.data]);
+        setShowPopup(false);
+        setNewPlayer({ name: '', role: '', rollNumber: '', imageUrl: '', rating: 1 });
+      })
+      .catch(error => console.error("Error adding player:", error));
   };
 
   const renderStars = (rating) => {
@@ -124,37 +64,44 @@ const Fbplayers = () => {
   };
 
   const handleStatsClick = (player) => {
-    setSelectedPlayer(player);
-    setPlayerStats(player.stats);
-    setShowStatsPopup(true);
-  };
-
-  const handleEditStatsClick = () => {
-    setShowEditStatsPopup(true);
+    if (player && player._id) {
+      setSelectedPlayer(player);
+      setPlayerStats(player.stats);
+      setShowStatsPopup(true);
+    } else {
+      console.error("Player ID is missing");
+    }
   };
 
   const handleSaveStats = () => {
-    const updatedPlayers = players.map((player) =>
-      player.id === selectedPlayer.id ? { ...player, stats: playerStats } : player
-    );
-    setPlayers(updatedPlayers);
-    setShowEditStatsPopup(false);
-    setShowStatsPopup(false);
-  };
-
-  const handleDeletePlayer = () => {
-    const updatedPlayers = players.filter((player) => player.id !== selectedPlayer.id);
-    setPlayers(updatedPlayers);
-    setShowStatsPopup(false);
-    setShowEditStatsPopup(false);
-    setSelectedPlayer(null);
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSaveStats();
+    if (!selectedPlayer || !selectedPlayer._id) {
+      console.error("Selected player or player ID is undefined");
+      return;
     }
-  };
+
+    axios.put(`http://localhost:5000/api/fbplayers/${selectedPlayer._id}/stats`, playerStats)
+    .then(response => {
+      const updatedPlayers = players.map(player =>
+        player._id === selectedPlayer._id ? { ...player, stats: playerStats } : player
+      );
+      setPlayers(updatedPlayers);
+      setShowEditStatsPopup(false);
+      setShowStatsPopup(false);
+    })
+    .catch(error => console.error("Error saving stats:", error));
+};
+
+const handleDeletePlayer = () => {
+  axios.delete(`http://localhost:5000/api/fbplayers/${selectedPlayer._id}`)
+    .then(() => {
+      setPlayers(players.filter(player => player._id !== selectedPlayer._id));
+      setShowStatsPopup(false);
+      setShowEditStatsPopup(false);
+      setSelectedPlayer(null);
+    })
+    .catch(error => console.error("Error deleting player:", error));
+};
+
 
   return (
     <>
@@ -174,7 +121,7 @@ const Fbplayers = () => {
       </div>
 
       {/* Add Symbol */}
-      <button className="add-button" onClick={() => setShowPopup(true)}>+</button>
+      <button className="add-match-button" onClick={() => setShowPopup(true)}>+</button>
 
       {/* Popup Form */}
       {showPopup && (
@@ -225,7 +172,7 @@ const Fbplayers = () => {
             <p>Clean Sheets: {playerStats.cleanSheets}</p>
             <p>Yellow Cards: {playerStats.yellowCards}</p>
             <p>Red Cards: {playerStats.redCards}</p>
-            <button onClick={handleEditStatsClick}>Edit</button>
+            <button onClick={() => setShowEditStatsPopup(true)}>Edit</button>
             <button onClick={() => setShowStatsPopup(false)}>Close</button>
             <button onClick={handleDeletePlayer} className="delete-button">Delete</button>
           </div>
@@ -245,7 +192,7 @@ const Fbplayers = () => {
             name="matchesPlayed"
             value={playerStats.matchesPlayed}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+         
           />
         </label>
 
@@ -256,7 +203,7 @@ const Fbplayers = () => {
             name="goals"
             value={playerStats.goals}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+           
           />
         </label>
 
@@ -267,7 +214,7 @@ const Fbplayers = () => {
             name="assists"
             value={playerStats.assists}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+          
           />
         </label>
 
@@ -278,7 +225,7 @@ const Fbplayers = () => {
             name="tackles"
             value={playerStats.tackles}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+           
           />
         </label>
 
@@ -289,7 +236,7 @@ const Fbplayers = () => {
             name="interceptions"
             value={playerStats.interceptions}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+          
           />
         </label>
 
@@ -300,7 +247,7 @@ const Fbplayers = () => {
             name="cleanSheets"
             value={playerStats.cleanSheets}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+           
           />
         </label>
 
@@ -311,7 +258,7 @@ const Fbplayers = () => {
             name="shotsOnTarget"
             value={playerStats.shotsOnTarget}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+          
           />
         </label>
 
@@ -322,7 +269,7 @@ const Fbplayers = () => {
             name="yellowCards"
             value={playerStats.yellowCards}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+          
           />
         </label>
 
@@ -333,7 +280,7 @@ const Fbplayers = () => {
             name="redCards"
             value={playerStats.redCards}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+           
           />
         </label>
       </div>

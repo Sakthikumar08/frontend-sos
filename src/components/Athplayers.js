@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'; 
 import './Sports.css';
 
 
@@ -6,74 +7,8 @@ const Athplayers = () => {
 
   const [showPopup, setShowPopup] = useState(false);
   const [showStatsPopup, setShowStatsPopup] = useState(false);
-  const [showEditStatsPopup, setShowEditStatsPopup] = useState(false); // New state for editing stats popup
-  const [players, setPlayers] = useState([
-    {
-      id: 1,
-      name: 'Ms dhoni',
-      role: 'Wicket Keeper',
-      rollNumber: '22IT264',
-      imageUrl: 'https://th.bing.com/th/id/OIP.3J8OgAVUAjVJk1jzGnzmpgHaFj?w=226&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-      rating: 3,
-      stats: {
-        matchesPlayed: 10,
-        totalPoints: 50,
-        raidPointsPerMatch: 5,
-        successfulRaidPercentage: 80,
-        superRaids: 2,
-        superTens: 3,
-        totalRaidPoints: 30,
-        noOfSuperTackle: 1,
-        highFives: 2,
-        totalTacklePoints: 20,
-        successfulTacklePercentage: 75,
-      },
-    },
-    {
-      id: 2,
-      name: 'Virat Kohli',
-      role: 'Batsmen',
-      rollNumber: '22Ec210',
-      imageUrl: 'https://th.bing.com/th/id/OIP.ZHVq9HgYtGcoxU0eeDwJ8AHaHa?w=183&h=183&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-      rating: 5,
-      stats: {
-        matchesPlayed: 8,
-        totalPoints: 40,
-        raidPointsPerMatch: 4,
-        successfulRaidPercentage: 70,
-        superRaids: 1,
-        superTens: 2,
-        totalRaidPoints: 20,
-        noOfSuperTackle: 3,
-        highFives: 1,
-        totalTacklePoints: 25,
-        successfulTacklePercentage: 80,
-      },
-    },
-    {
-        id: 2,
-        name: 'Hardrik',
-        role: 'All rounder',
-        rollNumber: '22Ec333',
-        imageUrl: 'https://th.bing.com/th/id/OIP.owQWHbp5gFuILmFzoZXvHAHaE8?rs=1&pid=ImgDetMain',
-        rating: 3,
-        stats: {
-          matchesPlayed: 8,
-          totalPoints: 40,
-          raidPointsPerMatch: 4,
-          successfulRaidPercentage: 70,
-          superRaids: 1,
-          superTens: 2,
-          totalRaidPoints: 20,
-          noOfSuperTackle: 3,
-          highFives: 1,
-          totalTacklePoints: 25,
-          successfulTacklePercentage: 80,
-        },
-      },
-  ]);
-
-  // Form state for the new player
+  const [showEditStatsPopup, setShowEditStatsPopup] = useState(false); 
+  const [players, setPlayers] = useState([]);
   const [newPlayer, setNewPlayer] = useState({
     name: '',
     role: '',
@@ -81,8 +16,6 @@ const Athplayers = () => {
     imageUrl: '',
     rating: 1,
   });
-
-  // State for stats
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [playerStats, setPlayerStats] = useState({
     matchesPlayed: 0,
@@ -98,31 +31,36 @@ const Athplayers = () => {
     successfulTacklePercentage: 0,
   });
 
-  // Function to handle input changes in the form
+ 
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/athplayers')
+      .then(response => setPlayers(response.data))
+      .catch(error => console.error("Error fetching players:", error));
+  }, []);
+
+  // Handle changes for form inputs
   const handleChange = (e) => {
     setNewPlayer({ ...newPlayer, [e.target.name]: e.target.value });
   };
 
-  // Function to handle stats input changes
+  // Handle stats changes
   const handleStatsChange = (e) => {
     setPlayerStats({ ...playerStats, [e.target.name]: e.target.value });
   };
 
-  // Function to submit the new player form
+  // Handle form submission for new player
   const handleSubmit = (e) => {
     e.preventDefault();
-    setPlayers([...players, { ...newPlayer, id: players.length + 1, stats: playerStats }]);
-    setShowPopup(false); // Close the popup after adding
-    setNewPlayer({
-      name: '',
-      role: '',
-      rollNumber: '',
-      imageUrl: '',
-      rating: 1,
-    });
+    axios.post('http://localhost:5000/api/athplayers', { ...newPlayer, stats: playerStats })
+      .then(response => {
+        setPlayers([...players, response.data]);
+        setShowPopup(false);
+        setNewPlayer({ name: '', role: '', rollNumber: '', imageUrl: '', rating: 1 });
+      })
+      .catch(error => console.error("Error adding player:", error));
   };
 
-  // Function to render star rating based on player's rating
+  // Render star ratings
   const renderStars = (rating) => {
     const totalStars = 5;
     const filledStars = '★'.repeat(rating);
@@ -130,73 +68,72 @@ const Athplayers = () => {
     return <div className="player-rating">{filledStars + emptyStars}</div>;
   };
 
-  // Function to handle stats button click
+  // Handle stats button click to show stats
+  
   const handleStatsClick = (player) => {
-    setSelectedPlayer(player);
-    setPlayerStats(player.stats);
-    setShowStatsPopup(true);
-  };
-
-  // Function to open the edit stats popup
-  const handleEditStatsClick = () => {
-    setShowEditStatsPopup(true);
-  };
-
-  // Function to save the edited stats
-  const handleSaveStats = () => {
-    const updatedPlayers = players.map((player) =>
-      player.id === selectedPlayer.id ? { ...player, stats: playerStats } : player
-    );
-    setPlayers(updatedPlayers);
-    setShowEditStatsPopup(false);
-    setShowStatsPopup(false);
-  };
-
-  // Function to delete player
-  const handleDeletePlayer = () => {
-    const updatedPlayers = players.filter((player) => player.id !== selectedPlayer.id);
-    setPlayers(updatedPlayers);
-    setShowStatsPopup(false);
-    setShowEditStatsPopup(false);
-    setSelectedPlayer(null);
-  };
-
-  // Function to handle the key press for saving stats on Enter key
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSaveStats();
+    if (player && player._id) {
+      setSelectedPlayer(player);
+      setPlayerStats(player.stats);
+      setShowStatsPopup(true);
+    } else {
+      console.error("Player ID is missing");
     }
   };
-
+  // Handle saving edited stats
+ 
+  const handleSaveStats = () => {
+    if (!selectedPlayer || !selectedPlayer._id) {
+      console.error("Selected player or player ID is undefined");
+      return;
+    }
   
-       
-      
+    axios.put(`http://localhost:5000/api/athplayers/${selectedPlayer._id}/stats`, playerStats)
+      .then(response => {
+        const updatedPlayers = players.map(player =>
+          player._id === selectedPlayer._id ? { ...player, stats: playerStats } : player
+        );
+        setPlayers(updatedPlayers);
+        setShowEditStatsPopup(false);
+        setShowStatsPopup(false);
+      })
+      .catch(error => console.error("Error saving stats:", error));
+  };
+  
+ 
+  
+
+  // Handle deleting player
+  const handleDeletePlayer = () => {
+    axios.delete(`http://localhost:5000/api/athplayers/${selectedPlayer._id}`)
+      .then(() => {
+        setPlayers(players.filter(player => player._id !== selectedPlayer._id));
+        setShowStatsPopup(false);
+        setShowEditStatsPopup(false);
+        setSelectedPlayer(null);
+      })
+      .catch(error => console.error("Error deleting player:", error));
+  };
 
   return (
     <>
-     
-
-      
       <div className="player-container">
-            {players.map((player) => (
-              <div className="player-box" key={player.id}>
-                <div className="player-info">
-                  <h3>{player.name}</h3>
-                  <p>Role: {player.role}</p>
-                  <p>Roll Number: {player.rollNumber}</p>
-                  {renderStars(player.rating)}
-                  <button onClick={() => handleStatsClick(player)}>Stats</button>
-                </div>
-                <img src={player.imageUrl} alt={player.name} className="player-img" />
-              </div>
-            ))}
+        {players.map((player) => (
+          <div className="player-box" key={player._id}>
+            <div className="player-info">
+              <h3>{player.name}</h3>
+              <p>Role: {player.role}</p>
+              <p>Roll Number: {player.rollNumber}</p>
+              {renderStars(player.rating)}
+              <button onClick={() => handleStatsClick(player)}>Stats</button>
+            </div>
+            <img src={player.imageUrl} alt={player.name} className="player-img" />
           </div>
+        ))}
+      </div>
 
-
-      {/* Add Symbol */}
-      <button className="add-button" onClick={() => setShowPopup(true)}>+</button>
-
-      {/* Popup Form */}
+      {/* Add Player Popup */}
+      <button className="add-match-button" onClick={() => setShowPopup(true)}>+</button>
+      
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup-box">
@@ -222,8 +159,8 @@ const Athplayers = () => {
                 Rating:
                 <input type="number" name="rating" value={newPlayer.rating} onChange={handleChange} min="1" max="5" required />
               </label>
-              <button type="submit"  style={{ marginRight: '30px' }}> Add Player  </button>  
-              <button type="button" onClick={() => setShowPopup(false)}> Cancel </button>
+              <button type="submit">Add Player</button>
+              <button type="button" onClick={() => setShowPopup(false)}>Cancel</button>
             </form>
           </div>
         </div>
@@ -245,37 +182,37 @@ const Athplayers = () => {
             <p>High 5s: {playerStats.highFives}</p>
             <p>Total Tackle Points: {playerStats.totalTacklePoints}</p>
             <p>Successful Tackle Percentage: {playerStats.successfulTacklePercentage}%</p>
-            <button onClick={handleEditStatsClick}>Edit</button>
+            <button onClick={() => setShowEditStatsPopup(true)}>Edit</button>
             <button onClick={() => setShowStatsPopup(false)}>Close</button>
             <button onClick={handleDeletePlayer} className="delete-button">Delete</button>
           </div>
         </div>
       )}
 
-{showEditStatsPopup && (
-  <div className="edit-stats-popup-overlay">
-    <div className="edit-stats-popup-box">
-      <h2>Edit Stats for {selectedPlayer.name}</h2>
-      <div className="edit-stats-form">
-        <label className="edit-stats-label">
-          Matches Played:
-          <input
-            type="number"
-            name="matchesPlayed"
-            value={playerStats.matchesPlayed}
-            onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
-          />
-        </label>
-
-        <label className="edit-stats-label">
+      {/* Edit Stats Popup */}
+      {showEditStatsPopup && (
+        <div className="edit-stats-popup-overlay">
+          <div className="edit-stats-popup-box">
+            <h2>Edit Stats for {selectedPlayer.name}</h2>
+            <div className="edit-stats-form">
+              
+              <label>Matches Played:
+                <input
+                  type="number"
+                  name="matchesPlayed"
+                  value={playerStats.matchesPlayed}
+                  onChange={handleStatsChange}
+                />
+              </label>
+              <label className="edit-stats-label">
           Total Points:
           <input
             type="number"
             name="totalPoints"
             value={playerStats.totalPoints}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+  
+
           />
         </label>
 
@@ -286,7 +223,7 @@ const Athplayers = () => {
             name="raidPointsPerMatch"
             value={playerStats.raidPointsPerMatch}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+           
           />
         </label>
 
@@ -297,7 +234,7 @@ const Athplayers = () => {
             name="successfulRaidPercentage"
             value={playerStats.successfulRaidPercentage}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+            
           />
         </label>
 
@@ -308,7 +245,7 @@ const Athplayers = () => {
             name="superRaids"
             value={playerStats.superRaids}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+            
           />
         </label>
 
@@ -319,7 +256,7 @@ const Athplayers = () => {
             name="superTens"
             value={playerStats.superTens}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+           
           />
         </label>
 
@@ -330,7 +267,7 @@ const Athplayers = () => {
             name="totalRaidPoints"
             value={playerStats.totalRaidPoints}
             onChange={handleStatsChange} 
-            onKeyPress={handleKeyPress}
+            
           />
         </label>
 
@@ -341,7 +278,7 @@ const Athplayers = () => {
             name="noOfSuperTackle"
             value={playerStats.noOfSuperTackle}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+           
           />
         </label>
 
@@ -352,7 +289,7 @@ const Athplayers = () => {
             name="highFives"
             value={playerStats.highFives}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+           
           />
         </label>
 
@@ -363,7 +300,7 @@ const Athplayers = () => {
             name="totalTacklePoints"
             value={playerStats.totalTacklePoints}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+            
           />
         </label>
 
@@ -374,18 +311,18 @@ const Athplayers = () => {
             name="successfulTacklePercentage"
             value={playerStats.successfulTacklePercentage}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+            
           />
         </label>
-      </div>
-      <div className="edit-stats-buttons">
-        <button onClick={handleSaveStats}>Save</button>
-        <button onClick={() => setShowEditStatsPopup(false)}>Close</button>
-      </div>
-    </div>
-  </div>
-)}
 
+
+              
+              <button onClick={handleSaveStats}>Save</button>
+              <button onClick={() => setShowEditStatsPopup(false)}>Close</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
