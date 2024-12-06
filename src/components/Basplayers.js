@@ -3,19 +3,18 @@ import axios from 'axios';
 import './Sports.css';
 
 const Basplayers = () => {
+
   const [showPopup, setShowPopup] = useState(false);
   const [showStatsPopup, setShowStatsPopup] = useState(false);
-  const [showEditStatsPopup, setShowEditStatsPopup] = useState(false);
+  const [showEditStatsPopup, setShowEditStatsPopup] = useState(false); 
   const [players, setPlayers] = useState([]);
-
   const [newPlayer, setNewPlayer] = useState({
     name: '',
-    position: '',
+    role: '',
     rollNumber: '',
     imageUrl: '',
     rating: 1,
   });
-
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [playerStats, setPlayerStats] = useState({
     matchesPlayed: 0,
@@ -28,32 +27,36 @@ const Basplayers = () => {
     manOfMatch: 0,
   });
 
+ 
   useEffect(() => {
     axios.get('http://localhost:5000/api/basplayers')
       .then(response => setPlayers(response.data))
       .catch(error => console.error("Error fetching players:", error));
   }, []);
 
+  // Handle changes for form inputs
   const handleChange = (e) => {
     setNewPlayer({ ...newPlayer, [e.target.name]: e.target.value });
   };
 
+  // Handle stats changes
   const handleStatsChange = (e) => {
     setPlayerStats({ ...playerStats, [e.target.name]: e.target.value });
   };
 
-// Handle form submission for new player
-const handleSubmit = (e) => {
-  e.preventDefault();
-  axios.post('http://localhost:5000/api/basplayers', { ...newPlayer, stats: playerStats })
-    .then(response => {
-      setPlayers([...players, response.data]);
-      setShowPopup(false);
-      setNewPlayer({ name: '', role: '', rollNumber: '', imageUrl: '', rating: 1 });
-    })
-    .catch(error => console.error("Error adding player:", error));
-};
+  // Handle form submission for new player
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post('http://localhost:5000/api/basplayers', { ...newPlayer, stats: playerStats })
+      .then(response => {
+        setPlayers([...players, response.data]);
+        setShowPopup(false);
+        setNewPlayer({ name: '', role: '', rollNumber: '', imageUrl: '', rating: 1 });
+      })
+      .catch(error => console.error("Error adding player:", error));
+  };
 
+  // Render star ratings
   const renderStars = (rating) => {
     const totalStars = 5;
     const filledStars = '★'.repeat(rating);
@@ -72,7 +75,6 @@ const handleSubmit = (e) => {
       console.error("Player ID is missing");
     }
   };
-
   // Handle saving edited stats
  
   const handleSaveStats = () => {
@@ -107,17 +109,15 @@ const handleSubmit = (e) => {
       })
       .catch(error => console.error("Error deleting player:", error));
   };
- 
-  
 
   return (
     <>
       <div className="player-container">
         {players.map((player) => (
-          <div className="player-box" key={player.id}>
+          <div className="player-box" key={player._id}>
             <div className="player-info">
               <h3>{player.name}</h3>
-              <p>Position: {player.position}</p>
+              <p>Role: {player.role}</p>
               <p>Roll Number: {player.rollNumber}</p>
               {renderStars(player.rating)}
               <button onClick={() => handleStatsClick(player)}>Stats</button>
@@ -127,8 +127,9 @@ const handleSubmit = (e) => {
         ))}
       </div>
 
+      {/* Add Player Popup */}
       <button className="add-match-button" onClick={() => setShowPopup(true)}>+</button>
-
+      
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup-box">
@@ -139,8 +140,8 @@ const handleSubmit = (e) => {
                 <input type="text" name="name" value={newPlayer.name} onChange={handleChange} required />
               </label>
               <label>
-                Position:
-                <input type="text" name="position" value={newPlayer.position} onChange={handleChange} required />
+                Role:
+                <input type="text" name="role" value={newPlayer.role} onChange={handleChange} required />
               </label>
               <label>
                 Roll Number:
@@ -154,13 +155,14 @@ const handleSubmit = (e) => {
                 Rating:
                 <input type="number" name="rating" value={newPlayer.rating} onChange={handleChange} min="1" max="5" required />
               </label>
-              <button type="submit" style={{ marginRight: '30px' }}>Add Player</button>
+              <button type="submit">Add Player</button>
               <button type="button" onClick={() => setShowPopup(false)}>Cancel</button>
             </form>
           </div>
         </div>
       )}
 
+      {/* Stats Popup */}
       {showStatsPopup && selectedPlayer && (
         <div className="popup-overlay">
           <div className="popup-box">
@@ -180,12 +182,14 @@ const handleSubmit = (e) => {
         </div>
       )}
 
+      {/* Edit Stats Popup */}
       {showEditStatsPopup && (
         <div className="edit-stats-popup-overlay">
           <div className="edit-stats-popup-box">
             <h2>Edit Stats for {selectedPlayer.name}</h2>
             <div className="edit-stats-form">
-              <label className="edit-stats-label">
+              
+            <label className="edit-stats-label">
                 Matches Played:
                 <input type="number" name="matchesPlayed" value={playerStats.matchesPlayed} onChange={handleStatsChange}  />
               </label>
@@ -217,8 +221,11 @@ const handleSubmit = (e) => {
                 Man of Match:
                 <input type="number" name="manOfMatch" value={playerStats.manOfMatch} onChange={handleStatsChange}  />
               </label>
+
+
+              
               <button onClick={handleSaveStats}>Save</button>
-              <button onClick={() => setShowEditStatsPopup(false)}>Cancel</button>
+              <button onClick={() => setShowEditStatsPopup(false)}>Close</button>
             </div>
           </div>
         </div>

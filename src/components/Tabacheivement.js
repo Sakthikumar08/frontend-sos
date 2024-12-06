@@ -1,63 +1,53 @@
-import React, { useState } from "react";
-import "./Sports.css";
-import win1 from "./assets/tabletennisacheive/win1.jpeg";
-import win2 from "./assets/tabletennisacheive/win2.jpeg";
-import win3 from "./assets/tabletennisacheive/win3.jpeg";
-import win4 from "./assets/tabletennisacheive/win4.jpeg";
-import win5 from "./assets/tabletennisacheive/win5.jpeg";
-
-
-
-
-
-
+import React, { useState, useEffect } from 'react';
+import './Sports.css';
+import axios from 'axios';
 
 const Tabacheivement = () => {
-  const [items, setItems] = useState([
-    {
-      imgSrc: win1,
-      text: `"District Table Tennis Champions"
-      Our table tennis team delivered a flawless performance to win the district-level table tennis championship. The captain's leadership and tactical plays, along with exceptional reflexes, ensured an undefeated tournament.`
-    },
-    
-    {
-      imgSrc: win2,
-      text: `"Champions of the Inter-College Table Tennis League"
-      Our table tennis team dominated the Inter-College League, overcoming strong opponents to claim the championship title. The final match saw brilliant rallies and quick counter-attacks that secured a narrow victory in the last moments of the game.`
-    },
-    
-    {
-      imgSrc: win3,
-      text: `"Triumphant in the State Table Tennis Championship"
-      The team claimed first place in the state-level table tennis championship, defeating the reigning champions in a nail-biting final. Exceptional teamwork, tactical precision, and perfect finishes made this victory unforgettable.`
-    },
-    
-    {
-      imgSrc: win4,
-      text: `"Runners-Up at the National Sports Meet"
-      Facing top teams from across the nation, our table tennis team reached the finals of the National Sports Meet. Though we finished second, the team displayed exceptional talent, resilience, and sportsmanship, earning the respect of opponents and spectators alike.`
-    },
-    
-    {
-      imgSrc: win5,
-      text: `"Victory at the Collegiate Table Tennis Championship"
-      In a highly anticipated collegiate table tennis championship, our team clinched the trophy with a commanding 3-1 victory. The final match was a testament to our team's strategy, with key serves and exceptional rallies.`
-    }
-    
-  ]);
-
+  const [items, setItems] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newImg, setNewImg] = useState("");
-  const [newText, setNewText] = useState("");
+  const [newImg, setNewImg] = useState('');
+  const [newText, setNewText] = useState('');
 
-  const handleAddItem = () => {
+  // Fetch achievements from the backend
+  useEffect(() => {
+    const fetchAchievements = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/tabachievements');
+        setItems(response.data);
+      } catch (error) {
+        console.error('Error fetching achievements:', error);
+      }
+    };
+    fetchAchievements();
+  }, []);
+
+  // Add a new achievement
+  const handleAddItem = async () => {
     if (newImg && newText) {
-      setItems([...items, { imgSrc: newImg, text: newText }]);
-      setNewImg("");
-      setNewText("");
-      setIsModalOpen(false);
+      try {
+        const response = await axios.post('http://localhost:5000/api/tabachievements', {
+          imgSrc: newImg,
+          text: newText,
+        });
+        setItems([...items, response.data]);
+        setNewImg('');
+        setNewText('');
+        setIsModalOpen(false);
+      } catch (error) {
+        console.error('Error adding achievement:', error);
+      }
     } else {
-      alert("Both fields are required!");
+      alert('Both fields are required!');
+    }
+  };
+
+  // Delete an achievement
+  const handleDeleteItem = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/tabachievements/${id}`);
+      setItems(items.filter((item) => item._id !== id));
+    } catch (error) {
+      console.error('Error deleting achievement:', error);
     }
   };
 
@@ -65,10 +55,13 @@ const Tabacheivement = () => {
     <div className="app">
       <h1 className="heading">ACHIEVEMENTS</h1>
       <div className="container">
-        {items.map((item, index) => (
-          <div className="card" key={index}>
+        {items.map((item) => (
+          <div className="card" key={item._id}>
             <img src={item.imgSrc} alt="Achievement" />
             <p>{item.text}</p>
+            <button className="delete-btn" onClick={() => handleDeleteItem(item._id)}>
+              Delete
+            </button>
           </div>
         ))}
       </div>
