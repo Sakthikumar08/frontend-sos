@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Sports.css';
-import collegeLogo1 from './assets/kabaddiacheive/sjce.logo.jpeg'; // Example logo 1
-import collegeLogo2 from './assets/kabaddiacheive/sathyabama.logp.jpeg'; // Example logo 2
+//import collegeLogo1 from './assets/kabaddiacheive/sjce.logo.jpeg'; // Example logo 1
+//import collegeLogo2 from './assets/kabaddiacheive/sathyabama.logp.jpeg'; // Example logo 2
 
 const Fbscorecard = () => {
   const [showMatchPopup, setShowMatchPopup] = useState(false); // Popup for match details
@@ -10,6 +10,8 @@ const Fbscorecard = () => {
   const [newMatch, setNewMatch] = useState({
     team1: '',
     team2: '',
+    team1url:'',
+    team2url:'',
     points1: '',
     points2: '',
     winner: '',
@@ -35,7 +37,9 @@ const Fbscorecard = () => {
     {
       id: 1,
       team1: "St. Joseph's",
+      team1url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7u5PERRliA9v1MoikyGjqmeEV8E5JnIOnLw&s",
       team2: 'Sathyabama',
+      team2url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkvSqzIXwRzSpmGTKiPwLrSxC7Hc21NMUBQg&s",
       points1: 5,
       points2: 3,
       winner: "St. Joseph's",
@@ -99,6 +103,7 @@ const Fbscorecard = () => {
     setShowAddPopup(false); // Close the add popup
     setNewMatch({
       team1: '',
+      team1url:'',
       team2: '',
       points1: '',
       points2: '',
@@ -110,23 +115,28 @@ const Fbscorecard = () => {
       manOfTheMatch: '',
     }); // Reset form
   };
-
+ 
   return (
-    <div className="scorecard-container">
-      <div className="scorecard-grid">
+    <div className="scorecard-container" style={{display: "flex",flexDirection: "column", gap: "20px"}}>
+      <div className="scorecard-grid"  style={{maxHeight: "400px",minHeight: "300px"}}>
         {matches.map((match) => (
           <div className="scorecard-box" key={match.id}>
             <div className="team-logos">
-              <img src={collegeLogo1} alt={match.team1} className="college-logo" />
+              <img src={match.team1url} alt={match.team1} className="college-logo" />
               <span>VS</span>
-              <img src={collegeLogo2} alt={match.team2} className="college-logo" />
+              <img src={match.team2url} alt={match.team2} className="college-logo" />
             </div>
             <div className="team-info">
               <p>{match.team1}: {match.points1} points</p>
               <p>{match.team2}: {match.points2} points</p>
             </div>
             <div className="winner-announcement">
-              <p>{match.winner} has won the match!</p>
+              
+              {match.points1 > match.points2
+      ? <p>{match.team1} has won the match!"</p>
+      : match.points1 < match.points2
+      ? <p>{match.team2} has won the match!"</p> 
+      : <p>The match has tie </p>}{match.winner}
             </div>
             <button onClick={() => handleMatchDetails(match)}>Details</button>
           </div>
@@ -265,11 +275,23 @@ const Fbscorecard = () => {
               value={newMatch.team1}
               onChange={(e) => setNewMatch({ ...newMatch, team1: e.target.value })}
             />
+                        <input
+              type="text"
+              placeholder="Team 1 logo url"
+              value={newMatch.team1url}
+              onChange={(e) => setNewMatch({ ...newMatch, team1url: e.target.value })}
+            />
             <input
               type="text"
               placeholder="Team 2"
               value={newMatch.team2}
               onChange={(e) => setNewMatch({ ...newMatch, team2: e.target.value })}
+            />
+             <input
+              type="text"
+              placeholder="Team 2 logo url"
+              value={newMatch.team2url}
+              onChange={(e) => setNewMatch({ ...newMatch, team2url: e.target.value })}
             />
             <input
               type="number"
