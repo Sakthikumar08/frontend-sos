@@ -3,7 +3,7 @@ import './Sports.css';
 import axios from 'axios';
 
 const Basacheivement = () => {
-<<<<<<< HEAD
+
   
   const [items, setItems] = useState([
     {
@@ -55,9 +55,8 @@ const Basacheivement = () => {
    
   ]);
 
-=======
-  const [items, setItems] = useState([]);
->>>>>>> 586c30a1fc0fd6d617b3624358c4b42ad7d02c70
+
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newImg, setNewImg] = useState('');
   const [newText, setNewText] = useState('');
