@@ -1,75 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'; 
 import './Sports.css';
 
 const Basplayers = () => {
+
   const [showPopup, setShowPopup] = useState(false);
   const [showStatsPopup, setShowStatsPopup] = useState(false);
-  const [showEditStatsPopup, setShowEditStatsPopup] = useState(false);
-  const [players, setPlayers] = useState([
-    {
-      id: 1,
-      name: 'Ms dhoni',
-      position: 'Shooting Guard',
-      rollNumber: '22IT264',
-      imageUrl: 'https://th.bing.com/th/id/OIP.3J8OgAVUAjVJk1jzGnzmpgHaFj?w=226&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-      rating: 3,
-      stats: {
-        matchesPlayed: 10,
-        totalPoints: 500,
-        fieldGoalPercentage: 45,
-        freeThrowPercentage: 75,
-        pointsPerMatch: 50,
-        wins: 6,
-        losses: 4,
-        manOfMatch: 2,
-      },
-    },
-    {
-      id: 2,
-      name: 'Virat Kohli',
-      position: 'Point Guard',
-      rollNumber: '22Ec210',
-      imageUrl: 'https://th.bing.com/th/id/OIP.ZHVq9HgYtGcoxU0eeDwJ8AHaHa?w=183&h=183&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-      rating: 5,
-      stats: {
-        matchesPlayed: 8,
-        totalPoints: 400,
-        fieldGoalPercentage: 50,
-        freeThrowPercentage: 80,
-        pointsPerMatch: 50,
-        wins: 5,
-        losses: 3,
-        manOfMatch: 3,
-      },
-    },
-    {
-      id: 3,
-      name: 'Hardik Pandya',
-      position: 'Small Forward',
-      rollNumber: '22Ec333',
-      imageUrl: 'https://th.bing.com/th/id/OIP.owQWHbp5gFuILmFzoZXvHAHaE8?rs=1&pid=ImgDetMain',
-      rating: 4,
-      stats: {
-        matchesPlayed: 12,
-        totalPoints: 350,
-        fieldGoalPercentage: 47,
-        freeThrowPercentage: 78,
-        pointsPerMatch: 29,
-        wins: 7,
-        losses: 5,
-        manOfMatch: 1,
-      },
-    },
-  ]);
-
+  const [showEditStatsPopup, setShowEditStatsPopup] = useState(false); 
+  const [players, setPlayers] = useState([]);
   const [newPlayer, setNewPlayer] = useState({
     name: '',
-    position: '',
+    role: '',
     rollNumber: '',
     imageUrl: '',
     rating: 1,
   });
-
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [playerStats, setPlayerStats] = useState({
     matchesPlayed: 0,
@@ -82,27 +27,36 @@ const Basplayers = () => {
     manOfMatch: 0,
   });
 
+ 
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/basplayers')
+      .then(response => setPlayers(response.data))
+      .catch(error => console.error("Error fetching players:", error));
+  }, []);
+
+  // Handle changes for form inputs
   const handleChange = (e) => {
     setNewPlayer({ ...newPlayer, [e.target.name]: e.target.value });
   };
 
+  // Handle stats changes
   const handleStatsChange = (e) => {
     setPlayerStats({ ...playerStats, [e.target.name]: e.target.value });
   };
 
+  // Handle form submission for new player
   const handleSubmit = (e) => {
     e.preventDefault();
-    setPlayers([...players, { ...newPlayer, id: players.length + 1, stats: playerStats }]);
-    setShowPopup(false);
-    setNewPlayer({
-      name: '',
-      position: '',
-      rollNumber: '',
-      imageUrl: '',
-      rating: 1,
-    });
+    axios.post('http://localhost:5000/api/basplayers', { ...newPlayer, stats: playerStats })
+      .then(response => {
+        setPlayers([...players, response.data]);
+        setShowPopup(false);
+        setNewPlayer({ name: '', role: '', rollNumber: '', imageUrl: '', rating: 1 });
+      })
+      .catch(error => console.error("Error adding player:", error));
   };
 
+  // Render star ratings
   const renderStars = (rating) => {
     const totalStars = 5;
     const filledStars = '★'.repeat(rating);
@@ -110,48 +64,60 @@ const Basplayers = () => {
     return <div className="player-rating">{filledStars + emptyStars}</div>;
   };
 
+  // Handle stats button click to show stats
+  
   const handleStatsClick = (player) => {
-    setSelectedPlayer(player);
-    setPlayerStats(player.stats);
-    setShowStatsPopup(true);
-  };
-
-  const handleEditStatsClick = () => {
-    setShowEditStatsPopup(true);
-  };
-
-  const handleSaveStats = () => {
-    const updatedPlayers = players.map((player) =>
-      player.id === selectedPlayer.id ? { ...player, stats: playerStats } : player
-    );
-    setPlayers(updatedPlayers);
-    setShowEditStatsPopup(false);
-    setShowStatsPopup(false);
-  };
-
-  const handleDeletePlayer = () => {
-    const updatedPlayers = players.filter((player) => player.id !== selectedPlayer.id);
-    setPlayers(updatedPlayers);
-    setShowStatsPopup(false);
-    setShowEditStatsPopup(false);
-    setSelectedPlayer(null);
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSaveStats();
+    if (player && player._id) {
+      setSelectedPlayer(player);
+      setPlayerStats(player.stats);
+      setShowStatsPopup(true);
+    } else {
+      console.error("Player ID is missing");
     }
   };
+  // Handle saving edited stats
+ 
+  const handleSaveStats = () => {
+    if (!selectedPlayer || !selectedPlayer._id) {
+      console.error("Selected player or player ID is undefined");
+      return;
+    }
   
+    axios.put(`http://localhost:5000/api/basplayers/${selectedPlayer._id}/stats`, playerStats)
+      .then(response => {
+        const updatedPlayers = players.map(player =>
+          player._id === selectedPlayer._id ? { ...player, stats: playerStats } : player
+        );
+        setPlayers(updatedPlayers);
+        setShowEditStatsPopup(false);
+        setShowStatsPopup(false);
+      })
+      .catch(error => console.error("Error saving stats:", error));
+  };
+  
+ 
+  
+
+  // Handle deleting player
+  const handleDeletePlayer = () => {
+    axios.delete(`http://localhost:5000/api/basplayers/${selectedPlayer._id}`)
+      .then(() => {
+        setPlayers(players.filter(player => player._id !== selectedPlayer._id));
+        setShowStatsPopup(false);
+        setShowEditStatsPopup(false);
+        setSelectedPlayer(null);
+      })
+      .catch(error => console.error("Error deleting player:", error));
+  };
 
   return (
     <>
       <div className="player-container">
         {players.map((player) => (
-          <div className="player-box" key={player.id}>
+          <div className="player-box" key={player._id}>
             <div className="player-info">
               <h3>{player.name}</h3>
-              <p>Position: {player.position}</p>
+              <p>Role: {player.role}</p>
               <p>Roll Number: {player.rollNumber}</p>
               {renderStars(player.rating)}
               <button onClick={() => handleStatsClick(player)}>Stats</button>
@@ -161,8 +127,9 @@ const Basplayers = () => {
         ))}
       </div>
 
-      <button className="add-button" onClick={() => setShowPopup(true)}>+</button>
-
+      {/* Add Player Popup */}
+      <button className="add-match-button" onClick={() => setShowPopup(true)}>+</button>
+      
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup-box">
@@ -173,8 +140,8 @@ const Basplayers = () => {
                 <input type="text" name="name" value={newPlayer.name} onChange={handleChange} required />
               </label>
               <label>
-                Position:
-                <input type="text" name="position" value={newPlayer.position} onChange={handleChange} required />
+                Role:
+                <input type="text" name="role" value={newPlayer.role} onChange={handleChange} required />
               </label>
               <label>
                 Roll Number:
@@ -188,13 +155,14 @@ const Basplayers = () => {
                 Rating:
                 <input type="number" name="rating" value={newPlayer.rating} onChange={handleChange} min="1" max="5" required />
               </label>
-              <button type="submit" style={{ marginRight: '30px' }}>Add Player</button>
+              <button type="submit">Add Player</button>
               <button type="button" onClick={() => setShowPopup(false)}>Cancel</button>
             </form>
           </div>
         </div>
       )}
 
+      {/* Stats Popup */}
       {showStatsPopup && selectedPlayer && (
         <div className="popup-overlay">
           <div className="popup-box">
@@ -207,52 +175,57 @@ const Basplayers = () => {
             <p>Wins: {playerStats.wins}</p>
             <p>Losses: {playerStats.losses}</p>
             <p>Man of Match: {playerStats.manOfMatch}</p>
-            <button onClick={handleEditStatsClick}>Edit</button>
+            <button onClick={() => setShowEditStatsPopup(true)}>Edit</button>
             <button onClick={() => setShowStatsPopup(false)}>Close</button>
             <button onClick={handleDeletePlayer} className="delete-button">Delete</button>
           </div>
         </div>
       )}
 
+      {/* Edit Stats Popup */}
       {showEditStatsPopup && (
         <div className="edit-stats-popup-overlay">
           <div className="edit-stats-popup-box">
             <h2>Edit Stats for {selectedPlayer.name}</h2>
             <div className="edit-stats-form">
-              <label className="edit-stats-label">
+              
+            <label className="edit-stats-label">
                 Matches Played:
-                <input type="number" name="matchesPlayed" value={playerStats.matchesPlayed} onChange={handleStatsChange} onKeyPress={handleKeyPress} />
+                <input type="number" name="matchesPlayed" value={playerStats.matchesPlayed} onChange={handleStatsChange}  />
               </label>
               <label className="edit-stats-label">
                 Total Points:
-                <input type="number" name="totalPoints" value={playerStats.totalPoints} onChange={handleStatsChange} onKeyPress={handleKeyPress} />
+                <input type="number" name="totalPoints" value={playerStats.totalPoints} onChange={handleStatsChange}  />
               </label>
               <label className="edit-stats-label">
                 Field Goal Percentage:
-                <input type="number" name="fieldGoalPercentage" value={playerStats.fieldGoalPercentage} onChange={handleStatsChange} onKeyPress={handleKeyPress} />
+                <input type="number" name="fieldGoalPercentage" value={playerStats.fieldGoalPercentage} onChange={handleStatsChange}  />
               </label>
               <label className="edit-stats-label">
                 Free Throw Percentage:
-                <input type="number" name="freeThrowPercentage" value={playerStats.freeThrowPercentage} onChange={handleStatsChange} onKeyPress={handleKeyPress} />
+                <input type="number" name="freeThrowPercentage" value={playerStats.freeThrowPercentage} onChange={handleStatsChange}  />
               </label>
               <label className="edit-stats-label">
                 Points Per Match:
-                <input type="number" name="pointsPerMatch" value={playerStats.pointsPerMatch} onChange={handleStatsChange} onKeyPress={handleKeyPress} />
+                <input type="number" name="pointsPerMatch" value={playerStats.pointsPerMatch} onChange={handleStatsChange}  />
               </label>
               <label className="edit-stats-label">
                 Wins:
-                <input type="number" name="wins" value={playerStats.wins} onChange={handleStatsChange} onKeyPress={handleKeyPress} />
+                <input type="number" name="wins" value={playerStats.wins} onChange={handleStatsChange}  />
               </label>
               <label className="edit-stats-label">
                 Losses:
-                <input type="number" name="losses" value={playerStats.losses} onChange={handleStatsChange} onKeyPress={handleKeyPress} />
+                <input type="number" name="losses" value={playerStats.losses} onChange={handleStatsChange}  />
               </label>
               <label className="edit-stats-label">
                 Man of Match:
-                <input type="number" name="manOfMatch" value={playerStats.manOfMatch} onChange={handleStatsChange} onKeyPress={handleKeyPress} />
+                <input type="number" name="manOfMatch" value={playerStats.manOfMatch} onChange={handleStatsChange}  />
               </label>
+
+
+              
               <button onClick={handleSaveStats}>Save</button>
-              <button onClick={() => setShowEditStatsPopup(false)}>Cancel</button>
+              <button onClick={() => setShowEditStatsPopup(false)}>Close</button>
             </div>
           </div>
         </div>

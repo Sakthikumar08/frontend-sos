@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'; 
 import './Sports.css';
 
 const VbPlayers = () => {
@@ -6,65 +7,7 @@ const VbPlayers = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [showStatsPopup, setShowStatsPopup] = useState(false);
   const [showEditStatsPopup, setShowEditStatsPopup] = useState(false); // New state for editing stats popup
-  const [players, setPlayers] = useState([
-    {
-      id: 1,
-      name: 'John Doe',
-      role: 'Outside Hitter',
-      rollNumber: '22IT264',
-      imageUrl: 'https://th.bing.com/th/id/OIP.3J8OgAVUAjVJk1jzGnzmpgHaFj?w=226&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-      rating: 4,
-      stats: {
-        matchesPlayed: 15,
-        totalPoints: 120,
-        aces: 10,
-        assists: 25,
-        blocks: 8,
-       
-        attackPercentage: 45,
-       
-        servePercentage: 80,
-      },
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      role: 'Libero',
-      rollNumber: '22Ec210',
-      imageUrl: 'https://th.bing.com/th/id/OIP.ZHVq9HgYtGcoxU0eeDwJ8AHaHa?w=183&h=183&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-      rating: 5,
-      stats: {
-        matchesPlayed: 18,
-        totalPoints: 95,
-        aces: 15,
-        assists: 20,
-        blocks: 5,
-      
-        attackPercentage: 50,
-        
-        servePercentage: 85,
-      },
-    },
-    {
-      id: 3,
-      name: 'Michael Lee',
-      role: 'Setter',
-      rollNumber: '22Ec333',
-      imageUrl: 'https://th.bing.com/th/id/OIP.owQWHbp5gFuILmFzoZXvHAHaE8?rs=1&pid=ImgDetMain',
-      rating: 3,
-      stats: {
-        matchesPlayed: 12,
-        totalPoints: 85,
-        aces: 5,
-        assists: 40,
-        blocks: 3,
-       
-        attackPercentage: 38,
-       
-        servePercentage: 75,
-      },
-    },
-  ]);
+  const [players, setPlayers] = useState([]);
 
   // Form state for the new player
   const [newPlayer, setNewPlayer] = useState({
@@ -83,11 +26,17 @@ const VbPlayers = () => {
     aces: 0,
     assists: 0,
     blocks: 0,
-   
+ 
     attackPercentage: 0,
-    
+
     servePercentage: 0,
   });
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/vbplayers')
+      .then(response => setPlayers(response.data))
+      .catch(error => console.error("Error fetching players:", error));
+  }, []);
+
 
   // Function to handle input changes in the form
   const handleChange = (e) => {
@@ -100,17 +49,16 @@ const VbPlayers = () => {
   };
 
   // Function to submit the new player form
+  // Handle form submission for new player
   const handleSubmit = (e) => {
     e.preventDefault();
-    setPlayers([...players, { ...newPlayer, id: players.length + 1, stats: playerStats }]);
-    setShowPopup(false); // Close the popup after adding
-    setNewPlayer({
-      name: '',
-      role: '',
-      rollNumber: '',
-      imageUrl: '',
-      rating: 1,
-    });
+    axios.post('http://localhost:5000/api/vbplayers', { ...newPlayer, stats: playerStats })
+      .then(response => {
+        setPlayers([...players, response.data]);
+        setShowPopup(false);
+        setNewPlayer({ name: '', role: '', rollNumber: '', imageUrl: '', rating: 1 });
+      })
+      .catch(error => console.error("Error adding player:", error));
   };
 
   // Function to render star rating based on player's rating
@@ -120,44 +68,50 @@ const VbPlayers = () => {
     const emptyStars = '☆'.repeat(totalStars - rating);
     return <div className="player-rating">{filledStars + emptyStars}</div>;
   };
-
-  // Function to handle stats button click
-  const handleStatsClick = (player) => {
+ // Handle stats button click to show stats
+  
+ const handleStatsClick = (player) => {
+  if (player && player._id) {
     setSelectedPlayer(player);
     setPlayerStats(player.stats);
     setShowStatsPopup(true);
-  };
-
+  } else {
+    console.error("Player ID is missing");
+  }
+};
   // Function to open the edit stats popup
-  const handleEditStatsClick = () => {
-    setShowEditStatsPopup(true);
-  };
-
-  // Function to save the edited stats
   const handleSaveStats = () => {
-    const updatedPlayers = players.map((player) =>
-      player.id === selectedPlayer.id ? { ...player, stats: playerStats } : player
-    );
-    setPlayers(updatedPlayers);
-    setShowEditStatsPopup(false);
-    setShowStatsPopup(false);
-  };
-
-  // Function to delete player
-  const handleDeletePlayer = () => {
-    const updatedPlayers = players.filter((player) => player.id !== selectedPlayer.id);
-    setPlayers(updatedPlayers);
-    setShowStatsPopup(false);
-    setShowEditStatsPopup(false);
-    setSelectedPlayer(null);
-  };
-
-  // Function to handle the key press for saving stats on Enter key
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSaveStats();
+    if (!selectedPlayer || !selectedPlayer._id) {
+      console.error("Selected player or player ID is undefined");
+      return;
     }
+  
+    axios.put(`http://localhost:5000/api/vbplayers/${selectedPlayer._id}/stats`, playerStats)
+      .then(response => {
+        const updatedPlayers = players.map(player =>
+          player._id === selectedPlayer._id ? { ...player, stats: playerStats } : player
+        );
+        setPlayers(updatedPlayers);
+        setShowEditStatsPopup(false);
+        setShowStatsPopup(false);
+      })
+      .catch(error => console.error("Error saving stats:", error));
   };
+
+ // Handle deleting player
+ const handleDeletePlayer = () => {
+  axios.delete(`http://localhost:5000/api/vbplayers/${selectedPlayer._id}`)
+    .then(() => {
+      setPlayers(players.filter(player => player._id !== selectedPlayer._id));
+      setShowStatsPopup(false);
+      setShowEditStatsPopup(false);
+      setSelectedPlayer(null);
+    })
+    .catch(error => console.error("Error deleting player:", error));
+};
+
+
+ 
 
   return (
     <>
@@ -226,7 +180,7 @@ const VbPlayers = () => {
             <p>Attack Percentage: {playerStats.attackPercentage}%</p>
          
             <p>Serve Percentage: {playerStats.servePercentage}%</p>
-            <button onClick={handleEditStatsClick}>Edit</button>
+            <button onClick={() => setShowEditStatsPopup(true)}>Edit</button>
             <button onClick={() => setShowStatsPopup(false)}>Close</button>
             <button onClick={handleDeletePlayer} className="delete-button">Delete Player</button>
           </div>
@@ -246,7 +200,7 @@ const VbPlayers = () => {
             name="matchesPlayed"
             value={playerStats.matchesPlayed}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+           
           />
         </label>
 
@@ -257,7 +211,7 @@ const VbPlayers = () => {
             name="totalPoints"
             value={playerStats.totalPoints}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+           
           />
         </label>
 
@@ -268,7 +222,7 @@ const VbPlayers = () => {
             name="aces"
             value={playerStats.aces}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+           
           />
         </label>
 
@@ -279,7 +233,7 @@ const VbPlayers = () => {
             name="assists"
             value={playerStats.assists}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+           
           />
         </label>
         <label className="edit-stats-label">
@@ -289,7 +243,7 @@ const VbPlayers = () => {
             name="blocks"
             value={playerStats.blocks}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+           
           />
         </label>
         <label className="edit-stats-label">
@@ -299,7 +253,7 @@ const VbPlayers = () => {
             name="attackPercentage"
             value={playerStats.attackPercentage}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+           
           />
         </label>
         <label className="edit-stats-label">
@@ -309,7 +263,7 @@ const VbPlayers = () => {
             name="servePercentage"
             value={playerStats.servePercentage}
             onChange={handleStatsChange}
-            onKeyPress={handleKeyPress}
+           
           />
         </label>
 

@@ -1,20 +1,9 @@
-import React, { useState } from "react";
-import "./Sports.css";
-import win1 from "./assets/basketballacheive/win1.jpeg";
-import win2 from "./assets/basketballacheive/win2.jpeg";
-import win3 from "./assets/basketballacheive/win3.jpeg";
-import win4 from "./assets/basketballacheive/win4.jpeg";
-import win5 from "./assets/basketballacheive/win5.jpeg";
-import win6 from "./assets/basketballacheive/win6.jpeg";
-import win7 from "./assets/basketballacheive/win7.jpeg";
-import win8 from "./assets/basketballacheive/win8.jpg";
-import win9 from "./assets/basketballacheive/win9.jpeg";
-import win10 from "./assets/basketballacheive/win10.jpeg";
-
-
-
+import React, { useState, useEffect } from 'react';
+import './Sports.css';
+import axios from 'axios';
 
 const Basacheivement = () => {
+<<<<<<< HEAD
   
   const [items, setItems] = useState([
     {
@@ -66,18 +55,53 @@ const Basacheivement = () => {
    
   ]);
 
+=======
+  const [items, setItems] = useState([]);
+>>>>>>> 586c30a1fc0fd6d617b3624358c4b42ad7d02c70
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newImg, setNewImg] = useState("");
-  const [newText, setNewText] = useState("");
+  const [newImg, setNewImg] = useState('');
+  const [newText, setNewText] = useState('');
 
-  const handleAddItem = () => {
+  // Fetch achievements from the backend
+  useEffect(() => {
+    const fetchAchievements = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/basachievements');
+        setItems(response.data);
+      } catch (error) {
+        console.error('Error fetching achievements:', error);
+      }
+    };
+    fetchAchievements();
+  }, []);
+
+  // Add a new achievement
+  const handleAddItem = async () => {
     if (newImg && newText) {
-      setItems([...items, { imgSrc: newImg, text: newText }]);
-      setNewImg("");
-      setNewText("");
-      setIsModalOpen(false);
+      try {
+        const response = await axios.post('http://localhost:5000/api/basachievements', {
+          imgSrc: newImg,
+          text: newText,
+        });
+        setItems([...items, response.data]);
+        setNewImg('');
+        setNewText('');
+        setIsModalOpen(false);
+      } catch (error) {
+        console.error('Error adding achievement:', error);
+      }
     } else {
-      alert("Both fields are required!");
+      alert('Both fields are required!');
+    }
+  };
+
+  // Delete an achievement
+  const handleDeleteItem = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/basachievements/${id}`);
+      setItems(items.filter((item) => item._id !== id));
+    } catch (error) {
+      console.error('Error deleting achievement:', error);
     }
   };
 
@@ -85,10 +109,13 @@ const Basacheivement = () => {
     <div className="app">
       <h1 className="heading">ACHIEVEMENTS</h1>
       <div className="container">
-        {items.map((item, index) => (
-          <div className="card" key={index}>
+        {items.map((item) => (
+          <div className="card" key={item._id}>
             <img src={item.imgSrc} alt="Achievement" />
             <p>{item.text}</p>
+            <button className="delete-btn" onClick={() => handleDeleteItem(item._id)}>
+              Delete
+            </button>
           </div>
         ))}
       </div>

@@ -30,9 +30,9 @@ const Kbplayers = () => {
     successfulTacklePercentage: 0,
   });
 
-  // Fetch players on component mount
+ 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/players') // API endpoint for fetching players
+    axios.get('http://localhost:5000/api/players')
       .then(response => setPlayers(response.data))
       .catch(error => console.error("Error fetching players:", error));
   }, []);
@@ -194,7 +194,7 @@ const Kbplayers = () => {
           <div className="edit-stats-popup-box">
             <h2>Edit Stats for {selectedPlayer.name}</h2>
             <div className="edit-stats-form">
-              {/* Add form fields for stats */}
+              
               <label>Matches Played:
                 <input
                   type="number"

@@ -1,30 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'; // Import Axios
 import './Sports.css';
 import collegeLogo1 from './assets/kabaddiacheive/sjce.logo.jpeg'; // Example logo 1
 import collegeLogo2 from './assets/kabaddiacheive/sathyabama.logp.jpeg'; // Example logo 2
 
 const Tabmatches = () => {
-  const [matches, setMatches] = useState([
-    {
-      id: 1,
-      team1: 'St. Joseph\'s',
-      team2: 'Sathyabama',
-      logo1:`${collegeLogo1}`, // Placeholder for logo URL
-      logo2: `${collegeLogo2}`,
-      venue: 'Stadium A',
-      date: '2024-10-10',
-    },
-    {
-      id: 2,
-      team1: 'Panimalar',
-      team2: 'Jeppiaar',
-      logo1:`${collegeLogo1}`, // Placeholder for logo URL
-      logo2: `${collegeLogo2}`,
-      venue: 'Stadium B',
-      date: '2024-10-12',
-    },
-  ]);
-
+  const [matches, setMatches] = useState([]);
   const [showAddPopup, setShowAddPopup] = useState(false);
   const [newMatch, setNewMatch] = useState({
     team1: '',
@@ -35,32 +16,53 @@ const Tabmatches = () => {
     date: '',
   });
 
-  const handleAddMatch = () => {
-    setMatches([...matches, { ...newMatch, id: matches.length + 1 }]);
-    setShowAddPopup(false);
+  // Fetch matches from the backend
+  useEffect(() => {
+    const fetchMatches = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/tabmatches');
+        setMatches(response.data);
+      } catch (error) {
+        console.error('Error fetching matches:', error);
+      }
+    };
+    fetchMatches();
+  }, []);
+
+  // Add a new match to the backend
+  const handleAddMatch = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/tabmatches', newMatch);
+      setMatches([...matches, response.data]); // Update matches state with the newly added match
+      setShowAddPopup(false); // Close the popup
+      setNewMatch({ team1: '', team2: '', logo1: '', logo2: '', venue: '', date: '' }); // Reset form
+    } catch (error) {
+      console.error('Error adding match:', error);
+    }
   };
 
+  // Handle form input changes
   const handleInputChange = (e) => {
     setNewMatch({ ...newMatch, [e.target.name]: e.target.value });
   };
 
   return (
     <div className="matches-container">
-      <h2>Tabletennis Matches</h2>
+      <h2>Table Tennis Matches</h2>
       <div className="matches-grid">
         {matches.map((match) => (
-          <div className="match-card" key={match.id}>
+          <div className="match-card" key={match._id}>
             <div className="match-content">
               <div className="team-info left-team">
-                <img src={match.logo1} alt={`${match.team1} logo`} className="team-logo" />
+                <img src={match.logo1 || collegeLogo1} alt={`${match.team1} logo`} className="team-logo" />
                 <p>{match.team1}</p>
               </div>
               <div className="match-details">
                 <p><strong>Venue:</strong> {match.venue}</p>
-                <p><strong>Date:</strong> {match.date}</p>
+                <p><strong>Date:</strong> {new Date(match.date).toLocaleDateString()}</p>
               </div>
               <div className="team-info right-team">
-                <img src={match.logo2} alt={`${match.team2} logo`} className="team-logo" />
+                <img src={match.logo2 || collegeLogo2} alt={`${match.team2} logo`} className="team-logo" />
                 <p>{match.team2}</p>
               </div>
             </div>
@@ -69,7 +71,7 @@ const Tabmatches = () => {
       </div>
 
       {/* Add Button */}
-      <button className="add-button" onClick={() => setShowAddPopup(true)}>+</button>
+      <button className="add-match-button" onClick={() => setShowAddPopup(true)}>+</button>
 
       {/* Add Match Popup */}
       {showAddPopup && (

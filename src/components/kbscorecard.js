@@ -1,37 +1,78 @@
 import React, { useState } from 'react';
 import './Sports.css';
+import collegeLogo1 from './assets/kabaddiacheive/sjce.logo.jpeg'; // Example logo 1
+import collegeLogo2 from './assets/kabaddiacheive/sathyabama.logp.jpeg'; // Example logo 2
 
 const Kbscorecard = () => {
+  const [showMatchPopup, setShowMatchPopup] = useState(false); // Popup for match details
+  const [selectedMatch, setSelectedMatch] = useState(null);
+  const [showAddPopup, setShowAddPopup] = useState(false); // Popup for adding a match
+  const [newMatch, setNewMatch] = useState({
+    team1: '',
+    team2: '',
+    points1: '',
+    points2: '',
+    winner: '',
+    venue: '',
+    date: '',
+    firstHalf: {
+      scored1: '',
+      tacklePoints1: '',
+      raidPoints1: '',
+      allOutCount1: '',
+    },
+    secondHalf: {
+      scored2: '',
+      tacklePoints2: '',
+      raidPoints2: '',
+      allOutCount2: '',
+    },
+    manOfTheMatch: '',
+    highestRaidPlayer: '',
+    highestTacklePlayer: '',
+  });
+
+  const [editMode, setEditMode] = useState(false);
+
+  // Dummy match data
   const [matches, setMatches] = useState([
     {
       id: 1,
-      team1: {
-        name: "St. Joseph's",
-        logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAd8R1cXLJ5QORsGXlJMZ-1KZ2VoZ2ZsTPRg&s',
-        score: 45,
-        stats: {
-          firstHalf: { raid: 10, tackle: 20, allout: 15 },
-          secondHalf: { raid: 15, tackle: 10, allout: 20 },
-        },
+      team1: "St. Joseph's",
+      team2: 'Sathyabama',
+      points1: 35,
+      points2: 30,
+      winner: "St. Joseph's",
+      venue: 'Sports Ground A',
+      date: 'October 10, 2024',
+      firstHalf: {
+        scored1: 20,
+        tacklePoints1: 5,
+        raidPoints1: 10,
+        allOutCount1: 1,
       },
-      team2: {
-        name: 'Sathyabama',
-        logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkvSqzIXwRzSpmGTKiPwLrSxC7Hc21NMUBQg&s',
-        score: 30,
-        stats: {
-          firstHalf: { raid: 5, tackle: 10, allout: 15 },
-          secondHalf: { raid: 10, tackle: 5, allout: 15 },
-        },
+      
+      secondHalf: {
+        scored2: 15,
+        tacklePoints2: 3,
+        raidPoints2: 12,
+        allOutCount2: 0,
       },
+      manOfTheMatch: 'Sakthi',
+      highestRaidPlayer: 'Kumar',
+      highestTacklePlayer: 'Poovarasan',
     },
+    
+    
+    
   ]);
 
-  const [activePopup, setActivePopup] = useState(null); // 'details', 'add', 'edit', or null
-  const [selectedMatch, setSelectedMatch] = useState(null);
-  const [newMatch, setNewMatch] = useState({
-    team1: { name: '', logo: '', score: 0 },
-    team2: { name: '', logo: '', score: 0 },
-  });
+  // Function to open match details popup
+  const handleMatchDetails = (match) => {
+    setSelectedMatch(match);
+    setShowMatchPopup(true);
+    setEditMode(false); // Reset edit mode
+  };
 
   // Determine the winner for a given match
   const determineWinner = (match) => {
@@ -67,10 +108,22 @@ const Kbscorecard = () => {
     setActivePopup(null); // Close popup
   };
 
-  // Delete Match
-  const handleDeleteMatch = (matchId) => {
-    setMatches(matches.filter((match) => match.id !== matchId));
-    setActivePopup(null); // Close popup
+  // Function to delete a match
+  const handleDeleteMatch = () => {
+    const updatedMatches = matches.filter((match) => match.id !== selectedMatch.id);
+    setMatches(updatedMatches);
+    setShowMatchPopup(false);
+  };
+
+  // Function to add a new match
+  const handleAddMatch = () => {
+    const newMatchEntry = {
+      ...newMatch,
+      id: matches.length + 1, // Assign a new ID
+    };
+    setMatches([...matches, newMatchEntry]);
+    setShowAddPopup(false); // Close the add popup
+    setNewMatch({ team1: '', team2: '', points1: '', points2: '', winner: '', venue: '', date: '' }); // Reset form
   };
 
   return (
@@ -113,418 +166,65 @@ const Kbscorecard = () => {
       {/* Popup */}
       {activePopup && (
         <div className="popup-overlay">
-          <div className="popup-box">
-            {activePopup === 'details' && selectedMatch && (
-              <>
-                 <h2>Match Details</h2>
+          <div className="popup-box match-details-popup">
+            <h2>Match Details</h2>
+            <div className="match-details">
+              {/* First Half Section */}
+              <div className="half-section">
+                <h3>First Half</h3>
+                <div className="team-details">
+                  <div className="team-left">
+                    <h4>{selectedMatch.team1}</h4>
+                    <p><strong>Points Scored:</strong> <input type="number" value={selectedMatch.firstHalf.scored1} onChange={(e) => handleInputChange(e, 'firstHalf', 'scored1')} /></p>
+                    <p><strong>Tackle Points:</strong> <input type="number" value={selectedMatch.firstHalf.tacklePoints1} onChange={(e) => handleInputChange(e, 'firstHalf', 'tacklePoints1')} /></p>
+                    <p><strong>Raid Points:</strong> <input type="number" value={selectedMatch.firstHalf.raidPoints1} onChange={(e) => handleInputChange(e, 'firstHalf', 'raidPoints1')} /></p>
+                    <p><strong>All Out Count:</strong> <input type="number" value={selectedMatch.firstHalf.allOutCount1} onChange={(e) => handleInputChange(e, 'firstHalf', 'allOutCount1')} /></p>
+                  </div>
+                  <div className="team-right">
+                    <h4>{selectedMatch.team2}</h4>
+                    <p><strong>Points Scored:</strong> <input type="number" value={selectedMatch.firstHalf.scored2} onChange={(e) => handleInputChange(e, 'firstHalf', 'scored2')} /></p>
+                    <p><strong>Tackle Points:</strong> <input type="number" value={selectedMatch.firstHalf.tacklePoints2} onChange={(e) => handleInputChange(e, 'firstHalf', 'tacklePoints2')} /></p>
+                    <p><strong>Raid Points:</strong> <input type="number" value={selectedMatch.firstHalf.raidPoints2} onChange={(e) => handleInputChange(e, 'firstHalf', 'raidPoints2')} /></p>
+                    <p><strong>All Out Count:</strong> <input type="number" value={selectedMatch.firstHalf.allOutCount2} onChange={(e) => handleInputChange(e, 'firstHalf', 'allOutCount2')} /></p>
+                  </div>
+                </div>
+              </div>
 
-{/* First Half Details */}
-<div className="half-section">
-  <h3>First Half</h3>
-  <div className="team-details">
-    <div className="team-left">
-      <p><strong>{selectedMatch.team1.name}</strong></p>
-      <p>Score: {selectedMatch.team1.stats.firstHalf.raid + selectedMatch.team1.stats.firstHalf.tackle + selectedMatch.team1.stats.firstHalf.allout}</p>
-      <p>Raid Points: {selectedMatch.team1.stats.firstHalf.raid}</p>
-      <p>Tackle Points: {selectedMatch.team1.stats.firstHalf.tackle}</p>
-      <p>Allout Points: {selectedMatch.team1.stats.firstHalf.allout}</p>
-    </div>
-    <div className="team-right">
-      <p><strong>{selectedMatch.team2.name}</strong></p>
-      <p>Score: {selectedMatch.team2.stats.firstHalf.raid + selectedMatch.team2.stats.firstHalf.tackle + selectedMatch.team2.stats.firstHalf.allout}</p>
-      <p>Raid Points: {selectedMatch.team2.stats.firstHalf.raid}</p>
-      <p>Tackle Points: {selectedMatch.team2.stats.firstHalf.tackle}</p>
-      <p>Allout Points: {selectedMatch.team2.stats.firstHalf.allout}</p>
-    </div>
-  </div>
-</div>
+              {/* Second Half Section */}
+              <div className="half-section">
+                <h3>Second Half</h3>
+                <div className="team-details">
+                  <div className="team-left">
+                    <h4>{selectedMatch.team1}</h4>
+                    <p><strong>Points Scored:</strong> <input type="number" value={selectedMatch.secondHalf.scored1} onChange={(e) => handleInputChange(e, 'secondHalf', 'scored1')} /></p>
+                    <p><strong>Tackle Points:</strong> <input type="number" value={selectedMatch.secondHalf.tacklePoints1} onChange={(e) => handleInputChange(e, 'secondHalf', 'tacklePoints1')} /></p>
+                    <p><strong>Raid Points:</strong> <input type="number" value={selectedMatch.secondHalf.raidPoints1} onChange={(e) => handleInputChange(e, 'secondHalf', 'raidPoints1')} /></p>
+                    <p><strong>All Out Count:</strong> <input type="number" value={selectedMatch.secondHalf.allOutCount1} onChange={(e) => handleInputChange(e, 'secondHalf', 'allOutCount1')} /></p>
+                  </div>
+                  <div className="team-right">
+                    <h4>{selectedMatch.team2}</h4>
+                    <p><strong>Points Scored:</strong> <input type="number" value={selectedMatch.secondHalf.scored2} onChange={(e) => handleInputChange(e, 'secondHalf', 'scored2')} /></p>
+                    <p><strong>Tackle Points:</strong> <input type="number" value={selectedMatch.secondHalf.tacklePoints2} onChange={(e) => handleInputChange(e, 'secondHalf', 'tacklePoints2')} /></p>
+                    <p><strong>Raid Points:</strong> <input type="number" value={selectedMatch.secondHalf.raidPoints2} onChange={(e) => handleInputChange(e, 'secondHalf', 'raidPoints2')} /></p>
+                    <p><strong>All Out Count:</strong> <input type="number" value={selectedMatch.secondHalf.allOutCount2} onChange={(e) => handleInputChange(e, 'secondHalf', 'allOutCount2')} /></p>
+                  </div>
+                </div>
+              </div>
 
-{/* Second Half Details */}
-<div className="half-section">
-  <h3>Second Half</h3>
-  <div className="team-details">
-    <div className="team-left">
-      <p><strong>{selectedMatch.team1.name}</strong></p>
-      <p>Score: {selectedMatch.team1.stats.secondHalf.raid + selectedMatch.team1.stats.secondHalf.tackle + selectedMatch.team1.stats.secondHalf.allout}</p>
-      <p>Raid Points: {selectedMatch.team1.stats.secondHalf.raid}</p>
-      <p>Tackle Points: {selectedMatch.team1.stats.secondHalf.tackle}</p>
-      <p>Allout Points: {selectedMatch.team1.stats.secondHalf.allout}</p>
-    </div>
-    <div className="team-right">
-      <p><strong>{selectedMatch.team2.name}</strong></p>
-      <p>Score: {selectedMatch.team2.stats.secondHalf.raid + selectedMatch.team2.stats.secondHalf.tackle + selectedMatch.team2.stats.secondHalf.allout}</p>
-      <p>Raid Points: {selectedMatch.team2.stats.secondHalf.raid}</p>
-      <p>Tackle Points: {selectedMatch.team2.stats.secondHalf.tackle}</p>
-      <p>Allout Points: {selectedMatch.team2.stats.secondHalf.allout}</p>
-    </div>
-  </div>
-</div>
+              {/* Additional Details */}
+              <div className="additional-details">
+                <p><strong>Man of the Match:</strong> <input type="text" value={selectedMatch.manOfTheMatch} onChange={(e) => handleInputChange(e, null, 'manOfTheMatch')} /></p>
+                <p><strong>Highest Raid Points Player:</strong> <input type="text" value={selectedMatch.highestRaidPlayer} onChange={(e) => handleInputChange(e, null, 'highestRaidPlayer')} /></p>
+                <p><strong>Highest Tackle Points Player:</strong> <input type="text" value={selectedMatch.highestTacklePlayer} onChange={(e) => handleInputChange(e, null, 'highestTacklePlayer')} /></p>
+              </div>
+            </div>
 
-                <button onClick={() => setActivePopup('edit')}>Edit</button>
-                <button onClick={() => handleDeleteMatch(selectedMatch.id)}>Delete</button>
-                <button onClick={() => setActivePopup(null)}>Close</button>
-              </>
-            )}
-            {activePopup === 'add' && (
-              <>
-                <h2>Add Match</h2>
-                <input
-                  type="text"
-                  placeholder="Team 1 Name"
-                  value={newMatch.team1.name}
-                  onChange={(e) => setNewMatch({ ...newMatch, team1: { ...newMatch.team1, name: e.target.value } })}
-                />
-                <input
-                  type="text"
-                  placeholder="Team 1 Logo URL"
-                  value={newMatch.team1.logo}
-                  onChange={(e) => setNewMatch({ ...newMatch, team1: { ...newMatch.team1, logo: e.target.value } })}
-                />
-                <input
-                  type="text"
-                  placeholder="Team 2 Name"
-                  value={newMatch.team2.name}
-                  onChange={(e) => setNewMatch({ ...newMatch, team2: { ...newMatch.team2, name: e.target.value } })}
-                />
-                <input
-                  type="text"
-                  placeholder="Team 2 Logo URL"
-                  value={newMatch.team2.logo}
-                  onChange={(e) => setNewMatch({ ...newMatch, team2: { ...newMatch.team2, logo: e.target.value } })}
-                />
-                <button onClick={handleAddMatch}>Add Match</button>
-                <button onClick={() => setActivePopup(null)}>Close</button>
-              </>
-            )}
-            {activePopup === 'edit' && selectedMatch && (
-              <>
-                <h2>Edit Match</h2>
-    <div className="edit-popup-container">
-      {/* First Half */}
-      <div className="team-section">
-        <h3>First Half</h3>
-        <h4>{selectedMatch.team1.name}</h4>
-        <div>
-          <label>Score</label>
-          <input
-            type="number"
-            value={selectedMatch.team1.stats.firstHalf.score || selectedMatch.team1.score}
-            onChange={(e) =>
-              setSelectedMatch({
-                ...selectedMatch,
-                team1: {
-                  ...selectedMatch.team1,
-                  stats: {
-                    ...selectedMatch.team1.stats,
-                    firstHalf: {
-                      ...selectedMatch.team1.stats.firstHalf,
-                      score: Number(e.target.value),
-                    },
-                  },
-                },
-              })
-            }
-          />
-        </div>
-        <div>
-          <label>Raid Points</label>
-          <input
-            type="number"
-            value={selectedMatch.team1.stats.firstHalf.raid}
-            onChange={(e) =>
-              setSelectedMatch({
-                ...selectedMatch,
-                team1: {
-                  ...selectedMatch.team1,
-                  stats: {
-                    ...selectedMatch.team1.stats,
-                    firstHalf: {
-                      ...selectedMatch.team1.stats.firstHalf,
-                      raid: Number(e.target.value),
-                    },
-                  },
-                },
-              })
-            }
-          />
-        </div>
-        <div>
-          <label>Tackle Points</label>
-          <input
-            type="number"
-            value={selectedMatch.team1.stats.firstHalf.tackle}
-            onChange={(e) =>
-              setSelectedMatch({
-                ...selectedMatch,
-                team1: {
-                  ...selectedMatch.team1,
-                  stats: {
-                    ...selectedMatch.team1.stats,
-                    firstHalf: {
-                      ...selectedMatch.team1.stats.firstHalf,
-                      tackle: Number(e.target.value),
-                    },
-                  },
-                },
-              })
-            }
-          />
-        </div>
-        <div>
-          <label>Allout Points</label>
-          <input
-            type="number"
-            value={selectedMatch.team1.stats.firstHalf.allout}
-            onChange={(e) =>
-              setSelectedMatch({
-                ...selectedMatch,
-                team1: {
-                  ...selectedMatch.team1,
-                  stats: {
-                    ...selectedMatch.team1.stats,
-                    firstHalf: {
-                      ...selectedMatch.team1.stats.firstHalf,
-                      allout: Number(e.target.value),
-                    },
-                  },
-                },
-              })
-            }
-          />
-        </div>
-      </div>
-      <div className="team-section">
-        <h3>First Half</h3>
-        <h4>{selectedMatch.team2.name}</h4>
-        <div>
-          <label>Score</label>
-          <input
-            type="number"
-            value={selectedMatch.team2.stats.firstHalf.score || selectedMatch.team2.score}
-            onChange={(e) =>
-              setSelectedMatch({
-                ...selectedMatch,
-                team2: {
-                  ...selectedMatch.team2,
-                  stats: {
-                    ...selectedMatch.team2.stats,
-                    firstHalf: {
-                      ...selectedMatch.team2.stats.firstHalf,
-                      score: Number(e.target.value),
-                    },
-                  },
-                },
-              })
-            }
-          />
-        </div>
-        <div>
-          <label>Raid Points</label>
-          <input
-            type="number"
-            value={selectedMatch.team2.stats.firstHalf.raid}
-            onChange={(e) =>
-              setSelectedMatch({
-                ...selectedMatch,
-                team2: {
-                  ...selectedMatch.team2,
-                  stats: {
-                    ...selectedMatch.team2.stats,
-                    firstHalf: {
-                      ...selectedMatch.team2.stats.firstHalf,
-                      raid: Number(e.target.value),
-                    },
-                  },
-                },
-              })
-            }
-          />
-        </div>
-        <div>
-          <label>Tackle Points</label>
-          <input
-            type="number"
-            value={selectedMatch.team2.stats.firstHalf.tackle}
-            onChange={(e) =>
-              setSelectedMatch({
-                ...selectedMatch,
-                team2: {
-                  ...selectedMatch.team2,
-                  stats: {
-                    ...selectedMatch.team2.stats,
-                    firstHalf: {
-                      ...selectedMatch.team2.stats.firstHalf,
-                      tackle: Number(e.target.value),
-                    },
-                  },
-                },
-              })
-            }
-          />
-        </div>
-        <div>
-          <label>Allout Points</label>
-          <input
-            type="number"
-            value={selectedMatch.team2.stats.firstHalf.allout}
-            onChange={(e) =>
-              setSelectedMatch({
-                ...selectedMatch,
-                team2: {
-                  ...selectedMatch.team2,
-                  stats: {
-                    ...selectedMatch.team2.stats,
-                    firstHalf: {
-                      ...selectedMatch.team2.stats.firstHalf,
-                      allout: Number(e.target.value),
-                    },
-                  },
-                },
-              })
-            }
-          />
-        </div>
-      </div>
-      {/* Second Half */}
-      <div className="team-section">
-        <h3>Second Half</h3>
-        <h4>{selectedMatch.team1.name}</h4>
-        <div>
-          <label>Raid Points</label>
-          <input
-            type="number"
-            value={selectedMatch.team1.stats.secondHalf.raid}
-            onChange={(e) =>
-              setSelectedMatch({
-                ...selectedMatch,
-                team1: {
-                  ...selectedMatch.team1,
-                  stats: {
-                    ...selectedMatch.team1.stats,
-                    secondHalf: {
-                      ...selectedMatch.team1.stats.secondHalf,
-                      raid: Number(e.target.value),
-                    },
-                  },
-                },
-              })
-            }
-          />
-        </div>
-        <div>
-          <label>Tackle Points</label>
-          <input
-            type="number"
-            value={selectedMatch.team1.stats.secondHalf.tackle}
-            onChange={(e) =>
-              setSelectedMatch({
-                ...selectedMatch,
-                team1: {
-                  ...selectedMatch.team1,
-                  stats: {
-                    ...selectedMatch.team1.stats,
-                    secondHalf: {
-                      ...selectedMatch.team1.stats.secondHalf,
-                      tackle: Number(e.target.value),
-                    },
-                  },
-                },
-              })
-            }
-          />
-
-        </div>
-        <div>
-          <label>Allout Points</label>
-          <input
-            type="number"
-            value={selectedMatch.team1.stats.secondHalf.allout}
-            onChange={(e) =>
-              setSelectedMatch({
-                ...selectedMatch,
-                team1: {
-                  ...selectedMatch.team1,
-                  stats: {
-                    ...selectedMatch.team1.stats,
-                    secondHalf: {
-                      ...selectedMatch.team1.stats.secondHalf,
-                      allout: Number(e.target.value),
-                    },
-                  },
-                },
-              })
-            }
-          />
-        </div>
-      </div>
-      <div className="team-section">
-        <h3>Second Half</h3>
-        <h4>{selectedMatch.team2.name}</h4>
-        <div>
-          <label>Raid Points</label>
-          <input
-            type="number"
-            value={selectedMatch.team2.stats.secondHalf.raid}
-            onChange={(e) =>
-              setSelectedMatch({
-                ...selectedMatch,
-                team2: {
-                  ...selectedMatch.team2,
-                  stats: {
-                    ...selectedMatch.team2.stats,
-                    secondHalf: {
-                      ...selectedMatch.team2.stats.secondHalf,
-                      raid: Number(e.target.value),
-                    },
-                  },
-                },
-              })
-            }
-          />
-        </div>
-        <div>
-          <label>Tackle Points</label>
-          <input
-            type="number"
-            value={selectedMatch.team2.stats.secondHalf.tackle}
-            onChange={(e) =>
-              setSelectedMatch({
-                ...selectedMatch,
-                team2: {
-                  ...selectedMatch.team2,
-                  stats: {
-                    ...selectedMatch.team2.stats,
-                    secondHalf: {
-                      ...selectedMatch.team2.stats.secondHalf,
-                      tackle: Number(e.target.value),
-                    },
-                  },
-                },
-              })
-            }
-          />
-        </div>
-        <div>
-          <label>Allout Points</label>
-          <input
-            type="number"
-            value={selectedMatch.team2.stats.secondHalf.allout}
-            onChange={(e) =>
-              setSelectedMatch({
-                ...selectedMatch,
-                team2: {
-                  ...selectedMatch.team2,
-                  stats: {
-                    ...selectedMatch.team2.stats,
-                    secondHalf: {
-                      ...selectedMatch.team2.stats.secondHalf,
-                      allout: Number(e.target.value),
-                    },
-                  },
-                },
-              })
-            }
-          />
+            <div className="button-group">
+              <button onClick={handleSaveChanges}>Save</button>
+              <button onClick={() => setShowMatchPopup(false)}>Close</button>
+              <button onClick={handleDeleteMatch}>Delete</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

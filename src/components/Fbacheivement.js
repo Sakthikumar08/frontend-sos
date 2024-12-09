@@ -1,69 +1,53 @@
-import React, { useState } from "react";
-import "./Sports.css";
-import win1 from "./assets/footballacheive/win1.jpeg";
-import win2 from "./assets/footballacheive/win2.jpeg";
-import win3 from "./assets/footballacheive/win3.jpeg";
-import win4 from "./assets/footballacheive/win4.jpeg";
-import win5 from "./assets/footballacheive/win5.jpeg";
-import win6 from "./assets/footballacheive/win6.jpeg";
-import win7 from "./assets/footballacheive/win7.jpeg";
-
-
-
-
+import React, { useState, useEffect } from 'react';
+import './Sports.css';
+import axios from 'axios';
 
 const Fbacheivement = () => {
-  const [items, setItems] = useState([
-    {
-      imgSrc: win1,
-      text: `"District Football Champions"
-      Our football team delivered a flawless performance to win the district-level football championship. The captain's leadership and tactical plays, along with a solid defense, ensured an undefeated tournament.`
-    },
-    {
-      imgSrc: win2,
-      text: `"Champions of the Inter-College League"
-      Our football team dominated the Inter-College League, overcoming strong opponents to claim the championship title. The final match saw brilliant goals and relentless defense that secured a narrow victory in the last minutes of the game.`
-    },
-    {
-      imgSrc: win3,
-      text: `"Triumphant in the State Football Championship"
-      The team claimed first place in the state-level football championship, defeating the reigning champions in a nail-biting final. Exceptional teamwork, tactical precision, and perfect finishing made this victory unforgettable.`
-    },
-    {
-      imgSrc: win4,
-      text: `"Runners-Up at the National Sports Meet"
-      Facing top teams from across the nation, our football team reached the finals of the National Sports Meet. Though we finished second, the team displayed exceptional talent, resilience, and sportsmanship, earning the respect of opponents and spectators alike.`
-    },
-    {
-      imgSrc: win5,
-      text: `"Victory at the Collegiate Football Championship"
-      In a highly anticipated collegiate football championship, our team clinched the trophy with a commanding 3-1 victory. The final match was a testament to our team's strategy, with key goals coming from powerful counter-attacks and precision passing.`
-    },
-    {
-      imgSrc: win6,
-      text: `"Victory at the Regional Football Cup"
-      Our football team triumphed in the Regional Football Cup, defeating tough opponents in a highly competitive tournament. The final match was decided by a late penalty goal, securing a hard-fought victory and a memorable championship win.`
-    },
-    {
-      imgSrc: win7,
-      text: `"District Football Championship Win"
-      The team clinched the district football championship with a dominant 4-0 victory in the finals. Strong offensive plays and an unbreakable defense secured the title and solidified our team as the best in the region.`
-    }
-    
-  ]);
-
+  const [items, setItems] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newImg, setNewImg] = useState("");
-  const [newText, setNewText] = useState("");
+  const [newImg, setNewImg] = useState('');
+  const [newText, setNewText] = useState('');
 
-  const handleAddItem = () => {
+  // Fetch achievements from the backend
+  useEffect(() => {
+    const fetchAchievements = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/fbachievements');
+        setItems(response.data);
+      } catch (error) {
+        console.error('Error fetching achievements:', error);
+      }
+    };
+    fetchAchievements();
+  }, []);
+
+  // Add a new achievement
+  const handleAddItem = async () => {
     if (newImg && newText) {
-      setItems([...items, { imgSrc: newImg, text: newText }]);
-      setNewImg("");
-      setNewText("");
-      setIsModalOpen(false);
+      try {
+        const response = await axios.post('http://localhost:5000/api/fbachievements', {
+          imgSrc: newImg,
+          text: newText,
+        });
+        setItems([...items, response.data]);
+        setNewImg('');
+        setNewText('');
+        setIsModalOpen(false);
+      } catch (error) {
+        console.error('Error adding achievement:', error);
+      }
     } else {
-      alert("Both fields are required!");
+      alert('Both fields are required!');
+    }
+  };
+
+  // Delete an achievement
+  const handleDeleteItem = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/fbachievements/${id}`);
+      setItems(items.filter((item) => item._id !== id));
+    } catch (error) {
+      console.error('Error deleting achievement:', error);
     }
   };
 
@@ -71,10 +55,13 @@ const Fbacheivement = () => {
     <div className="app">
       <h1 className="heading">ACHIEVEMENTS</h1>
       <div className="container">
-        {items.map((item, index) => (
-          <div className="card" key={index}>
+        {items.map((item) => (
+          <div className="card" key={item._id}>
             <img src={item.imgSrc} alt="Achievement" />
             <p>{item.text}</p>
+            <button className="delete-btn" onClick={() => handleDeleteItem(item._id)}>
+              Delete
+            </button>
           </div>
         ))}
       </div>

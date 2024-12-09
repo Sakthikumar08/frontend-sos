@@ -14,7 +14,7 @@ const Shuttle = () => {
       </header>
 
       <nav className="sports-navbar">
-        <ul>
+        <ul className='nav-link'>
           <li><Link to="/shuttle">Players</Link></li>
           <li><Link to="/shuttle/shtscorecard">Scorecard</Link></li>
           <li><Link to="/shuttle/shtacheivement">Achievements</Link></li>
