@@ -550,6 +550,38 @@ button:hover {
   border: 2px solid #ebf5f5;
 }
 
+.edit-popup-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.team-section {
+  padding: 10px;
+  border: 1px solid #0b82f2;
+  border-radius: 5px;
+  background-color:white;
+  color: #000306;
+}
+
+/* Styling for the rows to align First Half and Second Half */
+.edit-popup-container > :nth-child(1),
+.edit-popup-container > :nth-child(2) {
+  grid-row: 1;
+}
+
+.edit-popup-container > :nth-child(3),
+.edit-popup-container > :nth-child(4) {
+  grid-row: 2;
+}
+
+.popup-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+
 /* Unique Match Details Popup Styles */
 .match-details-popup {
   max-height: 80vh; /* Limit height for scrolling */
