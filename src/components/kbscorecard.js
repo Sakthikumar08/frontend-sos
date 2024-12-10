@@ -25,6 +25,7 @@ const Kbscorecard = () => {
       },
     },
   ]);
+  
 
   const [activePopup, setActivePopup] = useState(null); // 'details', 'add', 'edit', or null
   const [selectedMatch, setSelectedMatch] = useState(null);
