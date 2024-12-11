@@ -6,6 +6,7 @@ const Kbplayers = () => {
 
   const [showPopup, setShowPopup] = useState(false);
   const [showStatsPopup, setShowStatsPopup] = useState(false);
+  const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [showEditStatsPopup, setShowEditStatsPopup] = useState(false); 
   const [players, setPlayers] = useState([]);
   const [newPlayer, setNewPlayer] = useState({
@@ -97,7 +98,14 @@ const Kbplayers = () => {
       })
       .catch(error => console.error("Error saving stats:", error));
   };
-  
+  const handleDetailsClick = (player) => {
+    setSelectedPlayer(player);
+    setShowDetailsPopup(true);
+  };
+  const handleCloseDetailsPopup = () => {
+    setShowDetailsPopup(false);
+    setSelectedPlayer(null);
+  };
  
   
 
@@ -122,13 +130,35 @@ const Kbplayers = () => {
               <h3>{player.name}</h3>
               <p>Role: {player.role}</p>
               <p>Roll Number: {player.rollNumber}</p>
-              {renderStars(player.rating)}
+              <button onClick={() => handleDetailsClick(player)}>Details</button>
               <button onClick={() => handleStatsClick(player)}>Stats</button>
             </div>
             <img src={player.imageUrl} alt={player.name} className="player-img" />
           </div>
         ))}
       </div>
+
+      {/* Details Popup */}
+      {showDetailsPopup && selectedPlayer && (
+        <div className="popup-overlay">
+          <div className="popup-box">
+            <h2>{selectedPlayer.name}'s Details</h2>
+            <p><strong>Full Name:</strong> {selectedPlayer.fullName}</p>
+            <p><strong>Date of Birth:</strong> {selectedPlayer.dob}</p>
+            <p><strong>Academic Year:</strong> {selectedPlayer.academicYear}</p>
+            <p><strong>Quota:</strong> {selectedPlayer.quota}</p>
+            <p><strong>Blood Group:</strong> {selectedPlayer.bloodGroup}</p>
+            <p><strong>Height:</strong> {selectedPlayer.height}</p>
+            <p><strong>Weight:</strong> {selectedPlayer.weight}</p>
+            <p><strong>Strength:</strong> {selectedPlayer.strength}</p>
+            <p><strong>Contact Number:</strong> {selectedPlayer.number}</p>
+            <p><strong>Email:</strong> {selectedPlayer.email}</p>
+            <p><strong>Department:</strong> {selectedPlayer.dept}</p>
+            <p><strong>Address:</strong> {selectedPlayer.address}</p>
+            <button onClick={handleCloseDetailsPopup}>Close</button>
+          </div>
+        </div>
+      )}
 
       {/* Add Player Popup */}
       <button className="add-match-button" onClick={() => setShowPopup(true)}>+</button>
