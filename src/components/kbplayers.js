@@ -130,6 +130,7 @@ const Kbplayers = () => {
               <h3>{player.name}</h3>
               <p>Role: {player.role}</p>
               <p>Roll Number: {player.rollNumber}</p>
+              {renderStars(player.rating)}
               <button onClick={() => handleDetailsClick(player)}>Details</button>
               <button onClick={() => handleStatsClick(player)}>Stats</button>
             </div>

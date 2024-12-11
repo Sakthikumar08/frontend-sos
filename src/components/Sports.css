@@ -369,12 +369,8 @@ button:hover {
   background-color: #000306;
   color: white;
 }
+/* scorecard styles */
 
-.scorecard-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
 
 .match-box {
   width: 48%; /* Set to 50%, but account for margins */
@@ -466,16 +462,25 @@ button:hover {
 }
 /* style for scorecard*/
 /* Scorecard Styles */
+
+/* Container for wrapping scorecards */
 .scorecard-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows scorecards to wrap to the next row */
+  gap: 15px; /* Space between scorecard boxes */
+  justify-content: space-between; /* Ensures equal spacing between boxes */
   padding: 20px;
 }
 
+/* Grid styling for individual scorecard boxes */
 .scorecard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 15px; /* Space between scorecard boxes */
+  grid-template-columns: repeat(4, 1fr); /* 4 equal columns per row */
+  gap: 15px; /* Equal space between each box */
+  width: 100%; /* Ensure it takes full width of the container */
 }
 
+/* Styling for each scorecard box */
 .scorecard-box {
   background-color: #171717;
   color: white;
@@ -483,6 +488,8 @@ button:hover {
   padding: 15px;
   border-radius: 8px;
   text-align: center;
+  min-width: 200px; /* Minimum width for scorecard box */
+  flex-grow: 1; /* Ensures the boxes grow to fill available space evenly */
 }
 
 .team-logos {
@@ -548,12 +555,14 @@ button:hover {
   max-width: 500px;
   width: 90%;
   border: 2px solid #ebf5f5;
+  overflow-y: auto;
 }
 
 .edit-popup-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+  overflow-y: auto;
 }
 
 .team-section {
