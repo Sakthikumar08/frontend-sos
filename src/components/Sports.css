@@ -830,3 +830,18 @@ input[type="text"] {
 .nav-link li a{
   text-decoration: none;
 }
+/* Styling for the dashboard container */
+.dashboard-container {
+  display: flex;
+  justify-content: flex-start; /* Align items to the left */
+  align-items: center;
+  padding: 20px;
+}
+
+/* Styling for the pie chart */
+.pie-chart {
+  width: 300px; /* Adjust the width of the chart container */
+  height: 300px; /* Adjust the height of the chart container */
+  margin-right: 20px; /* Add some spacing to the right */
+  background-color: transparent; /* Ensure the background matches the rest of the page */
+}
