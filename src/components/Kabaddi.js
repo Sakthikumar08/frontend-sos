@@ -5,7 +5,7 @@ import Kbplayers from './kbplayers';
 import Kbacheivement from './kbacheivement';
 import Kbmatches from './kbmatches';
 import Kbscorecard from './kbscorecard';
-import kbdashboard from './kbdashboard';
+import Kbdashboard from './Kbdashboard';
 
 const Kabaddi = () => {
   return (
@@ -29,7 +29,7 @@ const Kabaddi = () => {
         <Route path="/kbscorecard" element={<Kbscorecard />} />
         <Route path="/kbacheivement" element={<Kbacheivement />} />
         <Route path="/kbmatches" element={<Kbmatches />} />
-        <Route path="/kbdashboard" element={<kbdashboard />} />
+        <Route path="/kbdashboard" element={<Kbdashboard />} />
       </Routes>
     </>
   );
