@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; 
 import './Sports.css';
-
 const Kbplayers = () => {
-
   const [showPopup, setShowPopup] = useState(false);
   const [showStatsPopup, setShowStatsPopup] = useState(false);
+  
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
+const [showEditDetailsPopup, setShowEditDetailsPopup] = useState(false);
+
+
   const [showEditStatsPopup, setShowEditStatsPopup] = useState(false); 
   const [players, setPlayers] = useState([]);
   const [newPlayer, setNewPlayer] = useState({
@@ -31,7 +33,21 @@ const Kbplayers = () => {
     successfulTacklePercentage: 0,
   });
 
- 
+
+  const [playerDetails, setPlayerDetails] = useState({
+    fullName: "",
+    dateOfBirth: "",
+    academicYear: "",
+    quota: "",
+    bloodGroup: "",
+    height: "",
+    weight: "",
+    strength: "",
+    contactNumber: "",
+    email: "",
+    department: "",
+    address: "",
+  });
   useEffect(() => {
     axios.get('http://localhost:5000/api/players')
       .then(response => setPlayers(response.data))
@@ -59,7 +75,6 @@ const Kbplayers = () => {
       })
       .catch(error => console.error("Error adding player:", error));
   };
-
   // Render star ratings
   const renderStars = (rating) => {
     const totalStars = 5;
@@ -67,9 +82,7 @@ const Kbplayers = () => {
     const emptyStars = '☆'.repeat(totalStars - rating);
     return <div className="player-rating">{filledStars + emptyStars}</div>;
   };
-
   // Handle stats button click to show stats
-  
   const handleStatsClick = (player) => {
     if (player && player._id) {
       setSelectedPlayer(player);
@@ -80,13 +93,11 @@ const Kbplayers = () => {
     }
   };
   // Handle saving edited stats
- 
   const handleSaveStats = () => {
     if (!selectedPlayer || !selectedPlayer._id) {
       console.error("Selected player or player ID is undefined");
       return;
     }
-  
     axios.put(`http://localhost:5000/api/players/${selectedPlayer._id}/stats`, playerStats)
       .then(response => {
         const updatedPlayers = players.map(player =>
@@ -98,17 +109,6 @@ const Kbplayers = () => {
       })
       .catch(error => console.error("Error saving stats:", error));
   };
-  const handleDetailsClick = (player) => {
-    setSelectedPlayer(player);
-    setShowDetailsPopup(true);
-  };
-  const handleCloseDetailsPopup = () => {
-    setShowDetailsPopup(false);
-    setSelectedPlayer(null);
-  };
- 
-  
-
   // Handle deleting player
   const handleDeletePlayer = () => {
     axios.delete(`http://localhost:5000/api/players/${selectedPlayer._id}`)
@@ -121,6 +121,22 @@ const Kbplayers = () => {
       .catch(error => console.error("Error deleting player:", error));
   };
 
+  const handleDetailsChange = (e) => {
+    const { name, value } = e.target;
+    setPlayerDetails({
+      ...playerDetails,
+      [name]: value,
+    });
+  };
+  
+  const handleSaveDetails = () => {
+    // Save logic (e.g., API call or state update)
+    console.log("Updated Details:", playerDetails);
+    setShowEditDetailsPopup(false); // Close the popup after saving
+  };
+
+
+
   return (
     <>
       <div className="player-container">
@@ -131,39 +147,23 @@ const Kbplayers = () => {
               <p>Role: {player.role}</p>
               <p>Roll Number: {player.rollNumber}</p>
               {renderStars(player.rating)}
-              <button onClick={() => handleDetailsClick(player)}>Details</button>
+              
               <button onClick={() => handleStatsClick(player)}>Stats</button>
+              <button
+                  onClick={() => {
+                   const playerDetails = players.find((player) => player._id === player._id);
+                   setSelectedPlayer(playerDetails); // Fetch the latest player data
+                  setShowDetailsPopup(true); }}>
+                   Details
+               </button>
+
             </div>
             <img src={player.imageUrl} alt={player.name} className="player-img" />
           </div>
         ))}
       </div>
-
-      {/* Details Popup */}
-      {showDetailsPopup && selectedPlayer && (
-        <div className="popup-overlay">
-          <div className="popup-box">
-            <h2>{selectedPlayer.name}'s Details</h2>
-            <p><strong>Full Name:</strong> {selectedPlayer.fullName}</p>
-            <p><strong>Date of Birth:</strong> {selectedPlayer.dob}</p>
-            <p><strong>Academic Year:</strong> {selectedPlayer.academicYear}</p>
-            <p><strong>Quota:</strong> {selectedPlayer.quota}</p>
-            <p><strong>Blood Group:</strong> {selectedPlayer.bloodGroup}</p>
-            <p><strong>Height:</strong> {selectedPlayer.height}</p>
-            <p><strong>Weight:</strong> {selectedPlayer.weight}</p>
-            <p><strong>Strength:</strong> {selectedPlayer.strength}</p>
-            <p><strong>Contact Number:</strong> {selectedPlayer.number}</p>
-            <p><strong>Email:</strong> {selectedPlayer.email}</p>
-            <p><strong>Department:</strong> {selectedPlayer.dept}</p>
-            <p><strong>Address:</strong> {selectedPlayer.address}</p>
-            <button onClick={handleCloseDetailsPopup}>Close</button>
-          </div>
-        </div>
-      )}
-
       {/* Add Player Popup */}
       <button className="add-match-button" onClick={() => setShowPopup(true)}>+</button>
-      
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup-box">
@@ -195,7 +195,6 @@ const Kbplayers = () => {
           </div>
         </div>
       )}
-
       {/* Stats Popup */}
       {showStatsPopup && selectedPlayer && (
         <div className="popup-overlay">
@@ -218,7 +217,6 @@ const Kbplayers = () => {
           </div>
         </div>
       )}
-
       {/* Edit Stats Popup */}
       {showEditStatsPopup && (
         <div className="edit-stats-popup-overlay">
@@ -241,11 +239,8 @@ const Kbplayers = () => {
             name="totalPoints"
             value={playerStats.totalPoints}
             onChange={handleStatsChange}
-  
-
           />
         </label>
-
         <label className="edit-stats-label">
           Raid Points Per Match:
           <input
@@ -253,87 +248,71 @@ const Kbplayers = () => {
             name="raidPointsPerMatch"
             value={playerStats.raidPointsPerMatch}
             onChange={handleStatsChange}
-           
           />
         </label>
-
         <label className="edit-stats-label">
           Successful Raid Percentage:
           <input
             type="number"
             name="successfulRaidPercentage"
             value={playerStats.successfulRaidPercentage}
-            onChange={handleStatsChange}
-            
+            onChange={handleStatsChange}         
           />
         </label>
-
         <label className="edit-stats-label">
           Super Raids:
           <input
             type="number"
             name="superRaids"
             value={playerStats.superRaids}
-            onChange={handleStatsChange}
-            
+            onChange={handleStatsChange}          
           />
         </label>
-
         <label className="edit-stats-label">
           Super 10s:
           <input
             type="number"
             name="superTens"
             value={playerStats.superTens}
-            onChange={handleStatsChange}
-           
+            onChange={handleStatsChange}         
           />
         </label>
-
         <label className="edit-stats-label">
           Total Raid Points:
           <input
             type="number"
             name="totalRaidPoints"
             value={playerStats.totalRaidPoints}
-            onChange={handleStatsChange} 
-            
+            onChange={handleStatsChange}           
           />
         </label>
-
         <label className="edit-stats-label">
           No. of Super Tackle:
           <input
             type="number"
             name="noOfSuperTackle"
             value={playerStats.noOfSuperTackle}
-            onChange={handleStatsChange}
-           
+            onChange={handleStatsChange}         
           />
         </label>
-
         <label className="edit-stats-label">
           High 5s:
           <input
             type="number"
             name="highFives"
             value={playerStats.highFives}
-            onChange={handleStatsChange}
-           
+            onChange={handleStatsChange}        
           />
         </label>
-
         <label className="edit-stats-label">
           Total Tackle Points:
           <input
             type="number"
             name="totalTacklePoints"
             value={playerStats.totalTacklePoints}
-            onChange={handleStatsChange}
-            
+            onChange={handleStatsChange}          
           />
         </label>
-
         <label className="edit-stats-label">
           Successful Tackle Percentage:
           <input
@@ -341,20 +320,147 @@ const Kbplayers = () => {
             name="successfulTacklePercentage"
             value={playerStats.successfulTacklePercentage}
             onChange={handleStatsChange}
-            
           />
-        </label>
-
-
-              
+        </label> 
               <button onClick={handleSaveStats}>Save</button>
               <button onClick={() => setShowEditStatsPopup(false)}>Close</button>
             </div>
           </div>
         </div>
       )}
+      {/* Details Popup */}
+    {showDetailsPopup && (
+      <div className="popup-overlay">
+        <div className="popup-box">
+          <h2>{playerDetails.fullName}'s Details</h2>
+          <p>Full Name: {playerDetails.fullName}</p>
+          <p>Date of Birth: {playerDetails.dateOfBirth}</p>
+          <p>Academic Year: {playerDetails.academicYear}</p>
+          <p>Quota: {playerDetails.quota}</p>
+          <p>Blood Group: {playerDetails.bloodGroup}</p>
+          <p>Height: {playerDetails.height} cm</p>
+          <p>Weight: {playerDetails.weight} kg</p>
+          <p>Strength: {playerDetails.strength}</p>
+          <p>Contact Number: {playerDetails.contactNumber}</p>
+          <p>Email: {playerDetails.email}</p>
+          <p>Department: {playerDetails.department}</p>
+          <p>Address: {playerDetails.address}</p>
+          <button onClick={() => setShowEditDetailsPopup(true)}>Edit</button>
+          <button onClick={() => setShowDetailsPopup(false)}>Close</button>
+        </div>
+      </div>
+    )}
+
+    {/* Edit Details Popup */}
+    {showEditDetailsPopup && (
+      <div className="popup-overlay">
+        <div className="edit-details-popup-box">
+          <h2>Edit Details for {playerDetails.fullName}</h2>
+          <div className="edit-details-form">
+            <label>Full Name:
+              <input
+                type="text"
+                name="fullName"
+                value={playerDetails.fullName}
+                onChange={handleDetailsChange}
+              />
+            </label>
+            <label>Date of Birth:
+              <input
+                type="date"
+                name="dateOfBirth"
+                value={playerDetails.dateOfBirth}
+                onChange={handleDetailsChange}
+              />
+            </label>
+            <label>Academic Year:
+              <input
+                type="text"
+                name="academicYear"
+                value={playerDetails.academicYear}
+                onChange={handleDetailsChange}
+              />
+            </label>
+            <label>Quota:
+              <input
+                type="text"
+                name="quota"
+                value={playerDetails.quota}
+                onChange={handleDetailsChange}
+              />
+            </label>
+            <label>Blood Group:
+              <input
+                type="text"
+                name="bloodGroup"
+                value={playerDetails.bloodGroup}
+                onChange={handleDetailsChange}
+              />
+            </label>
+            <label>Height (cm):
+              <input
+                type="number"
+                name="height"
+                value={playerDetails.height}
+                onChange={handleDetailsChange}
+              />
+            </label>
+            <label>Weight (kg):
+              <input
+                type="number"
+                name="weight"
+                value={playerDetails.weight}
+                onChange={handleDetailsChange}
+              />
+            </label>
+            <label>Strength:
+              <input
+                type="text"
+                name="strength"
+                value={playerDetails.strength}
+                onChange={handleDetailsChange}
+              />
+            </label>
+            <label>Contact Number:
+              <input
+                type="text"
+                name="contactNumber"
+                value={playerDetails.contactNumber}
+                onChange={handleDetailsChange}
+              />
+            </label>
+            <label>Email:
+              <input
+                type="email"
+                name="email"
+                value={playerDetails.email}
+                onChange={handleDetailsChange}
+              />
+            </label>
+            <label>Department:
+              <input
+                type="text"
+                name="department"
+                value={playerDetails.department}
+                onChange={handleDetailsChange}
+              />
+            </label>
+            <label>Address:
+              <textarea
+                name="address"
+                value={playerDetails.address}
+                onChange={handleDetailsChange}
+              />
+            </label>
+            <div className="button-group">
+              <button onClick={handleSaveDetails}>Save</button>
+              <button onClick={() => setShowEditDetailsPopup(false)}>Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
     </>
   );
 };
-
 export default Kbplayers;

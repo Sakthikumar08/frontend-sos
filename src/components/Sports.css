@@ -401,64 +401,195 @@ button:hover {
   background-color: #010810;
 }
 /* Unique styles for the edit stats popup */
+/* Popup Overlay */
+.popup-overlay,
 .edit-stats-popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
   justify-content: center;
-  z-index: 1000; /* Ensure it is layered above other content */
+  align-items: center;
+  z-index: 1000;
 }
 
-.edit-stats-popup-box {
-  background: rgb(42, 41, 41);
+/* Stats Popup Box */
+.popup-box {
+  background: rgb(28, 27, 27);
+  color: white;
   padding: 20px;
   border-radius: 8px;
-  width: 400px;
-  max-width: 90%;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 500px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
+  z-index: 1;
 }
 
-/* Flexbox layout for the labels and inputs */
-.edit-stats-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* Edit Stats Popup Box */
+.edit-stats-popup-box {
+  background: rgb(10, 10, 10);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -10%);
+  z-index: 1001; /* Ensures it appears over the Stats Popup */
 }
 
-.edit-stats-label {
+/* Edit Stats Form */
+.edit-stats-form label {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 10px;
   align-items: center;
 }
 
-.edit-stats-label input {
-  width: 100px;
-  margin-left: 10px;
-}
-
-/* Button container */
-.edit-stats-buttons {
-  margin-top: 20px;
-}
-
-.edit-stats-buttons button {
-  margin-right: 10px;
-  padding: 8px 12px;
-  border: none;
-  background-color: #121213;
-  color: white;
-  cursor: pointer;
+.edit-stats-form label input {
+  width: 60%;
+  padding: 5px;
+  border: 1px solid #7ee8f6;
   border-radius: 4px;
 }
 
-.edit-stats-buttons button:hover {
-  opacity: 0.8;
+/* Buttons inside Edit Stats */
+.edit-stats-form .button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.edit-stats-form button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #f27c06;
+  color: rgb(16, 15, 15);
+  cursor: pointer;
+  font-size: 14px;
+  margin: 0 5px;
+}
+
+.edit-stats-form button:hover {
+  color: #f27c06;
+  background-color: #0c0c0d;
+}
+
+/* Stats Popup Buttons */
+.popup-box button {
+  margin-top: 10px;
+  margin-right: 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #f27c06;
+  color: rgb(28, 27, 27);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.popup-box button:hover {
+  color: #f27c06;
+  background-color: #070808;
+}
+
+/* Text Alignment for Stats Content */
+.popup-box p {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+/* General Textarea Styling */
+textarea {
+  resize: none;
+  height: 60px;
+}
+/* Popup Overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Details Popup Box */
+.popup-box {
+  background: rgb(48, 40, 40);
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+/* Edit Details Popup Box */
+.edit-details-popup-box {
+  background: rgb(20, 19, 19);
+  color:white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -10%);
+  z-index: 1001;
+}
+
+/* Edit Details Form */
+.edit-details-form label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.edit-details-form label input,
+.edit-details-form label textarea {
+  width: 60%;
+  padding: 5px;
+  border: 1px solid #53e2ed;
+  border-radius: 4px;
+}
+
+/* Buttons */
+.edit-details-form .button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.edit-details-form button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #f27c06;
+  color: rgb(9, 9, 9);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.edit-details-form button:hover {
+  border-color: rgb(238, 234, 232)
+}
+
+/* Textarea */
+textarea {
+  resize: none;
+  height: 60px;
 }
 /* style for scorecard*/
 /* Scorecard Styles */
