@@ -11,6 +11,7 @@ const Kbscorecard = () => {
   const [newScorecard, setNewScorecard] = useState({
     team1: { name: '', logo: '', score: 0, stats: { firstHalf: { raid: 0, tackle: 0, allout: 0 }, secondHalf: { raid: 0, tackle: 0, allout: 0 } } },
     team2: { name: '', logo: '', score: 0, stats: { firstHalf: { raid: 0, tackle: 0, allout: 0 }, secondHalf: { raid: 0, tackle: 0, allout: 0 } } },
+    date:'',
   });
 
   
@@ -98,7 +99,7 @@ useEffect(() => {
     
     setScorecards([...scorecards, newScorecard]);
     setShowPopup(null); // Close the popup
-    setNewScorecard({ team1: { name: '', logo: '', score: 0 }, team2: { name: '', logo: '', score: 0 } }); // Reset form
+    setNewScorecard({ team1: { name: '', logo: '', score: 0 }, team2: { name: '', logo: '', score: 0 },date:'' }); // Reset form
   })
   .catch(error => console.error("Error adding player:", error));
   }
@@ -128,6 +129,7 @@ useEffect(() => {
               <p>
                 <strong>{scorecard.team1.name}</strong> vs <strong>{scorecard.team2.name}</strong>
               </p>
+              <p><strong>Match Date:</strong> {new Date(scorecard.date).toLocaleDateString()}</p>
               <p>{scorecard.team1.score} - {scorecard.team2.score}</p>
             </div>
             <div className="winner-announcement">
@@ -236,7 +238,12 @@ useEffect(() => {
                   placeholder="Team 2 score"
                   value={newScorecard.team2.score}
                   onChange={(e) => setNewScorecard({ ...newScorecard, team2: { ...newScorecard.team2, score: e.target.value } })}
-                />
+                /><br></br>
+                 <input
+                   type="date" // Add date input
+                   value={newScorecard.date}
+                   onChange={(e) => setNewScorecard({ ...newScorecard, date: e.target.value })}
+                /><br></br>
                 <button onClick={handleSubmit}>Add Match</button>
                 <button onClick={() => setShowPopup(null)}>Close </button>
               </>

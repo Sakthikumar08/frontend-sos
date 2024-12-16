@@ -63,6 +63,10 @@ const [showEditDetailsPopup, setShowEditDetailsPopup] = useState(false);
   const handleStatsChange = (e) => {
     setPlayerStats({ ...playerStats, [e.target.name]: e.target.value });
   };
+
+  /* const handleDetailsChange =(e) => {
+    setPlayerDetails({ ...playerDetails, [e.target.name]: e.target})
+  } */
   
   // Handle details changes
   const handleDetailsChange = (e) => {
@@ -101,7 +105,7 @@ const [showEditDetailsPopup, setShowEditDetailsPopup] = useState(false);
       console.error("Player ID is missing");
     }
   };
-  // Handle Details button click to show stats
+  /* // Handle Details button click to show stats
   const handleDetailsClick = (player) => {
     if (player && player._id) {
       setSelectedPlayer(player);
@@ -110,7 +114,30 @@ const [showEditDetailsPopup, setShowEditDetailsPopup] = useState(false);
     } else {
       console.error("Player ID is missing");
     }
+  }; */
+  const handleDetailsClick = (player) => {
+    if (player && player._id) {
+      setSelectedPlayer(player);
+      setPlayerDetails(player.details || {
+        fullName: "",
+        dateOfBirth: "",
+        academicYear: "",
+        quota: "",
+        bloodGroup: "",
+        height: "",
+        weight: "",
+        strength: "",
+        contactNumber: "",
+        email: "",
+        department: "",
+        address: "",
+      }); // Set default values if player.details is undefined
+      setShowDetailsPopup(true); // Show the details popup
+    } else {
+      console.error("Player ID is missing");
+    }
   };
+  
   
   // Handle saving edited stats
   const handleSaveStats = () => {
@@ -353,27 +380,28 @@ const [showEditDetailsPopup, setShowEditDetailsPopup] = useState(false);
         </div>
       )}
       {/* Details Popup */}
-    {showDetailsPopup && (
-      <div className="popup-overlay">
-        <div className="popup-box">
-          <h2>{playerDetails.fullName}'s Details</h2>
-          <p>Full Name: {playerDetails.fullName}</p>
-          <p>Date of Birth: {playerDetails.dateOfBirth}</p>
-          <p>Academic Year: {playerDetails.academicYear}</p>
-          <p>Quota: {playerDetails.quota}</p>
-          <p>Blood Group: {playerDetails.bloodGroup}</p>
-          <p>Height: {playerDetails.height} cm</p>
-          <p>Weight: {playerDetails.weight} kg</p>
-          <p>Strength: {playerDetails.strength}</p>
-          <p>Contact Number: {playerDetails.contactNumber}</p>
-          <p>Email: {playerDetails.email}</p>
-          <p>Department: {playerDetails.department}</p>
-          <p>Address: {playerDetails.address}</p>
-          <button onClick={() => setShowEditDetailsPopup(true)}>Edit</button>
-          <button onClick={() => setShowDetailsPopup(false)}>Close</button>
-        </div>
-      </div>
-    )}
+      {showDetailsPopup && (
+  <div className="popup-overlay">
+    <div className="popup-box">
+      <h2>{playerDetails?.fullName || "Unknown"}'s Details</h2>
+      <p>Full Name: {playerDetails?.fullName || "Not Available"}</p>
+      <p>Date of Birth: {playerDetails?.dateOfBirth || "Not Available"}</p>
+      <p>Academic Year: {playerDetails?.academicYear || "Not Available"}</p>
+      <p>Quota: {playerDetails?.quota || "Not Available"}</p>
+      <p>Blood Group: {playerDetails?.bloodGroup || "Not Available"}</p>
+      <p>Height: {playerDetails?.height ? `${playerDetails.height} cm` : "Not Available"}</p>
+      <p>Weight: {playerDetails?.weight ? `${playerDetails.weight} kg` : "Not Available"}</p>
+      <p>Strength: {playerDetails?.strength || "Not Available"}</p>
+      <p>Contact Number: {playerDetails?.contactNumber || "Not Available"}</p>
+      <p>Email: {playerDetails?.email || "Not Available"}</p>
+      <p>Department: {playerDetails?.department || "Not Available"}</p>
+      <p>Address: {playerDetails?.address || "Not Available"}</p>
+      <button onClick={() => setShowEditDetailsPopup(true)}>Edit</button>
+      <button onClick={() => setShowDetailsPopup(false)}>Close</button>
+    </div>
+  </div>
+)}
+
 
     {/* Edit Details Popup */}
     {showEditDetailsPopup && (
@@ -381,6 +409,7 @@ const [showEditDetailsPopup, setShowEditDetailsPopup] = useState(false);
         <div className="edit-details-popup-box">
           <h2>Edit Details for {playerDetails.fullName}</h2>
           <div className="edit-details-form">
+            <form  onSubmit={handleSaveDetails}>
             <label>Full Name:
               <input
                 type="text"
@@ -477,9 +506,10 @@ const [showEditDetailsPopup, setShowEditDetailsPopup] = useState(false);
               />
             </label>
             <div className="button-group">
-              <button onClick={handleSaveDetails}>Save</button>
+              <button type="submit">Save</button>
               <button onClick={() => setShowEditDetailsPopup(false)}>Close</button>
             </div>
+            </form>
           </div>
         </div>
       </div>
