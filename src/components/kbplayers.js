@@ -179,7 +179,7 @@ const [showEditDetailsPopup, setShowEditDetailsPopup] = useState(false);
               {renderStars(player.rating)}
               
               <button onClick={() => handleStatsClick(player)}>Stats</button>
-              <button onClick={() => handleDetailsClick(player) }>Details</button>
+              <button onClick={() => handleDetailsClick(player)}>Details</button>
 
             </div>
             <img src={player.imageUrl} alt={player.name} className="player-img" />

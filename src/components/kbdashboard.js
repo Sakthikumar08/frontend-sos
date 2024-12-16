@@ -1,18 +1,53 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState  } from 'react';
 import { Pie, Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale } from 'chart.js';
-
+import axios from 'axios';
 
 // Registering required Chart.js components
 ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale);
 
 const Kbdashboard = () => {
+   // State to store team1 statistics
+   const [team1Stats, setTeam1Stats] = useState({
+    totalMatches: 0,
+    team1Wins: 0,
+    winningPercentage: 0,
+  });
+  // State to store the total players
+  const [totalPlayers, setTotalPlayers] = useState(0);
+
+
+    // Fetching the total number of players from the backend
+    useEffect(() => {
+      const fetchTotalPlayers = async () => {
+        try {
+          const response = await axios.get('http://localhost:5000/api/total-players');
+          setTotalPlayers(response.data.totalPlayers); // Set the total players to state
+        } catch (error) {
+          console.error('Error fetching total players:', error);
+        }
+      };
+  
+      fetchTotalPlayers();
+    }, []);
+
+  // Fetch data from the backend
+  useEffect(() => {
+    axios
+      .get('http://localhost:5000/api/team1-stats') // Replace with your backend URL
+      .then((response) => {
+        setTeam1Stats(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching team1 stats:', error);
+      });
+  }, []);
   // Pie Chart Data
   const pieData = {
     labels: ['Win', 'Loss'],
     datasets: [
       {
-        data: [70, 30],
+        data: [team1Stats.team1Wins, team1Stats.totalMatches - team1Stats.team1Wins],
         backgroundColor: ['rgb(255, 132, 0)', 'rgba(128, 128, 128, 1)'], // Green for Win, Red for Loss
         hoverOffset: 4,
       },
@@ -74,31 +109,33 @@ const Kbdashboard = () => {
       let currentNumber = 0;
       const counterElement = document.getElementById('counter');
       const progressElement = document.getElementById('progress');
-  
+
       function updateCounter() {
-          // Update counter text
-          counterElement.textContent = currentNumber;
-  
-          // Update progress (speedometer-style border fill)
-          const progress = (currentNumber / targetNumber) * 360;
-          progressElement.style.background = `conic-gradient( rgb(255, 132, 0)${progress}deg, rgba(128, 128, 128, 1) ${progress}deg)`;
-  
-          // Stop condition
-          if (currentNumber >= targetNumber) return;
-  
-          currentNumber++;
-  
-          // Dynamically adjust speed
-          const speed = Math.max(5, 300 - (currentNumber / targetNumber) * 450);
-          setTimeout(updateCounter, speed);
+        // Update counter text
+        counterElement.textContent = currentNumber;
+
+        // Update progress (speedometer-style border fill)
+        const progress = (currentNumber / targetNumber) * 360;
+        progressElement.style.background = `conic-gradient( rgb(255, 132, 0)${progress}deg, rgba(128, 128, 128, 1) ${progress}deg)`;
+
+        // Stop condition
+        if (currentNumber >= targetNumber) return;
+
+        currentNumber++;
+
+        // Dynamically adjust speed
+        const speed = Math.max(5, 300 - (currentNumber / targetNumber) * 450);
+        setTimeout(updateCounter, speed);
       }
-  
+
       updateCounter();
-  }
-  
-  // Example: Run the counter to represent 150 players
-  runCounter(50);
-  }, []);
+    }
+
+    // Only start animation if totalPlayers is available
+    if (totalPlayers > 0) {
+      runCounter(totalPlayers); // Run the counter animation with the totalPlayers value
+    }
+  }, [totalPlayers]); // This useEffect runs whenever `totalPlayers` changes
 
   return (
   
@@ -124,6 +161,7 @@ const Kbdashboard = () => {
           <div className="chart-container">
             <Pie data={pieData} options={pieOptions} />
           </div>
+         
         </div>
 
      
