@@ -985,3 +985,134 @@ input[type="text"] {
   margin-right: 20px; /* Add some spacing to the right */
   background-color: transparent; /* Ensure the background matches the rest of the page */
 }
+/*dashboard css*/
+/* General Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10%;
+  height: 400px;
+  width: 45%;
+}
+
+/* Box Styles */
+.box {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* First Row Boxes */
+.dashboard-box,
+.pie-chart-box
+ {
+  width: 45%;
+  margin-bottom: 0;
+ padding: 30px;
+}
+
+
+
+/* Sports Team Dashboard Circle */
+.circle {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  border-radius: 50%;
+}
+
+.circle-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(#007BFF 0deg, #EAEAEA 0deg);
+  animation: rotate-progress 2s linear;
+}
+
+@keyframes rotate-progress {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.circle-counter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Bar Chart Box */
+
+.box-bar-chart-box{
+  width: 70%;
+  height: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.bar-chart-container {
+  height: 400px;
+  row-gap: 30px;
+}
+.circle {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: black;
+}
+
+.circle .progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%, 50% 0%);
+  background: conic-gradient(rgb(255, 132, 0) 0deg, white 0deg);
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+#counter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3em;
+  font-weight: bold;
+  color: white;
+  background-color: black;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 180px;
+  height: 180px;
+  z-index: 1;
+}
