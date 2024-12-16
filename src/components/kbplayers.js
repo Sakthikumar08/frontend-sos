@@ -63,6 +63,15 @@ const [showEditDetailsPopup, setShowEditDetailsPopup] = useState(false);
   const handleStatsChange = (e) => {
     setPlayerStats({ ...playerStats, [e.target.name]: e.target.value });
   };
+  
+  // Handle details changes
+  const handleDetailsChange = (e) => {
+    const { name, value } = e.target;
+    setPlayerDetails({
+      ...playerDetails,
+      [name]: value,
+    });
+  };
 
   // Handle form submission for new player
   const handleSubmit = (e) => {
@@ -92,6 +101,17 @@ const [showEditDetailsPopup, setShowEditDetailsPopup] = useState(false);
       console.error("Player ID is missing");
     }
   };
+  // Handle Details button click to show stats
+  const handleDetailsClick = (player) => {
+    if (player && player._id) {
+      setSelectedPlayer(player);
+      setPlayerDetails(player.details);  // Set the details state to player details
+      setShowDetailsPopup(true);  // Show the details popup
+    } else {
+      console.error("Player ID is missing");
+    }
+  };
+  
   // Handle saving edited stats
   const handleSaveStats = () => {
     if (!selectedPlayer || !selectedPlayer._id) {
@@ -109,6 +129,29 @@ const [showEditDetailsPopup, setShowEditDetailsPopup] = useState(false);
       })
       .catch(error => console.error("Error saving stats:", error));
   };
+
+   // Handle saving edited details
+  const handleSaveDetails = () => {
+    // Make sure we have a selected player
+    if (!selectedPlayer || !selectedPlayer._id) {
+      console.error("Selected player or player ID is undefined");
+      return;
+    }
+  
+    // Send PUT request to update player details
+    axios.put(`http://localhost:5000/api/players/${selectedPlayer._id}/details`, {
+      details: playerDetails,  // Send only the details part
+    })
+    .then(response => {
+      const updatedPlayers = players.map(player =>
+        player._id === selectedPlayer._id ? { ...player, details: playerDetails } : player
+      );
+      setPlayers(updatedPlayers);  // Update the local player list
+      setShowEditDetailsPopup(false);  // Close the edit popup
+    })
+    .catch(error => console.error("Error saving details:", error));
+  };
+  
   // Handle deleting player
   const handleDeletePlayer = () => {
     axios.delete(`http://localhost:5000/api/players/${selectedPlayer._id}`)
@@ -121,19 +164,6 @@ const [showEditDetailsPopup, setShowEditDetailsPopup] = useState(false);
       .catch(error => console.error("Error deleting player:", error));
   };
 
-  const handleDetailsChange = (e) => {
-    const { name, value } = e.target;
-    setPlayerDetails({
-      ...playerDetails,
-      [name]: value,
-    });
-  };
-  
-  const handleSaveDetails = () => {
-    // Save logic (e.g., API call or state update)
-    console.log("Updated Details:", playerDetails);
-    setShowEditDetailsPopup(false); // Close the popup after saving
-  };
 
 
 
@@ -149,13 +179,7 @@ const [showEditDetailsPopup, setShowEditDetailsPopup] = useState(false);
               {renderStars(player.rating)}
               
               <button onClick={() => handleStatsClick(player)}>Stats</button>
-              <button
-                  onClick={() => {
-                   const playerDetails = players.find((player) => player._id === player._id);
-                   setSelectedPlayer(playerDetails); // Fetch the latest player data
-                  setShowDetailsPopup(true); }}>
-                   Details
-               </button>
+              <button onClick={() => handleDetailsClick(player) }>Details</button>
 
             </div>
             <img src={player.imageUrl} alt={player.name} className="player-img" />

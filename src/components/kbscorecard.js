@@ -41,7 +41,7 @@ useEffect(() => {
     if (match.team1.score > match.team2.score) {
       return `${match.team1.name} wins`;
     } else if (match.team2.score > match.team1.score) {
-      return `${match.team2.name} wins`;
+      return `${match.team1.name} loss`;
     } else {
       return "It's a draw";
     }
