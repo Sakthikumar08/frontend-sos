@@ -11,8 +11,10 @@ const Kabaddi = () => {
   return (
     <>
       <header className="sports-head">
-        <h1>KABADDI</h1>
-      </header>
+  <h3 className="home-sym" onClick={() => window.location.href = '/'}> 🏠︎</h3>
+  <h1>KABADDI</h1>
+</header>
+
 
       <nav className="sports-navbar">
         <ul className='nav-link'>
