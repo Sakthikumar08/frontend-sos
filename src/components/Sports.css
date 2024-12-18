@@ -9,60 +9,94 @@
   
   /* Header styles */
   .sports-head {
-    text-align: center;
-    padding: 5px 0; /* Simple header with minimal height */
-    background-color: #1a1a1a; /* Dark grey background */
+    display: flex; /* Use flexbox for positioning */
+    align-items: center; /* Vertically center elements */
+    justify-content: space-between; /* Space out elements: home-link on left, text in center */
+    padding: 15px; /* Simple header with minimal height */
+    background-color:black; /* Dark grey background */
     color: #ffffff; /* White header text */
     font-size: 1.4rem; /* Medium font size for header */
     text-transform: uppercase; /* Uppercase for emphasis */
     letter-spacing: 1px; /* Slight spacing between letters */
-    border-bottom: 1px solid #333; /* Subtle border to separate header and navbar */
-  }
-  
+    border-bottom: 1px solid #000000; /* Subtle border to separate header and navbar */
+    height: 100px;
+}
+.sports-head h1 {
+  flex-grow: 1;
+   /* Take up remaining space */
+  text-align: center; /* Center the header text */
+  margin: 0; /* Remove default margin */
+}
+
   /* Navbar styles */
   .sports-navbar {
-    background-color: #1a1a1a; /* Same background as header for consistency */
+    color: white;
+    background-color: #121212; /* Matches header background color */
     padding: 10px 0; /* Minimal padding */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Soft shadow for depth */
     position: sticky; /* Navbar stays on top while scrolling */
     top: 0; /* Stick to top after header */
     z-index: 100; /* Make sure it stays above content */
-  }
-  
-  .sports-navbar ul {
+}
+
+.sports-navbar ul {
     list-style-type: none;
     display: flex;
     justify-content: center;
     padding: 0;
     margin: 0;
-  }
-  
-  .sports-navbar li {
+}
+.home-sym {
+  font-size: 1.2rem; 
+  color: #ffffff; 
+  cursor: pointer; 
+  margin: 0; 
+  padding: 5px 10px; 
+  text-transform: uppercase;
+  transition: all 0.3s ease; 
+}
+
+.home-sym:hover {
+  color: orange; /* Change color on hover for interactivity */
+  transform: scale(1.5); /* Slight zoom effect on hover */
+}
+
+.sports-navbar li {
     margin: 0 15px;
     padding: 8px 16px;
     cursor: pointer;
-    color: #3c3b3b; /* White text for navbar */
-    border: 2px solid transparent; /* Invisible border for hover effect */
-    border-radius: 20px; /* Slightly rounded button style */
-    transition: all 0.3s ease; /* Smooth hover effect */
+    background-color: orange; /* Default background color */
+    color: #ffffff; /* White text for navbar */
+    border: 2px solid transparent; /* Invisible border for hover and active effect */
+    border-radius: 20px; /* Rounded button style */
+    transition: all 0.3s ease; /* Smooth hover and click effects */
     font-size: 1rem; /* Regular font size */
     text-transform: uppercase; /* Uppercase for navbar items */
-  }
-  
-  /* Hover effect on navbar */
-  .sports-navbar li:hover {
+    transform: scale(1); /* Default scale */
+}
+
+/* Hover Effect */
+.sports-navbar li:hover {
     background-color: #ffffff; /* White background on hover */
     color: #121212; /* Dark text on hover */
     border-color: #ffffff; /* White border on hover */
-  }
-  
-  /* Active Tab Styles */
-  .sports-navbar li.active {
+    transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+/* Active Tab Styles */
+.sports-navbar li.active {
     background-color: #ffffff; /* White background for active tab */
     color: #121212; /* Dark text for active tab */
     border-color: #ffffff; /* White border for active tab */
-  }
-  
+}
+
+/* Reset other tabs when an item is clicked */
+.sports-navbar li:not(.active) {
+    background-color: orange; /* Reset other tabs to orange */
+    color: #ffffff; /* Reset text color to white */
+    border-color: transparent; /* Reset border to transparent */
+}
+
   /* Main content styles */
   .sports-content {
     padding: 40px 20px;

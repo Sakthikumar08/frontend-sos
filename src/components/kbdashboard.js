@@ -87,7 +87,7 @@ const Kbdashboard = () => {
           <h2>Total Players</h2>
           <div className="circle">
             <div id="progress" className="circle-progress"></div>
-            <div id="counter" className="circle-counter">0</div>
+            <div id="counter" className="circle-counter">0</div>  
           </div>
         </div>
         <div className="box pie-chart-box">
@@ -95,7 +95,7 @@ const Kbdashboard = () => {
           <Pie data={pieData} options={{ responsive: true, plugins: { legend: { position: 'top' } } }} />
         </div>
       </div>
-      <div className="box bar-chart-box">
+      <div className="box-bar-chart-box">
         <h2>Team Performance Chart</h2>
         <Bar data={barData} options={{ responsive: true, plugins: { legend: { position: 'top' } } }} />
       </div>
