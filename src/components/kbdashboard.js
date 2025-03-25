@@ -6,6 +6,8 @@ import axios from 'axios';
 ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale);
 
 const Kbdashboard = () => {
+  const API_URL = "https://backend-spotligth-on-sports.onrender.com";
+
   const [team1Stats, setTeam1Stats] = useState({ totalMatches: 0, team1Wins: 0, winningPercentage: 0 });
   const [totalPlayers, setTotalPlayers] = useState(0);
   const [monthlyStats, setMonthlyStats] = useState([]);
@@ -13,13 +15,13 @@ const Kbdashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const teamStatsResponse = await axios.get('http://localhost:5000/api/team1-stats');
+        const teamStatsResponse = await axios.get(`${API_URL}/api/team1-stats`);
         setTeam1Stats(teamStatsResponse.data);
 
-        const totalPlayersResponse = await axios.get('http://localhost:5000/api/total-players');
+        const totalPlayersResponse = await axios.get(`${API_URL}/api/total-players`);
         setTotalPlayers(totalPlayersResponse.data.totalPlayers);
 
-        const monthlyStatsResponse = await axios.get('http://localhost:5000/api/team1-stats-per-month');
+        const monthlyStatsResponse = await axios.get(`${API_URL}/api/team1-stats-per-month`);
         setMonthlyStats(monthlyStatsResponse.data);
       } catch (error) {
         console.error('Error fetching data:', error);

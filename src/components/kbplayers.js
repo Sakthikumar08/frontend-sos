@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'; 
 import './Sports.css';
 const Kbplayers = () => {
+  const API_URL = "https://backend-spotligth-on-sports.onrender.com";
+
   const [showPopup, setShowPopup] = useState(false);
   const [showStatsPopup, setShowStatsPopup] = useState(false);
   
@@ -49,7 +51,7 @@ const [showEditDetailsPopup, setShowEditDetailsPopup] = useState(false);
     address: "",
   });
   useEffect(() => {
-    axios.get('http://localhost:5000/api/players')
+    axios.get(`${API_URL}/api/players`)
       .then(response => setPlayers(response.data))
       .catch(error => console.error("Error fetching players:", error));
   }, []);
@@ -80,7 +82,7 @@ const [showEditDetailsPopup, setShowEditDetailsPopup] = useState(false);
   // Handle form submission for new player
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5000/api/players', { ...newPlayer, stats: playerStats })
+    axios.post(`${API_URL}/api/players`, { ...newPlayer, stats: playerStats })
       .then(response => {
         setPlayers([...players, response.data]);
         setShowPopup(false);
@@ -145,7 +147,7 @@ const [showEditDetailsPopup, setShowEditDetailsPopup] = useState(false);
       console.error("Selected player or player ID is undefined");
       return;
     }
-    axios.put(`http://localhost:5000/api/players/${selectedPlayer._id}/stats`, playerStats)
+    axios.put(`${API_URL}/api/players/${selectedPlayer._id}/stats`, playerStats)
       .then(response => {
         const updatedPlayers = players.map(player =>
           player._id === selectedPlayer._id ? { ...player, stats: playerStats } : player
@@ -166,7 +168,7 @@ const [showEditDetailsPopup, setShowEditDetailsPopup] = useState(false);
     }
   
     // Send PUT request to update player details
-    axios.put(`http://localhost:5000/api/players/${selectedPlayer._id}/details`, {
+    axios.put(`${API_URL}/api/players/${selectedPlayer._id}/details`, {
       details: playerDetails,  // Send only the details part
     })
     .then(response => {
@@ -181,7 +183,7 @@ const [showEditDetailsPopup, setShowEditDetailsPopup] = useState(false);
   
   // Handle deleting player
   const handleDeletePlayer = () => {
-    axios.delete(`http://localhost:5000/api/players/${selectedPlayer._id}`)
+    axios.delete(`${API_URL}/api/players/${selectedPlayer._id}`)
       .then(() => {
         setPlayers(players.filter(player => player._id !== selectedPlayer._id));
         setShowStatsPopup(false);

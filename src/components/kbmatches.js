@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Import Axios
+import axios from 'axios'; 
 import './Sports.css';
 import collegeLogo1 from './assets/kabaddiacheive/sjce.logo.jpeg'; // Example logo 1
 import collegeLogo2 from './assets/kabaddiacheive/sathyabama.logp.jpeg'; // Example logo 2
 
 const Kbmatches = () => {
+  const API_URL = "https://backend-spotligth-on-sports.onrender.com";
+
   const [matches, setMatches] = useState([]);
   const [showAddPopup, setShowAddPopup] = useState(false);
   const [newMatch, setNewMatch] = useState({
@@ -20,7 +22,7 @@ const Kbmatches = () => {
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/matches');
+        const response = await axios.get(`${API_URL}/api/matches`);
         setMatches(response.data);
       } catch (error) {
         console.error('Error fetching matches:', error);
@@ -32,7 +34,7 @@ const Kbmatches = () => {
   // Add a new match to the backend
   const handleAddMatch = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/matches', newMatch);
+      const response = await axios.post(`${API_URL}/api/matches`, newMatch);
       setMatches([...matches, response.data]); // Update matches state with the newly added match
       setShowAddPopup(false); // Close the popup
       setNewMatch({ team1: '', team2: '', logo1: '', logo2: '', venue: '', date: '' }); // Reset form

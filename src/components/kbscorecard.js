@@ -3,6 +3,8 @@ import axios from 'axios';
 import './Sports.css';
 
 const Kbscorecard = () => {
+  const API_URL = "https://backend-spotligth-on-sports.onrender.com";
+
 
   const [scorecards, setScorecards] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
@@ -19,7 +21,7 @@ const Kbscorecard = () => {
 useEffect(() => {
   const fetchScorecards = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/scorecards');
+      const response = await axios.get(`${API_URL}/api/scorecards`);
       if (response.data && Array.isArray(response.data)) {
         setScorecards(response.data);
       } else {
@@ -62,7 +64,7 @@ useEffect(() => {
   const handleSaveEdit = () => {
     // Make the API call to save updated scorecard
     axios
-      .put(`http://localhost:5000/api/scorecards/${selectedScorecard._id}`, selectedScorecard)
+      .put(`${API_URL}/api/scorecards/${selectedScorecard._id}`, selectedScorecard)
       .then((response) => {
         // Update the state with the updated scorecard
         const updatedScorecards = scorecards.map((score) =>
@@ -78,7 +80,7 @@ useEffect(() => {
   
   const handleDelete = (scorecardId) => {
     axios
-      .delete(`http://localhost:5000/api/scorecards/${scorecardId}`)
+      .delete(`${API_URL}/api/scorecards/${scorecardId}`)
       .then(() => {
         setScorecards((prevScorecards) =>
           prevScorecards.filter((scorecard) => scorecard._id !== scorecardId)
@@ -93,7 +95,7 @@ useEffect(() => {
   // Add Match
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5000/api/scorecards', { ...newScorecard })
+    axios.post(`${API_URL}/api/scorecards`, { ...newScorecard })
       .then(response => {
 
     
