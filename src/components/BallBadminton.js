@@ -10,6 +10,7 @@ const BallBadminton = () => {
   return (
     <>
       <header className="sports-head">
+      <h3 className="home-sym" onClick={() => window.location.href = '/'}> 🏠︎</h3>
         <h1>BallBadminton</h1>
       </header>
 

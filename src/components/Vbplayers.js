@@ -32,7 +32,7 @@ const VbPlayers = () => {
     servePercentage: 0,
   });
   useEffect(() => {
-    axios.get('http://localhost:5000/api/vbplayers')
+    axios.get(`${API_URL}/api/vbplayers`)
       .then(response => setPlayers(response.data))
       .catch(error => console.error("Error fetching players:", error));
   }, []);
@@ -52,7 +52,7 @@ const VbPlayers = () => {
   // Handle form submission for new player
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5000/api/vbplayers', { ...newPlayer, stats: playerStats })
+    axios.post(`${API_URL}/api/vbplayers`, { ...newPlayer, stats: playerStats })
       .then(response => {
         setPlayers([...players, response.data]);
         setShowPopup(false);
@@ -86,7 +86,7 @@ const VbPlayers = () => {
       return;
     }
   
-    axios.put(`http://localhost:5000/api/vbplayers/${selectedPlayer._id}/stats`, playerStats)
+    axios.put(`${API_URL}/api/vbplayers/${selectedPlayer._id}/stats`, playerStats)
       .then(response => {
         const updatedPlayers = players.map(player =>
           player._id === selectedPlayer._id ? { ...player, stats: playerStats } : player
@@ -100,7 +100,7 @@ const VbPlayers = () => {
 
  // Handle deleting player
  const handleDeletePlayer = () => {
-  axios.delete(`http://localhost:5000/api/vbplayers/${selectedPlayer._id}`)
+  axios.delete(`${API_URL}/api/vbplayers/${selectedPlayer._id}`)
     .then(() => {
       setPlayers(players.filter(player => player._id !== selectedPlayer._id));
       setShowStatsPopup(false);

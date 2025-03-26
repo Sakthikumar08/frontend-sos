@@ -13,7 +13,7 @@ const Vbacheivement = () => {
   useEffect(() => {
     const fetchAchievements = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/vbachievements');
+        const response = await axios.get(`${API_URL}/api/vbachievements`);
         setItems(response.data);
       } catch (error) {
         console.error('Error fetching achievements:', error);
@@ -26,7 +26,7 @@ const Vbacheivement = () => {
   const handleAddItem = async () => {
     if (newImg && newText) {
       try {
-        const response = await axios.post('http://localhost:5000/api/vbachievements', {
+        const response = await axios.post(`${API_URL}/api/vbachievements`, {
           imgSrc: newImg,
           text: newText,
         });
@@ -45,7 +45,7 @@ const Vbacheivement = () => {
   // Delete an achievement
   const handleDeleteItem = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/vbachievements/${id}`);
+      await axios.delete(`${API_URL}/api/vbachievements/${id}`);
       setItems(items.filter((item) => item._id !== id));
     } catch (error) {
       console.error('Error deleting achievement:', error);

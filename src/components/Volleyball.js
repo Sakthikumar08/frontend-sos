@@ -5,11 +5,13 @@ import Vbplayers from './Vbplayers';
 import Vbacheivement from './Vbacheivement';
 import Vbmatches from './Vbmatches';
 import Vbscorecard from './Vbscorecard';
+import Vbdashboard from './Vbdashboard';
 
 const Volleyball = () => {
   return (
     <>
       <header className="sports-head">
+      <h3 className="home-sym" onClick={() => window.location.href = '/'}> 🏠︎</h3>
         <h1>Volleyball</h1>
       </header>
 
@@ -19,6 +21,7 @@ const Volleyball = () => {
           <li><Link to="/volleyball/vbscorecard">Scorecard</Link></li>
           <li><Link to="/volleyball/vbacheivement">Achievements</Link></li>
           <li><Link to="/volleyball/vbmatches">Matches</Link></li>
+          <li><Link to="/volleyball/vbdashboard">Dashboard</Link></li>
         </ul>
       </nav>
 
@@ -27,6 +30,7 @@ const Volleyball = () => {
         <Route path="/vbscorecard" element={<Vbscorecard />} />
         <Route path="/vbacheivement" element={<Vbacheivement />} />
         <Route path="/vbmatches" element={<Vbmatches />} />
+        <Route path="/vbdashboard" element={<Vbdashboard />} />
       </Routes>
     </>
   );

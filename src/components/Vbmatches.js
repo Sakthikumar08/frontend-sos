@@ -21,7 +21,7 @@ const Vbmatches = () => {
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/vbmatches');
+        const response = await axios.get(`${API_URL}/api/vbmatches`);
         setMatches(response.data);
       } catch (error) {
         console.error('Error fetching matches:', error);
@@ -33,7 +33,7 @@ const Vbmatches = () => {
   // Add a new match to the backend
   const handleAddMatch = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/vbmatches', newMatch);
+      const response = await axios.post(`${API_URL}/api/vbmatches`, newMatch);
       setMatches([...matches, response.data]); // Update matches state with the newly added match
       setShowAddPopup(false); // Close the popup
       setNewMatch({ team1: '', team2: '', logo1: '', logo2: '', venue: '', date: '' }); // Reset form
