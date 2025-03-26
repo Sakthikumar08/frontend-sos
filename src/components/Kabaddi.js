@@ -5,7 +5,7 @@ import Kbplayers from './kbplayers';
 import Kbacheivement from './kbacheivement';
 import Kbmatches from './kbmatches';
 import Kbscorecard from './kbscorecard';
-import Kbdashboard from './Kbdashboard';
+import Kbdashboard from './kbdashboard';
 
 const Kabaddi = () => {
   return (
