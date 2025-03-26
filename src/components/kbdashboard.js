@@ -5,7 +5,7 @@ import axios from 'axios';
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale);
 
-const Kbdashboard = () => {
+const kbdashboard = () => {
   const API_URL = "https://backend-spotligth-on-sports.onrender.com";
 
   const [team1Stats, setTeam1Stats] = useState({ totalMatches: 0, team1Wins: 0, winningPercentage: 0 });
@@ -105,4 +105,4 @@ const Kbdashboard = () => {
   );
 };
 
-export default Kbdashboard;
+export default kbdashboard;
