@@ -3,6 +3,7 @@ import './Sports.css';
 import axios from 'axios';
 
 const Fbacheivement = () => {
+  const API_URL = "https://backend-spotligth-on-sports.onrender.com";
   const [items, setItems] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newImg, setNewImg] = useState('');
@@ -12,7 +13,7 @@ const Fbacheivement = () => {
   useEffect(() => {
     const fetchAchievements = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/fbachievements');
+        const response = await axios.get(`${API_URL}/api/fbachievements`);
         setItems(response.data);
       } catch (error) {
         console.error('Error fetching achievements:', error);
@@ -25,7 +26,7 @@ const Fbacheivement = () => {
   const handleAddItem = async () => {
     if (newImg && newText) {
       try {
-        const response = await axios.post('http://localhost:5000/api/fbachievements', {
+        const response = await axios.post(`${API_URL}/api/fbachievements`, {
           imgSrc: newImg,
           text: newText,
         });
@@ -44,7 +45,7 @@ const Fbacheivement = () => {
   // Delete an achievement
   const handleDeleteItem = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/fbachievements/${id}`);
+      await axios.delete(`${API_URL}/api/fbachievements/${id}`);
       setItems(items.filter((item) => item._id !== id));
     } catch (error) {
       console.error('Error deleting achievement:', error);

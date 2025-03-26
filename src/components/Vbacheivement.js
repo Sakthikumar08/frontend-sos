@@ -3,6 +3,7 @@ import './Sports.css';
 import axios from 'axios';
 
 const Vbacheivement = () => {
+  const API_URL = "https://backend-spotligth-on-sports.onrender.com";
   const [items, setItems] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newImg, setNewImg] = useState('');

@@ -3,7 +3,7 @@ import axios from 'axios';
 import './Sports.css';
 
 const VbPlayers = () => {
-
+  const API_URL = "https://backend-spotligth-on-sports.onrender.com";
   const [showPopup, setShowPopup] = useState(false);
   const [showStatsPopup, setShowStatsPopup] = useState(false);
   const [showEditStatsPopup, setShowEditStatsPopup] = useState(false); // New state for editing stats popup

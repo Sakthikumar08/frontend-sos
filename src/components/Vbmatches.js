@@ -5,6 +5,7 @@ import collegeLogo1 from './assets/kabaddiacheive/sjce.logo.jpeg'; // Example lo
 import collegeLogo2 from './assets/kabaddiacheive/sathyabama.logp.jpeg'; // Example logo 2
 
 const Vbmatches = () => {
+  const API_URL = "https://backend-spotligth-on-sports.onrender.com";
   const [matches, setMatches] = useState([]);
   const [showAddPopup, setShowAddPopup] = useState(false);
   const [newMatch, setNewMatch] = useState({

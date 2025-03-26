@@ -4,6 +4,7 @@ import collegeLogo1 from './assets/kabaddiacheive/sjce.logo.jpeg'; // Example lo
 import collegeLogo2 from './assets/kabaddiacheive/sathyabama.logp.jpeg'; // Example logo 2
 
 const Vbscorecard = () => {
+  const API_URL = "https://backend-spotligth-on-sports.onrender.com";
   const [showMatchPopup, setShowMatchPopup] = useState(false); // Popup for match details
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [showAddPopup, setShowAddPopup] = useState(false); // Popup for adding a match
